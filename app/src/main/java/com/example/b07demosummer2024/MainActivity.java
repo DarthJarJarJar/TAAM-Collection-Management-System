@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
+        db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
         DatabaseReference myRef = db.getReference("testDemo");
 
 //        myRef.setValue("B07 Demo!");
