@@ -3,8 +3,6 @@ package com.example.b07demosummer2024;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,10 +25,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = itemList.get(position);
-//        holder.textViewTitle.setText(item.getTitle());
-//        holder.textViewAuthor.setText(item.getAuthor());
-//        holder.textViewGenre.setText(item.getGenre());
-//        holder.textViewDescription.setText(item.getDescription());
+        holder.textViewTitle.setText(item.getTitle());
+        holder.textViewAuthor.setText(item.getAuthor());
+        holder.textViewGenre.setText(item.getGenre());
+        holder.textViewDescription.setText(item.getDescription());
     }
 
     @Override
@@ -39,17 +37,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewTitle, textViewLotNumber;
-        ImageView imageView;
-        Button radioButton;
-
+        TextView textViewTitle, textViewAuthor, textViewGenre, textViewDescription;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-//            imageView = itemView.findViewById(R.id.imageView);
-//            textViewLotNumber = itemView.findViewById(R.id.textView2);
-//            textViewTitle = itemView.findViewById(R.id.textViewTitle);
-//            radioButton = itemView.findViewById(R.id.radioButton);
+            textViewTitle = itemView.findViewById(R.id.textViewTitle);
+            textViewAuthor = itemView.findViewById(R.id.textViewAuthor);
+            textViewGenre = itemView.findViewById(R.id.textViewGenre);
+            textViewDescription = itemView.findViewById(R.id.textViewDescription);
         }
     }
 }
