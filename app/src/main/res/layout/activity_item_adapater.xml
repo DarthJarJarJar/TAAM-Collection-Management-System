@@ -48,12 +48,11 @@
                 app:layout_constraintStart_toEndOf="@id/number"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/circle_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="#FFD700"
-                android:layout_marginEnd="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +65,9 @@
             android:layout_height="250dp"
             android:layout_below="@id/header"
             android:background="#D3D3D3"
-            android:contentDescription="TODO" />
+            android:contentDescription="TODO"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/box" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/footer"
