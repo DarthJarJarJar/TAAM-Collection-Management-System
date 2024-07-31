@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- res/layout/navbar.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:background="@color/black"
     android:padding="16dp">
 
     <ImageButton
-        android:id="@+id/eye_icon"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="250dp"
-        android:src="@drawable/baseline_search_24"
-        android:background="@android:color/transparent" />
+        android:id="@+id/user_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_person_24"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.15"
+        app:layout_constraintDimensionRatio="1:0.4"
+         />
 
     <ImageButton
         android:id="@+id/search_icon"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:src="@drawable/baseline_remove_red_eye_24"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@+id/user_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.15"
+        app:layout_constraintDimensionRatio="1:0.4"
+         />
 
     <ImageButton
-        android:id="@+id/user_icon"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/baseline_person_24"
+        android:id="@+id/eye_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_search_24"
         android:background="@android:color/transparent"
-        />
+        app:layout_constraintEnd_toStartOf="@+id/search_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.15"
+        app:layout_constraintDimensionRatio="1:0.4"
+         />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
