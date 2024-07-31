@@ -38,7 +38,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         Item item = itemList.get(position);
 
         holder.arrowButton.setOnClickListener(v -> {
-            Fragment newFragment = new ItemDetails(item);
+            Fragment newFragment = new ItemDetails(item, fragmentManager);
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_container, newFragment);
             transaction.addToBackStack(null);
