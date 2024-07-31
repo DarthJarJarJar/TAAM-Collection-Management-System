@@ -1,0 +1,90 @@
+<!-- res/layout/navbar.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black"
+    android:padding="16dp">
+
+    <ImageButton
+        android:id="@+id/home_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_home_24"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.166"
+        app:layout_constraintDimensionRatio="1:0.35"
+        app:layout_constraintHorizontal_chainStyle="spread" />
+        />
+
+    <ImageButton
+        android:id="@+id/search_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_search_24"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@+id/home_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.166"
+        app:layout_constraintDimensionRatio="1:0.35"
+        />
+
+    <ImageButton
+        android:id="@+id/eye_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_remove_red_eye_24"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@+id/search_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.166"
+        app:layout_constraintDimensionRatio="1:0.35"
+        />
+
+    <ImageButton
+        android:id="@+id/report_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_report_gmailerrorred_24"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@+id/eye_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.166"
+        app:layout_constraintDimensionRatio="1:0.35"
+        />
+
+    <ImageButton
+        android:id="@+id/trash_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_delete_forever_24"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@+id/report_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.166"
+        app:layout_constraintDimensionRatio="1:0.35"
+        />
+
+    <ImageButton
+        android:id="@+id/add_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/baseline_add_24"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@+id/trash_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.166"
+        app:layout_constraintDimensionRatio="1:0.35"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
