@@ -60,7 +60,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/box_image"
+            android:id="@+id/imageViewItemImage"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_below="@id/header"
@@ -73,7 +73,7 @@
             android:id="@+id/footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/box_image"
+            android:layout_below="@id/imageViewItemImage"
             android:background="#FFFFFF"
             android:orientation="horizontal"
             android:padding="8dp">
@@ -88,7 +88,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/category_label"
+                    android:id="@+id/category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Category"
@@ -96,7 +96,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/category"
+                    android:id="@+id/period"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

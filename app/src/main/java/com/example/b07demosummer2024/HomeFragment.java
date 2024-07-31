@@ -24,7 +24,7 @@ public class HomeFragment extends Fragment {
         buttonRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new RecyclerViewFragment());
+                loadFragment(new RecyclerViewStaticFragment());
             }
         });
 
