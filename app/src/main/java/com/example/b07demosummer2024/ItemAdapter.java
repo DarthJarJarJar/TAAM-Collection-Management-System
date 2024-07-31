@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
@@ -45,6 +48,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.textViewPeriod.setText(item.getPeriod());
         holder.textViewCategory.setText(item.getCategory());
         holder.textViewLotNumber.setText(item.getId());
+        Glide.with(holder.itemView.getContext())
+                .load(item.getImageUrl())
+                .into(holder.itemImage);
     }
 
     @Override
@@ -55,6 +61,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTitle, textViewLotNumber, textViewCategory, textViewPeriod;
         ImageView arrowButton;
+        ImageView itemImage;
 
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -64,6 +71,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             textViewLotNumber = itemView.findViewById(R.id.number);
             textViewTitle = itemView.findViewById(R.id.title);
             arrowButton = itemView.findViewById(R.id.arrow_icon);
+            itemImage = itemView.findViewById(R.id.imageViewItemImage);
 
 
         }

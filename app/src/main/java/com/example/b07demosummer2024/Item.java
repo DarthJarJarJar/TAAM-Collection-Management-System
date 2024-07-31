@@ -7,15 +7,17 @@ public class Item {
     private String category;
     private String period;
     private String description;
+    private String imageUrl;
 
     public Item() {}
 
-    public Item(String id, String title, String category, String period, String description) {
+    public Item(String id, String title, String category, String period, String description, String imageUrl) {
         this.id = id;
         this.title = title;
         this.category = category;
         this.period = period;
         this.description = description;
+        this.imageUrl = imageUrl;
     }
 
     // Getters and setters
@@ -33,4 +35,12 @@ public class Item {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

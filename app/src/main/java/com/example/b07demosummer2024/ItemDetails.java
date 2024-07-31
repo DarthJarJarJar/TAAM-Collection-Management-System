@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+
 public class ItemDetails extends Fragment {
     Item item;
 
@@ -27,6 +29,11 @@ public class ItemDetails extends Fragment {
         TextView period = view.findViewById(R.id.textViewPeriod);
         TextView description = view.findViewById(R.id.textViewDescription);
         ImageView image = view.findViewById(R.id.imageViewItemImage);
+        String imgUrl = item.getImageUrl();
+
+        Glide.with(this)
+                        .load(imgUrl)
+                                .into(image);
 
 
         title.setText(item.getTitle());
