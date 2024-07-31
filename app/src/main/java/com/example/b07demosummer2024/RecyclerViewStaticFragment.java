@@ -34,6 +34,8 @@ public class RecyclerViewStaticFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
         itemList = new ArrayList<>();
         loadStaticItems();
+//        itemAdapter = new ItemAdapter(itemList.subList(0, Math.min(itemList.size(),10)), getParentFragmentManager());
+//        recyclerView.setAdapter(itemAdapter);
         maxPages = itemList.size() / 10 + 1;
         recyclerView = view.findViewById(R.id.recyclerView);
         buttonBack = view.findViewById(R.id.buttonBack);
@@ -41,8 +43,6 @@ public class RecyclerViewStaticFragment extends Fragment {
         pageNoInfo = view.findViewById(R.id.textView2);
         pageNoInfo.setText(makePageString());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
 
         ensureButtonBounds();
         createAdapter();
@@ -66,9 +66,6 @@ public class RecyclerViewStaticFragment extends Fragment {
                 ensureButtonBounds();
             }
         });
-
-        itemAdapter = new ItemAdapter(itemList, getParentFragmentManager());
-        recyclerView.setAdapter(itemAdapter);
 
         return view;
     }
