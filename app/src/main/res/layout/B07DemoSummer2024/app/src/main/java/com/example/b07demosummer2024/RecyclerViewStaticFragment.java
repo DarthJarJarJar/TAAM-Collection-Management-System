@@ -27,7 +27,7 @@ public class RecyclerViewStaticFragment extends Fragment {
 
         itemList = new ArrayList<>();
         loadStaticItems();
-        itemAdapter = new ItemAdapter(itemList);
+        itemAdapter = new ItemAdapter(itemList, getParentFragmentManager());
         recyclerView.setAdapter(itemAdapter);
 
         return view;

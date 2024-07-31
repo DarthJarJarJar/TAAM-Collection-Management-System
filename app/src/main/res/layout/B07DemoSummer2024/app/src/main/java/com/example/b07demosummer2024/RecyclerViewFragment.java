@@ -44,7 +44,7 @@ public class RecyclerViewFragment extends Fragment {
         spinnerCategory.setAdapter(adapter);
 
         itemList = new ArrayList<>();
-        itemAdapter = new ItemAdapter(itemList);
+        itemAdapter = new ItemAdapter(itemList, getParentFragmentManager());
         recyclerView.setAdapter(itemAdapter);
 
         db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
