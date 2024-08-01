@@ -109,13 +109,13 @@
                 android:id="@+id/imageUploadButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="64dp"
                 android:backgroundTint="#000000"
                 android:text="Upload Image"
                 android:textColor="#FFC107"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/uploadImagePreview" />
 
@@ -158,6 +158,30 @@
                 app:layout_constraintBottom_toBottomOf="@+id/itemNameInput"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/itemNameInput" />
+
+            <Button
+                android:id="@+id/addButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="#000000"
+                android:text="@string/add_item"
+                android:textColor="#FFC107"
+                app:layout_constraintBottom_toBottomOf="@+id/imageUploadButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageUploadButton" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="?android:attr/progressBarStyleLarge"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
