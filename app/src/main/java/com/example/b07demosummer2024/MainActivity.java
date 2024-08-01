@@ -34,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment());
+            // fix
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.navbar_container, new HomeNavbarFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 

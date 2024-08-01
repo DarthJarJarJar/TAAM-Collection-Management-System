@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,8 +31,8 @@ public class RecyclerViewStaticFragment extends Fragment {
     private Button buttonBack;
     private Button buttonNext;
     private TextView pageNoInfo;
-    private ItemAdapter itemAdapter;
-    private List<Item> itemList;
+    private static ItemAdapter itemAdapter;
+    private static List<Item> itemList;
     private int pageNumber = 1;
     private int maxPages;
 
@@ -111,6 +112,7 @@ public class RecyclerViewStaticFragment extends Fragment {
         recyclerView.setAdapter(itemAdapter);
     }
 
+
     private void loadStaticItems() {
         // Load static items from strings.xml or hardcoded values
         itemsRef = db.getReference("Lot Number");
@@ -133,4 +135,9 @@ public class RecyclerViewStaticFragment extends Fragment {
         });
 
     }
+
+    public static List<Item> getItems(){
+        return itemList;
+    }
+
 }

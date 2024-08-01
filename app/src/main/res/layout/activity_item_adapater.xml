@@ -44,12 +44,12 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/circle_radio_button"
+                app:layout_constraintEnd_toStartOf="@id/view_checkbox"
                 app:layout_constraintStart_toEndOf="@id/number"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <CheckBox
-                android:id="@+id/circle_radio_button"
+                android:id="@+id/view_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="#FFD700"
