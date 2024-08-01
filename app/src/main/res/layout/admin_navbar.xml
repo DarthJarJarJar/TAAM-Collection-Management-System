@@ -21,7 +21,7 @@
         />
 
     <ImageButton
-        android:id="@+id/search_icon"
+        android:id="@+id/search_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/baseline_search_24"
@@ -34,12 +34,12 @@
         />
 
     <ImageButton
-        android:id="@+id/eye_icon"
+        android:id="@+id/view_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/baseline_remove_red_eye_24"
         android:background="@android:color/transparent"
-        app:layout_constraintEnd_toStartOf="@+id/search_icon"
+        app:layout_constraintEnd_toStartOf="@+id/search_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintWidth_percent="0.166"
@@ -52,7 +52,7 @@
         android:layout_height="0dp"
         android:src="@drawable/baseline_report_gmailerrorred_24"
         android:background="@android:color/transparent"
-        app:layout_constraintEnd_toStartOf="@+id/eye_icon"
+        app:layout_constraintEnd_toStartOf="@+id/view_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintWidth_percent="0.166"

@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -48,6 +49,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = itemList.get(position);
 
+        holder.viewCheckBox.setChecked(item.isChecked());
+
+        holder.viewCheckBox.setOnCheckedChangeListener(null);
+
+        holder.viewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            item.setChecked(isChecked);
+        });
+
         holder.arrowButton.setOnClickListener(v -> {
             Fragment newFragment = new ItemDetails(item);
             FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -73,6 +82,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         TextView textViewTitle, textViewLotNumber, textViewCategory, textViewPeriod;
         ImageView arrowButton;
         ImageView itemImage;
+        CheckBox viewCheckBox;
 
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -83,10 +93,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             textViewTitle = itemView.findViewById(R.id.title);
             arrowButton = itemView.findViewById(R.id.arrow_icon);
             itemImage = itemView.findViewById(R.id.imageViewItemImage);
-
+            viewCheckBox = itemView.findViewById(R.id.view_checkbox);
 
         }
-
 
     }
 }
