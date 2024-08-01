@@ -8,6 +8,7 @@ public class Item {
     private String period;
     private String description;
     private String imageUrl;
+    private boolean isCheckedForView;
 
     public Item() {}
 
@@ -18,6 +19,7 @@ public class Item {
         this.period = period;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.isCheckedForView = false;
     }
 
     // Getters and setters
@@ -42,5 +44,13 @@ public class Item {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isChecked(){
+        return isCheckedForView;
+    }
+
+    public void setChecked(boolean isChecked) {
+        isCheckedForView = isChecked;
     }
 }
