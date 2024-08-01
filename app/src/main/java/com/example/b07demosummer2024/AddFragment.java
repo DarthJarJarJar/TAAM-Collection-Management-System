@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,19 +30,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Objects;
 
 public class AddFragment extends Fragment {
-    private static final String TAG = "AddFragment";
     ActivityResultLauncher<Intent> resultLauncher;
     Button button;
     ImageView img;
-    EditText txt, t2;
+    EditText txt;
     FirebaseStorage storage;
-    Uri imageUri;
-    StorageReference storageReference;
 
     @Nullable
     @Override
@@ -52,10 +48,19 @@ public class AddFragment extends Fragment {
 
         button = view.findViewById(R.id.imageUploadButton);
         img = view.findViewById(R.id.uploadImagePreview);
-        txt = view.findViewById(R.id.itemPeriodInput);
-        t2 = view.findViewById(R.id.itemCategoryInput);
+        txt = view.findViewById(R.id.itemNameInput);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
+        Spinner categorySpinner = view.findViewById(R.id.categorySpinner);
+        ArrayAdapter<CharSequence> categorySpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.categories_array, android.R.layout.simple_spinner_item);
+        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categorySpinnerAdapter);
+
+        Spinner periodSpinner = view.findViewById(R.id.periodSpinner);
+        ArrayAdapter<CharSequence> periodSpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.period_array, android.R.layout.simple_spinner_item);
+        periodSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        periodSpinner.setAdapter(periodSpinnerAdapter);
 
         registerResult();
 
@@ -76,11 +81,9 @@ public class AddFragment extends Fragment {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                            imageUri = result.getData().getData();
+                            Uri imageUri = result.getData().getData();
                             if (imageUri != null) {
-                                Log.d(TAG, "Image URI: " + imageUri.toString());
                                 txt.setText(imageUri.toString());
-                                img.setImageURI(imageUri);
                                 uploadImageToFirebase(imageUri);
                             } else {
                                 Toast.makeText(getContext(), "No Image Selected", Toast.LENGTH_SHORT).show();
@@ -94,23 +97,14 @@ public class AddFragment extends Fragment {
     }
 
     private void uploadImageToFirebase(Uri imageUri) {
-        if (imageUri == null) {
-            Toast.makeText(getContext(), "No Image URI", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child("images/" + imageUri.getLastPathSegment());
-        t2.setText(imageUri.getLastPathSegment());
-
-
-
+        StorageReference imagesRef = storageRef.child("images/" + System.currentTimeMillis() + "_" + imageUri.getLastPathSegment());
         UploadTask uploadTask = imagesRef.putFile(imageUri);
+
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 Toast.makeText(getContext(), "Upload failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Upload failed", exception);
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -118,15 +112,11 @@ public class AddFragment extends Fragment {
                 imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri downloadUri) {
-                        Log.d(TAG, "Download URL: " + downloadUri.toString());
                         txt.setText(downloadUri.toString());
+                        Glide.with(getContext())
+                                .load(downloadUri)
+                                .into(img);
                         Toast.makeText(getContext(), "Upload successful", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Toast.makeText(getContext(), "Failed to get download URL: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "Failed to get download URL", exception);
                     }
                 });
             }
