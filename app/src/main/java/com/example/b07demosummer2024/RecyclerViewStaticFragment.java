@@ -31,7 +31,7 @@ public class RecyclerViewStaticFragment extends Fragment {
     private Button buttonBack;
     private Button buttonNext;
     private TextView pageNoInfo;
-    private static ItemAdapter itemAdapter;
+    private ItemAdapter itemAdapter;
     private static List<Item> itemList;
     private int pageNumber = 1;
     private int maxPages;
