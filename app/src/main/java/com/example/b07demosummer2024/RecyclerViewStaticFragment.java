@@ -1,19 +1,15 @@
 package com.example.b07demosummer2024;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewStaticFragment extends Fragment {
-    private RecyclerView recyclerView;
     private Button buttonBack;
     private Button buttonNext;
     private TextView pageNoInfo;
@@ -37,7 +32,6 @@ public class RecyclerViewStaticFragment extends Fragment {
     private int maxPages;
 
     private FirebaseDatabase db;
-    private DatabaseReference itemsRef;
 
     @Nullable
     @Override
@@ -47,39 +41,30 @@ public class RecyclerViewStaticFragment extends Fragment {
 
         db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
 
-        loadStaticItems();
-
-        recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         buttonBack = view.findViewById(R.id.buttonBack);
         buttonNext = view.findViewById(R.id.buttonNext);
         pageNoInfo = view.findViewById(R.id.textView2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        maxPages = itemList.size() / 10 + 1;
-        pageNoInfo.setText(makePageString());
+        itemAdapter = new ItemAdapter(new ArrayList<>(), getParentFragmentManager());
+        recyclerView.setAdapter(itemAdapter);
 
-        createAdapter();
-        ensureButtonBounds();
-
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonBack.setOnClickListener(v -> {
+            if (pageNumber > 1) {
                 pageNumber--;
-                pageNoInfo.setText(makePageString());
-                createAdapter();
-                ensureButtonBounds();
+                updatePage();
             }
         });
 
-        buttonNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonNext.setOnClickListener(v -> {
+            if (pageNumber < maxPages) {
                 pageNumber++;
-                pageNoInfo.setText(makePageString());
-                createAdapter();
-                ensureButtonBounds();
+                updatePage();
             }
         });
+
+        loadStaticItems();
 
         return view;
     }
@@ -89,32 +74,26 @@ public class RecyclerViewStaticFragment extends Fragment {
     }
 
     private void ensureButtonBounds() {
-        if (pageNumber == 1) {
-            buttonBack.setEnabled(false);
-            buttonBack.getBackground().setTint(Color.DKGRAY);
-        } else {
-            buttonBack.setEnabled(true);
-            buttonBack.getBackground().setTint(Color.BLACK);
-        }
-        if (pageNumber == maxPages) {
-            buttonNext.setEnabled(false);
-            buttonNext.getBackground().setTint(Color.GRAY);
-        } else {
-            buttonNext.setEnabled(true);
-            buttonNext.getBackground().setTint(Color.BLACK);
-
-        }
+        buttonBack.setEnabled(pageNumber > 1);
+        buttonNext.setEnabled(pageNumber < maxPages);
     }
 
-    private void createAdapter() {
-//        itemAdapter = new ItemAdapter(new ArrayList<Item>(itemList), pageNumber, getParentFragmentManager());
-        itemAdapter = new ItemAdapter(itemList, getParentFragmentManager());
-        recyclerView.setAdapter(itemAdapter);
+    private void updatePage() {
+        pageNoInfo.setText(makePageString());
+        List<Item> pagedList = new ArrayList<>();
+        int start = (pageNumber - 1) * 10;
+        int end = Math.min(start + 10, itemList.size());
+
+        for (int i = start; i < end; i++) {
+            pagedList.add(itemList.get(i));
+        }
+
+        itemAdapter.updateList(pagedList);
+        ensureButtonBounds();
     }
 
     private void loadStaticItems() {
-        // Load static items from strings.xml or hardcoded values
-        itemsRef = db.getReference("Lot Number");
+        DatabaseReference itemsRef = db.getReference("Lot Number");
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -123,10 +102,8 @@ public class RecyclerViewStaticFragment extends Fragment {
                     Item item = snapshot.getValue(Item.class);
                     itemList.add(item);
                 }
-                maxPages = itemList.size() / 10 + 1;
-                Log.d("RECYCLER", "max pages is: " + String.valueOf(maxPages) + " and list size is " + itemList.size());
-
-                itemAdapter.notifyDataSetChanged();
+                maxPages = (itemList.size() + 9) / 10;
+                updatePage();
             }
 
             @Override
@@ -134,6 +111,5 @@ public class RecyclerViewStaticFragment extends Fragment {
                 // Handle possible errors
             }
         });
-
     }
 }

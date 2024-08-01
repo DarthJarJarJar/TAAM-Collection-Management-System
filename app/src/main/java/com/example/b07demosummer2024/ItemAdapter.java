@@ -17,8 +17,8 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
-    private List<Item> itemList;
-    private FragmentManager fragmentManager;
+    private final List<Item> itemList;
+    private final FragmentManager fragmentManager;
 
     public ItemAdapter(List<Item> itemList, FragmentManager fragmentManager) {
         this.itemList = itemList;
@@ -28,6 +28,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public ItemAdapter(List<Item> itemList, int pageNumber, FragmentManager fragmentManager) {
         this.itemList = itemList.subList(Math.max(0, (pageNumber - 1) * 10), Math.min(itemList.size(), (pageNumber) * 10));
         this.fragmentManager = fragmentManager;
+    }
+
+    public void updateList(List<Item> newList) {
+        itemList.clear();
+        itemList.addAll(newList);
+        notifyDataSetChanged();
     }
 
     @NonNull
