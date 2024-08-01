@@ -25,6 +25,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         this.fragmentManager = fragmentManager;
     }
 
+    public ItemAdapter(List<Item> itemList, int pageNumber, FragmentManager fragmentManager) {
+        this.itemList = itemList.subList(Math.max(0, (pageNumber - 1) * 10), Math.min(itemList.size(), (pageNumber) * 10));
+        this.fragmentManager = fragmentManager;
+    }
+
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -2,6 +2,7 @@ package com.example.b07demosummer2024;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,18 +47,18 @@ public class RecyclerViewStaticFragment extends Fragment {
 
         db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
 
-
         loadStaticItems();
-//        itemAdapter = new ItemAdapter(itemList.subList(0, Math.min(itemList.size(),10)), getParentFragmentManager());
-//        recyclerView.setAdapter(itemAdapter);
-        maxPages = itemList.size() / 10 + 1;
+
         recyclerView = view.findViewById(R.id.recyclerView);
         buttonBack = view.findViewById(R.id.buttonBack);
         buttonNext = view.findViewById(R.id.buttonNext);
         pageNoInfo = view.findViewById(R.id.textView2);
-        pageNoInfo.setText(makePageString());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        maxPages = itemList.size() / 10 + 1;
+        pageNoInfo.setText(makePageString());
+
+        createAdapter();
         ensureButtonBounds();
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +107,8 @@ public class RecyclerViewStaticFragment extends Fragment {
     }
 
     private void createAdapter() {
-        itemAdapter = new ItemAdapter(itemList.subList(Math.max(0, (pageNumber - 1) * 10), Math.min(itemList.size(), (pageNumber) * 10)), getParentFragmentManager());
-//        itemAdapter = new ItemAdapter(itemList, getParentFragmentManager());
+//        itemAdapter = new ItemAdapter(new ArrayList<Item>(itemList), pageNumber, getParentFragmentManager());
+        itemAdapter = new ItemAdapter(itemList, getParentFragmentManager());
         recyclerView.setAdapter(itemAdapter);
     }
 
@@ -122,7 +123,9 @@ public class RecyclerViewStaticFragment extends Fragment {
                     Item item = snapshot.getValue(Item.class);
                     itemList.add(item);
                 }
-                createAdapter();
+                maxPages = itemList.size() / 10 + 1;
+                Log.d("RECYCLER", "max pages is: " + String.valueOf(maxPages) + " and list size is " + itemList.size());
+
                 itemAdapter.notifyDataSetChanged();
             }
 

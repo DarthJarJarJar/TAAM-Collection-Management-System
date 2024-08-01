@@ -66,22 +66,22 @@ public class RecyclerViewFragment extends Fragment {
     }
 
     private void fetchItemsFromDatabase(String category) {
-        itemsRef = db.getReference("categories/" + category);
-        itemsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                itemList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Item item = snapshot.getValue(Item.class);
-                    itemList.add(item);
-                }
-                itemAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle possible errors
-            }
-        });
+//        itemsRef = db.getReference("categories/" + category);
+//        itemsRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                itemList.clear();
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    Item item = snapshot.getValue(Item.class);
+//                    itemList.add(item);
+//                }
+//                itemAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                // Handle possible errors
+//            }
+//        });
     }
 }
