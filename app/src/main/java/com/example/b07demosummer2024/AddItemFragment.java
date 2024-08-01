@@ -24,32 +24,33 @@ public class AddItemFragment extends Fragment {
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_item, container, false);
 
-        editTextTitle = view.findViewById(R.id.editTextTitle);
-        editTextAuthor = view.findViewById(R.id.editTextAuthor);
-        editTextGenre = view.findViewById(R.id.editTextGenre);
-        editTextDescription = view.findViewById(R.id.editTextDescription);
-        spinnerCategory = view.findViewById(R.id.spinnerCategory);
-        buttonAdd = view.findViewById(R.id.buttonAdd);
-
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
-
-        // Set up the spinner with categories
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.categories_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCategory.setAdapter(adapter);
-
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addItem();
-            }
-        });
+//        editTextTitle = view.findViewById(R.id.editTextTitle);
+//        editTextAuthor = view.findViewById(R.id.editTextAuthor);
+//        editTextGenre = view.findViewById(R.id.editTextGenre);
+//        editTextDescription = view.findViewById(R.id.editTextDescription);
+//        spinnerCategory = view.findViewById(R.id.spinnerCategory);
+//        buttonAdd = view.findViewById(R.id.buttonAdd);
+//
+//        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
+//
+//        // Set up the spinner with categories
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+//                R.array.categories_array, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerCategory.setAdapter(adapter);
+//
+//        buttonAdd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addItem();
+//            }
+//        });
 
         return view;
     }
@@ -68,7 +69,7 @@ public class AddItemFragment extends Fragment {
 
         itemsRef = db.getReference("categories/" + category);
         String id = itemsRef.push().getKey();
-        Item item = new Item(id, title, author, genre, description, "https://media.discordapp.net/attachments/1254846354245685400/1268049986285994004/Screenshot_2024-07-30_at_11.37.51_PM.png?ex=66ab0313&is=66a9b193&hm=3397910bf664044c4b9dcc367813f6b68caf78529e1b46d59e210b78cda55f77&=&format=webp&quality=lossless&width=832&height=676");
+        Item item = new Item(2, title, author, genre, description, "https://media.discordapp.net/attachments/1254846354245685400/1268049986285994004/Screenshot_2024-07-30_at_11.37.51_PM.png?ex=66ab0313&is=66a9b193&hm=3397910bf664044c4b9dcc367813f6b68caf78529e1b46d59e210b78cda55f77&=&format=webp&quality=lossless&width=832&height=676");
 
         itemsRef.child(id).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

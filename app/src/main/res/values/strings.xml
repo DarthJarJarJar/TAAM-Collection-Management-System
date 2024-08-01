@@ -9,10 +9,41 @@
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
+    <string name="item_name">Item Name</string>
+    <string name="lot_number">Lot Number</string>
+    <string name="add_new_item">Add New Item</string>
+    <string name="category_label">Category</string>
+    <string name="period_label">Period</string>
 
     <string-array name="categories_array">
-        <item>Books</item>
-        <item>Movies</item>
+        <item>Jade</item>
+        <item>Paintings</item>
+        <item>Calligraphy</item>
+        <item>Rubbings</item>
+        <item>Bronze</item>
+        <item>Brass and Copper</item>
+        <item>Gold and Silvers</item>
+        <item>Lacquer</item>
+        <item>Enamels</item>
+    </string-array>
+
+    <string-array name="period_array">
+        <item>Xia</item>
+        <item>Shang</item>
+        <item>Zhou</item>
+        <item>Chuanqiu</item>
+        <item>Zhanggou</item>
+        <item>Ji</item>
+        <item>South and North</item>
+        <item>Shui</item>
+        <item>Tang</item>
+        <item>Liao</item>
+        <item>Song</item>
+        <item>Jin</item>
+        <item>Yuan</item>
+        <item>Ming</item>
+        <item>Qing</item>
+        <item>Modern</item>
     </string-array>
 
 
