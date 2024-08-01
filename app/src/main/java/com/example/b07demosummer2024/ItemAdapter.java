@@ -15,11 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
     private final List<Item> itemList;
     private final FragmentManager fragmentManager;
+    private Map<String, Boolean> checkedStates;
+
 
     public ItemAdapter(List<Item> itemList, FragmentManager fragmentManager) {
         this.itemList = itemList;
@@ -29,6 +33,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public ItemAdapter(List<Item> itemList, int pageNumber, FragmentManager fragmentManager) {
         this.itemList = itemList.subList(Math.max(0, (pageNumber - 1) * 10), Math.min(itemList.size(), (pageNumber) * 10));
         this.fragmentManager = fragmentManager;
+
+        checkedStates = new HashMap<>();
+        for (Item item : itemList) {
+            checkedStates.put(String.valueOf(item.getId()), item.isChecked());
+        }
     }
 
     public void updateList(List<Item> newList) {
@@ -49,12 +58,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = itemList.get(position);
 
-        holder.viewCheckBox.setChecked(item.isChecked());
-
         holder.viewCheckBox.setOnCheckedChangeListener(null);
 
-        holder.viewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            item.setChecked(isChecked);
+        if (checkedStates != null) {
+            Boolean isChecked = checkedStates.get(String.valueOf(item.getId()));
+            holder.viewCheckBox.setChecked(isChecked);
+
+        } else {
+            holder.viewCheckBox.setChecked(false);
+        }
+
+        holder.viewCheckBox.setOnCheckedChangeListener((buttonView, isChecked1) -> {
+            if (checkedStates != null) {
+                checkedStates.put(String.valueOf(item.getId()), isChecked1);
+            }
+            item.setChecked(isChecked1);
         });
 
         holder.arrowButton.setOnClickListener(v -> {

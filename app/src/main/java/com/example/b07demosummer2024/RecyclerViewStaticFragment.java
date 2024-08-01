@@ -115,8 +115,8 @@ public class RecyclerViewStaticFragment extends Fragment {
             }
         });
     }
-  
-      public static List<Item> getItems(){
+
+    public static List<Item> getItems(){
         return itemList;
     }
 }
