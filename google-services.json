@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "980362802074",
+    "firebase_url": "https://cscb07final-default-rtdb.firebaseio.com",
+    "project_id": "cscb07final",
+    "storage_bucket": "cscb07final.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980362802074:android:446d69972d6fcb87694023",
+        "android_client_info": {
+          "package_name": "com.example.b07demosummer2024"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4JZ65eqCUWoML6bSastcAHP8gVSYD3m4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

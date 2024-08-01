@@ -24,32 +24,33 @@ public class AddItemFragment extends Fragment {
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_item, container, false);
 
-        editTextTitle = view.findViewById(R.id.editTextTitle);
-        editTextAuthor = view.findViewById(R.id.editTextAuthor);
-        editTextGenre = view.findViewById(R.id.editTextGenre);
-        editTextDescription = view.findViewById(R.id.editTextDescription);
-        spinnerCategory = view.findViewById(R.id.spinnerCategory);
-        buttonAdd = view.findViewById(R.id.buttonAdd);
-
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
-
-        // Set up the spinner with categories
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.categories_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCategory.setAdapter(adapter);
-
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addItem();
-            }
-        });
+//        editTextTitle = view.findViewById(R.id.editTextTitle);
+//        editTextAuthor = view.findViewById(R.id.editTextAuthor);
+//        editTextGenre = view.findViewById(R.id.editTextGenre);
+//        editTextDescription = view.findViewById(R.id.editTextDescription);
+//        spinnerCategory = view.findViewById(R.id.spinnerCategory);
+//        buttonAdd = view.findViewById(R.id.buttonAdd);
+//
+//        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
+//
+//        // Set up the spinner with categories
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+//                R.array.categories_array, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerCategory.setAdapter(adapter);
+//
+//        buttonAdd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addItem();
+//            }
+//        });
 
         return view;
     }
