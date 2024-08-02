@@ -30,14 +30,24 @@ public class NavbarFragment extends Fragment implements LoginListener{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_navbar, container, false);
 
+        ImageButton buttonHome = view.findViewById(R.id.home_button);
         ImageButton buttonView = view.findViewById(R.id.view_button);
         ImageButton buttonSearch = view.findViewById(R.id.search_button);
+
         buttonAdmin = view.findViewById(R.id.admin_button);
         buttonReport = view.findViewById(R.id.report_button);
         buttonDelete = view.findViewById(R.id.delete_button);
         buttonAdd = view.findViewById(R.id.add_button);
 
         toggleAdminNavbar();
+
+        buttonHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleHomeButtonClick();
+            }
+
+        });
 
         buttonView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +94,10 @@ public class NavbarFragment extends Fragment implements LoginListener{
         });
 
         return view;
+    }
+
+    private void handleHomeButtonClick(){
+        loadFragment(new RecyclerViewStaticFragment());
     }
 
     // to implement
