@@ -66,6 +66,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    // add redirection to admin view after
     private void queryCredentials(String username, String password){
         dbRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
