@@ -1,8 +1,13 @@
 package com.example.b07demosummer2024;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.pdf.PdfDocument;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +15,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReportFragment extends Fragment {
 
-    private Spinner detailSpinner;
+    private Spinner detailSpinner, reportTypeSpinner;
     private EditText editTextReportParameter;
     private TextView detailTextView;
 
@@ -27,11 +45,10 @@ public class ReportFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.report_fragment, container, false);
 
-        Spinner reportTypeSpinner = view.findViewById(R.id.reportType);
+        reportTypeSpinner = view.findViewById(R.id.reportType);
         detailSpinner = view.findViewById(R.id.detailSpinner);
         editTextReportParameter = view.findViewById(R.id.editTextReportParamter);
         detailTextView = view.findViewById(R.id.detailTextView);
-
 
         ArrayAdapter<CharSequence> reportSpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.report_options, R.layout.spinner_item_right_aligned);
@@ -54,16 +71,144 @@ public class ReportFragment extends Fragment {
         Button generateButton = view.findViewById(R.id.generateReportButton);
         generateButton.setOnClickListener(v -> makePdf());
 
-
         return view;
     }
 
     private void makePdf() {
-        PdfDocument pdfDocument = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
+        String reportType = reportTypeSpinner.getSelectedItem().toString();
+        List<Item> allItems = RecyclerViewStaticFragment.getItems();
+        List<Item> reportList = new ArrayList<Item>() ;
 
+        switch (reportType) {
+            case "Lot Number":
+                int lotNumber = Integer.parseInt(editTextReportParameter.getText().toString());
 
+                for (Item item: allItems) {
+                    if (item.getId() == lotNumber) {
+                        reportList.add(item);
+                    }
+                }
+                break;
+            case "Name":
+                String name = editTextReportParameter.getText().toString();
 
+                for (Item item: allItems) {
+                    if (item.getTitle().equals(name)) {
+                        reportList.add(item);
+                    }
+                }
+
+                break;
+            case "Category":
+                String category = detailSpinner.getSelectedItem().toString();
+
+                for (Item item: allItems) {
+                    if (item.getCategory().equals(category)) {
+                        reportList.add(item);
+                    }
+                }
+
+                break;
+            case "Period":
+                String period = detailSpinner.getSelectedItem().toString();
+
+                for (Item item: allItems) {
+                    if (item.getPeriod().equals(period)) {
+                        reportList.add(item);
+                    }
+                }
+                break;
+            case "All Items":
+                reportList = new ArrayList<Item>(allItems);
+                break;
+            default:
+                break;
+        }
+
+        generatePdf(reportList);
+
+    }
+
+    private void generatePdf(List<Item> itemList) {
+        PdfDocument document = new PdfDocument();
+        loadImageAndGeneratePage(document, itemList, 0);
+    }
+
+    private void loadImageAndGeneratePage(PdfDocument document, List<Item> itemList, int index) {
+        if (index >= itemList.size()) {
+            // All pages generated, write document to file
+            File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            String fileName = "report.pdf";
+            File file = new File(downloadsDir, fileName);
+
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                document.writeTo(fos);
+                document.close();
+                Toast.makeText(getContext(), "PDF generated successfully", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Log.e("ReportFragment", "Error writing PDF", e);
+                Toast.makeText(getContext(), "Failed to generate PDF", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+
+        Item item = itemList.get(index);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.pdf_layout, null);
+
+        TextView txt = view.findViewById(R.id.pdfLayoutItemTitle);
+        TextView cat = view.findViewById(R.id.pdfLayoutItemCategory);
+        TextView per = view.findViewById(R.id.pdfLayoutItemPeriod);
+        TextView desc = view.findViewById(R.id.pdfLayoutItemDescription);
+        ImageView imageView = view.findViewById(R.id.pdfLayoutItemImage);
+
+        txt.setText(item.getTitleWithLotNumber());
+        cat.setText(item.getCategoryWithLabel());
+        per.setText(item.getPeriodWithLabel());
+        desc.setText(item.getDescription());
+
+        txt.setVisibility(View.GONE);
+        cat.setVisibility(View.GONE);
+        per.setVisibility(View.GONE);
+
+        String imageUrl = item.getImageUrl();
+
+        Glide.with(getContext())
+                .asBitmap()
+                .load(imageUrl)
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        imageView.setImageBitmap(resource);
+                        addPageToDocument(view, document, index + 1);
+                        loadImageAndGeneratePage(document, itemList, index + 1); // Proceed to next item
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // do nothing
+                    }
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void addPageToDocument(View view, PdfDocument document, int pageNumber) {
+        int PAGE_WIDTH_LETTER_SIZE = 612;
+        int PAGE_HEIGHT_LETTER_SIZE = 792;
+        view.measure(View.MeasureSpec.makeMeasureSpec(PAGE_WIDTH_LETTER_SIZE, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(PAGE_HEIGHT_LETTER_SIZE, View.MeasureSpec.EXACTLY));
+
+        view.layout(0, 0, PAGE_WIDTH_LETTER_SIZE, PAGE_HEIGHT_LETTER_SIZE);
+
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH_LETTER_SIZE, PAGE_HEIGHT_LETTER_SIZE, pageNumber).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        Canvas canvas = page.getCanvas();
+        view.draw(canvas);
+        document.finishPage(page);
     }
 
     private void updateDetailSpinnerBasedOnSelection(String selectedItem) {
