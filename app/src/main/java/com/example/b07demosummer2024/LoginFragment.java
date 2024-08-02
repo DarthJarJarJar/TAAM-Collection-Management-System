@@ -12,15 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.List;
 
 public class LoginFragment extends Fragment {
 
@@ -60,14 +57,19 @@ public class LoginFragment extends Fragment {
         String password = passwordTextfield.getText().toString();
 
         if (!username.isEmpty() && !password.isEmpty()) {
-            queryCredentials(username, password);
+            queryCredentials(username, password, new LoginListener() {
+                @Override
+                public void onLoginSuccess() {
+                    NavbarFragment navbar = (NavbarFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.navbar_container);
+                    navbar.onLoginSuccess();
+                }
+            });
         } else {
             Toast.makeText(getContext(), "Missing fields", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // add redirection to admin view after
-    private void queryCredentials(String username, String password){
+    private void queryCredentials(String username, String password, LoginListener listener){
         dbRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -75,6 +77,7 @@ public class LoginFragment extends Fragment {
                     String storedPassword = dataSnapshot.getValue(String.class);
                     if (password.equals(storedPassword)) {
                         Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
+                        listener.onLoginSuccess();
                     } else {
                         Toast.makeText(getContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();
                     }
@@ -89,6 +92,9 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
+
+
 
 
 }
