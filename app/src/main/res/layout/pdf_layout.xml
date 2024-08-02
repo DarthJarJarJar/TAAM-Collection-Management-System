@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/pdfLayoutItemImage"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:scaleType="centerInside" />
+
+    <TextView
+        android:id="@+id/pdfLayoutItemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8px"
+        android:text="Item Title"
+        android:textColor="#000000"
+        android:textSize="20px"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/pdfLayoutItemCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8px"
+        android:text="Item Category"
+        android:textColor="#000000"
+        android:textSize="18px" />
+
+    <TextView
+        android:id="@+id/pdfLayoutItemPeriod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8px"
+        android:text="Item Period"
+        android:textColor="#000000"
+        android:textSize="18px" />
+
+    <TextView
+        android:id="@+id/pdfLayoutItemDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8px"
+        android:text="Item Description"
+        android:textColor="#000000"
+        android:textSize="16px" />
+</LinearLayout>
