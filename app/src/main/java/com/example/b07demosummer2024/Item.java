@@ -50,7 +50,23 @@ public class Item {
         return isCheckedForView;
     }
 
+    public String getLotNumberString() {
+        return "#" + String.valueOf(id);
+    }
+
     public void setChecked(boolean isChecked) {
         isCheckedForView = isChecked;
     }
+
+    public String getCategoryWithLabel() {
+        return "Category: " + category;
+    }
+
+    public String getPeriodWithLabel() {
+        return "Period: " + period;
+    }
+
+    public String getTitleWithLotNumber() {
+        return getLotNumberString() + ": " + getTitle();
+     }
 }

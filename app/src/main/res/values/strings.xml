@@ -14,7 +14,12 @@
     <string name="add_new_item">Add New Item</string>
     <string name="category_label">Category</string>
     <string name="period_label">Period</string>
-    <string name="description_label">Period</string>
+    <string name="description_label">Description</string>
+    <string name="report_title">Generate Report</string>
+    <string name="report_option">Generate report with description and picture only</string>
+    <string name="generate">Generate</string>
+    <string name="select_category">Select Category</string>
+    <string name="select_period">Select Period</string>
 
     <string-array name="categories_array">
         <item>Jade</item>
@@ -45,6 +50,14 @@
         <item>Ming</item>
         <item>Qing</item>
         <item>Modern</item>
+    </string-array>
+
+    <string-array name="report_options">
+        <item>Lot Number</item>
+        <item>Name</item>
+        <item>Category</item>
+        <item>Period</item>
+        <item>All Items</item>
     </string-array>
 
 

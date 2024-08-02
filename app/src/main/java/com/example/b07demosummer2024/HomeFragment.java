@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment {
         buttonScroller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new ScrollerFragment());
+                loadFragment(new ReportFragment());
             }
         });
 
