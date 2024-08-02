@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,8 @@ public class ReportFragment extends Fragment {
     private TextView detailTextView;
     private CheckBox descriptionAndImageOnlyCheckbox;
 
+    private ProgressBar progressBar;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class ReportFragment extends Fragment {
         editTextReportParameter = view.findViewById(R.id.editTextReportParamter);
         detailTextView = view.findViewById(R.id.detailTextView);
         descriptionAndImageOnlyCheckbox = view.findViewById(R.id.descriptionAndPictureOnlyCheckBox);
+        progressBar = view.findViewById(R.id.progressBarForReport);
 
         ArrayAdapter<CharSequence> reportSpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.report_options, R.layout.spinner_item_right_aligned);
@@ -145,6 +149,7 @@ public class ReportFragment extends Fragment {
             reportTitle += "_imageAndDescOnly";
         }
         reportTitle += "_" + System.currentTimeMillis() + ".pdf";
+        progressBar.setVisibility(View.VISIBLE);
 
         generatePdf(reportList, imageAndDescriptionOnly, reportTitle);
 
@@ -165,9 +170,20 @@ public class ReportFragment extends Fragment {
                 document.writeTo(fos);
                 document.close();
                 Toast.makeText(getContext(), "Report saved to downloads", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                reportTypeSpinner.setSelection(0);
+                detailSpinner.setSelection(0);
+                editTextReportParameter.setText("");
+                descriptionAndImageOnlyCheckbox.setChecked(false);
+
             } catch (IOException e) {
                 Log.e("ReportFragment", "Error writing PDF", e);
                 Toast.makeText(getContext(), "Failed to generate PDF", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                reportTypeSpinner.setSelection(0);
+                detailSpinner.setSelection(0);
+                editTextReportParameter.setText("");
+                descriptionAndImageOnlyCheckbox.setChecked(false);
             }
             return;
         }
@@ -208,11 +224,21 @@ public class ReportFragment extends Fragment {
                     @Override
                     public void onLoadCleared(@Nullable Drawable placeholder) {
                         // do nothing
+                        progressBar.setVisibility(View.GONE);
+                        reportTypeSpinner.setSelection(0);
+                        detailSpinner.setSelection(0);
+                        editTextReportParameter.setText("");
+                        descriptionAndImageOnlyCheckbox.setSelected(false);
                     }
 
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        reportTypeSpinner.setSelection(0);
+                        detailSpinner.setSelection(0);
+                        editTextReportParameter.setText("");
+                        descriptionAndImageOnlyCheckbox.setSelected(false);
                     }
                 });
     }
