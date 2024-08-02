@@ -1,9 +1,13 @@
 package com.example.b07demosummer2024;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.pdf.PdfDocument;
 import android.graphics.drawable.Drawable;
+import android.graphics.pdf.PdfRenderer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.InputType;
@@ -14,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -22,16 +27,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.firebase.database.collection.BuildConfig;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ReportFragment extends Fragment {
@@ -39,6 +47,7 @@ public class ReportFragment extends Fragment {
     private Spinner detailSpinner, reportTypeSpinner;
     private EditText editTextReportParameter;
     private TextView detailTextView;
+    private CheckBox descriptionAndImageOnlyCheckbox;
 
     @Nullable
     @Override
@@ -49,6 +58,7 @@ public class ReportFragment extends Fragment {
         detailSpinner = view.findViewById(R.id.detailSpinner);
         editTextReportParameter = view.findViewById(R.id.editTextReportParamter);
         detailTextView = view.findViewById(R.id.detailTextView);
+        descriptionAndImageOnlyCheckbox = view.findViewById(R.id.descriptionAndPictureOnlyCheckBox);
 
         ArrayAdapter<CharSequence> reportSpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.report_options, R.layout.spinner_item_right_aligned);
@@ -77,7 +87,9 @@ public class ReportFragment extends Fragment {
     private void makePdf() {
         String reportType = reportTypeSpinner.getSelectedItem().toString();
         List<Item> allItems = RecyclerViewStaticFragment.getItems();
-        List<Item> reportList = new ArrayList<Item>() ;
+        List<Item> reportList = new ArrayList<Item>();
+        String reportTitle = "Report_";
+        boolean imageAndDescriptionOnly = descriptionAndImageOnlyCheckbox.isChecked();
 
         switch (reportType) {
             case "Lot Number":
@@ -88,6 +100,8 @@ public class ReportFragment extends Fragment {
                         reportList.add(item);
                     }
                 }
+
+                reportTitle += "Lot_Number_" + lotNumber;
                 break;
             case "Name":
                 String name = editTextReportParameter.getText().toString();
@@ -97,7 +111,7 @@ public class ReportFragment extends Fragment {
                         reportList.add(item);
                     }
                 }
-
+                reportTitle += "Name_" + name;
                 break;
             case "Category":
                 String category = detailSpinner.getSelectedItem().toString();
@@ -107,7 +121,7 @@ public class ReportFragment extends Fragment {
                         reportList.add(item);
                     }
                 }
-
+                reportTitle += "Category_" + category;
                 break;
             case "Period":
                 String period = detailSpinner.getSelectedItem().toString();
@@ -117,34 +131,40 @@ public class ReportFragment extends Fragment {
                         reportList.add(item);
                     }
                 }
+                reportTitle += "Period_" + period;
                 break;
             case "All Items":
-                reportList = new ArrayList<Item>(allItems);
+                reportList = allItems;
+                reportTitle += "All_Items";
                 break;
             default:
                 break;
         }
 
-        generatePdf(reportList);
+        if (imageAndDescriptionOnly) {
+            reportTitle += "_imageAndDescOnly";
+        }
+        reportTitle += "_" + System.currentTimeMillis() + ".pdf";
+
+        generatePdf(reportList, imageAndDescriptionOnly, reportTitle);
 
     }
 
-    private void generatePdf(List<Item> itemList) {
+    private void generatePdf(List<Item> itemList, boolean imageAndDescriptionOnly, String reportTitle) {
         PdfDocument document = new PdfDocument();
-        loadImageAndGeneratePage(document, itemList, 0);
+        loadImageAndGeneratePage(document, itemList, 0, imageAndDescriptionOnly, reportTitle);
     }
 
-    private void loadImageAndGeneratePage(PdfDocument document, List<Item> itemList, int index) {
+    private void loadImageAndGeneratePage(PdfDocument document, List<Item> itemList, int index, boolean imageAndDescriptionOnly, String reportTitle) {
         if (index >= itemList.size()) {
             // All pages generated, write document to file
             File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            String fileName = "report.pdf";
-            File file = new File(downloadsDir, fileName);
+            File file = new File(downloadsDir, reportTitle);
 
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 document.writeTo(fos);
                 document.close();
-                Toast.makeText(getContext(), "PDF generated successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Report saved to downloads", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 Log.e("ReportFragment", "Error writing PDF", e);
                 Toast.makeText(getContext(), "Failed to generate PDF", Toast.LENGTH_SHORT).show();
@@ -166,9 +186,11 @@ public class ReportFragment extends Fragment {
         per.setText(item.getPeriodWithLabel());
         desc.setText(item.getDescription());
 
-        txt.setVisibility(View.GONE);
-        cat.setVisibility(View.GONE);
-        per.setVisibility(View.GONE);
+        if (imageAndDescriptionOnly) {
+            txt.setVisibility(View.GONE);
+            cat.setVisibility(View.GONE);
+            per.setVisibility(View.GONE);
+        }
 
         String imageUrl = item.getImageUrl();
 
@@ -180,7 +202,7 @@ public class ReportFragment extends Fragment {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         imageView.setImageBitmap(resource);
                         addPageToDocument(view, document, index + 1);
-                        loadImageAndGeneratePage(document, itemList, index + 1); // Proceed to next item
+                        loadImageAndGeneratePage(document, itemList, index + 1, imageAndDescriptionOnly, reportTitle); // Proceed to next item
                     }
 
                     @Override
@@ -194,6 +216,7 @@ public class ReportFragment extends Fragment {
                     }
                 });
     }
+
 
     private void addPageToDocument(View view, PdfDocument document, int pageNumber) {
         int PAGE_WIDTH_LETTER_SIZE = 612;
