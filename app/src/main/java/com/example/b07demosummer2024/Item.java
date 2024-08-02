@@ -50,6 +50,10 @@ public class Item {
         return isCheckedForView;
     }
 
+    public String getLotNumberString() {
+        return "#" + String.valueOf(id);
+    }
+
     public void setChecked(boolean isChecked) {
         isCheckedForView = isChecked;
     }

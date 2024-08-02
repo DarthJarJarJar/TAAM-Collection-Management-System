@@ -21,7 +21,9 @@
             android:id="@+id/textViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
             android:text="Title"
             android:textAlignment="center"
             android:textSize="24sp"
@@ -31,58 +33,87 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/secondBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTitle">
-
-            <TextView
-                android:id="@+id/textViewPeriod"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Genre"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textViewCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Author"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
         <ImageView
             android:id="@+id/imageViewItemImage"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="#D3D3D3"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/secondBar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="#D3D3D3"
             android:contentDescription="TODO"
             android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
             app:srcCompat="@drawable/box" />
 
         <TextView
             android:id="@+id/textViewDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
             android:text="Description"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewItemImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/categoryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/category_label"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewItemImage" />
+
+        <TextView
+            android:id="@+id/periodLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/period_label"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
+
+        <TextView
+            android:id="@+id/textViewCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="TextView"
+            android:textAlignment="textEnd"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/categoryLabel"
+            app:layout_constraintStart_toEndOf="@+id/categoryLabel"
+            app:layout_constraintTop_toTopOf="@+id/categoryLabel" />
+
+        <TextView
+            android:id="@+id/textViewPeriod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAlignment="textEnd"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/periodLabel"
+            app:layout_constraintEnd_toEndOf="@+id/textViewCategory"
+            app:layout_constraintTop_toTopOf="@+id/periodLabel" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/description_label"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/periodLabel" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
