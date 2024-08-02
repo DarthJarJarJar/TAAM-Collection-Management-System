@@ -14,6 +14,7 @@
     <string name="add_new_item">Add New Item</string>
     <string name="category_label">Category</string>
     <string name="period_label">Period</string>
+    <string name="description_label">Period</string>
 
     <string-array name="categories_array">
         <item>Jade</item>
