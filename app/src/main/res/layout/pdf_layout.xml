@@ -46,5 +46,5 @@
         android:layout_marginTop="8px"
         android:text="Item Description"
         android:textColor="#000000"
-        android:textSize="16px" />
+        android:textSize="12px" />
 </LinearLayout>
