@@ -47,7 +47,7 @@ public class HomeNavbarFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-
+                handleAdminButtonClick();
             }
         });
 
@@ -64,14 +64,9 @@ public class HomeNavbarFragment extends Fragment {
             }
         }
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment viewItemsFragmentFragment = ViewItemsFragment.newInstance(toViewitemList);
 
-        Fragment newFragment = ViewItemsFragment.newInstance(toViewitemList);
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, newFragment)
-                .addToBackStack(null)
-                .commit();
+        loadFragment(viewItemsFragmentFragment);
 
     }
 
@@ -81,6 +76,20 @@ public class HomeNavbarFragment extends Fragment {
     private void handleSearchButtonClick() {
     }
 
-    private void handleUserButtonClick() {
+    private void handleAdminButtonClick() {
+
+        Fragment loginFragment = LoginFragment.newInstance();
+
+        loadFragment(loginFragment);
+
+    }
+
+    private void loadFragment(Fragment fragment){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
