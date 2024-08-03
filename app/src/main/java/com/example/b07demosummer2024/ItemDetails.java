@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 
@@ -18,6 +19,7 @@ public class ItemDetails extends Fragment {
     public ItemDetails(Item item) {
         this.item = item;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class ItemDetails extends Fragment {
         ImageView back_button = view.findViewById(R.id.back_arrow);
 
         back_button.setOnClickListener(v -> {
-            this.getParentFragmentManager().popBackStack();
+            getParentFragmentManager().popBackStack();
         });
 
         String imgUrl = item.getImageUrl();
