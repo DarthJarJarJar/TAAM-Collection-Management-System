@@ -129,6 +129,15 @@ public class NavbarFragment extends Fragment implements LoginListener{
 
 
     private void handleSearchButtonClick() {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            Fragment searchFragment = new SearchFragment();
+
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, searchFragment)
+                    .addToBackStack(null)
+                    .commit();
+
     }
 
     private void handleAdminButtonClick() {
