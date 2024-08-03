@@ -10,11 +10,10 @@
         android:id="@+id/buttonDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="24dp"
         android:text="Delete Item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -31,20 +30,13 @@
 
 
     <ListView
-        android:id="@+id/list"
-        android:layout_width="397dp"
-        android:layout_height="386dp"
+        android:id="@+id/delete_list"
+        android:layout_width="396dp"
+        android:layout_height="584dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonDelete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirm_Title"
-        app:layout_constraintVertical_bias="0.768"
-
-        <TextView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            tools:layout_editor_absoluteX="171dp"
-            tools:layout_editor_absoluteY="120dp" />
-    />
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
