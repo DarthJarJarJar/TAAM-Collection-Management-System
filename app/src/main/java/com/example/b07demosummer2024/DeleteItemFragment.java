@@ -1,17 +1,20 @@
 package com.example.b07demosummer2024;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,43 +22,68 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DeleteItemFragment extends Fragment {
-    private EditText editTextTitle;
-    private Spinner spinnerCategory;
+    private TextView confirmTitle;
+    private ListView delete_list;
     private Button buttonDelete;
+
+    private List<Pair<String, Integer>> delete_sublist = new ArrayList<>();
 
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
+
+    private List<Item> itemList;
+
+
+    public static DeleteItemFragment newInstance(List<Item> itemList) {
+        DeleteItemFragment fragment = new DeleteItemFragment();
+        fragment.itemList = itemList;
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_delete_item, container, false);
 
-        editTextTitle = view.findViewById(R.id.editTextTitle);
-        spinnerCategory = view.findViewById(R.id.spinnerCategory);
+        confirmTitle = view.findViewById(R.id.confirm_Title);
+        delete_list = view.findViewById(R.id.list);
+        //spinnerCategory = view.findViewById(R.id.spinnerCategory);
         buttonDelete = view.findViewById(R.id.buttonDelete);
 
         db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
 
+
         // Set up the spinner with categories
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.categories_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCategory.setAdapter(adapter);
+        for(int i = 0; i < itemList.size(); i++){
+            Item curItem = itemList.get(i);
+            delete_sublist.add(new Pair<>(curItem.getTitle(), curItem.getId()));
+        }
+
+
+
+        ArrayAdapter<Pair<String, Integer>> arr = new ArrayAdapter<Pair<String, Integer>>(getContext(), R.layout.chosen_to_delete_items, R.id.test, delete_sublist);
+        delete_list.setAdapter(arr);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+        //   R.array.categories_array, android.R.layout.simple_spinner_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //spinnerCategory.setAdapter(adapter);
 
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteItemByTitle();
+                //deleteItemByTitle();
             }
         });
 
         return view;
     }
 
-    private void deleteItemByTitle() {
-        String title = editTextTitle.getText().toString().trim();
+  /*  private void deleteItemByTitle() {
+        String title = delete_name.getText().toString().trim();
         String category = spinnerCategory.getSelectedItem().toString().toLowerCase();
 
         if (title.isEmpty()) {
@@ -93,6 +121,15 @@ public class DeleteItemFragment extends Fragment {
             }
         });
 
+   }*/
 
+    private void loadFragment(Fragment fragment){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
+

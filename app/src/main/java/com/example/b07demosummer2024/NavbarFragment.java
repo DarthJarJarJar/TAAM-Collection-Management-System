@@ -107,21 +107,34 @@ public class NavbarFragment extends Fragment implements LoginListener{
     private void handleReportButtonClick() {
     }
 
-    private void handleDeleteButtonClick() {
-    }
-
-    private void handleViewButtonClick() {
+    private List<Item> addToViewItemList(){
         List<Item> itemList = RecyclerViewStaticFragment.getItems();
-        List<Item> toViewitemList = new ArrayList<>();
+        List<Item> viewList = new ArrayList<>();
         for(int i = 0; i < itemList.size(); i++){
             Item curItem = itemList.get(i);
             if(curItem.isChecked()){
-                toViewitemList.add(curItem);
+                viewList.add(curItem);
             }
         }
 
+        return viewList;
+    }
+
+    private void handleDeleteButtonClick() {
+        List<Item> toViewitemList = addToViewItemList();
+
         if(toViewitemList.isEmpty()){
-            Toast.makeText(getContext(), "No items selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No items selected. Select Item First", Toast.LENGTH_SHORT).show();
+        }else{
+            loadFragment(DeleteItemFragment.newInstance(toViewitemList));
+        }
+    }
+
+    private void handleViewButtonClick() {
+        List<Item> toViewitemList = addToViewItemList();
+
+        if(toViewitemList.isEmpty()){
+            Toast.makeText(getContext(), "No items selected. Select Item First", Toast.LENGTH_SHORT).show();
         }else{
             loadFragment(ViewItemsFragment.newInstance(toViewitemList));
         }
