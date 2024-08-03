@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,7 +45,7 @@ public class AddFragment extends Fragment {
     private ImageView itemImagePreview;
     private EditText editTextItemName, editTextItemLotNumber;
     private TextInputEditText editTextItemDescription;
-    private Spinner spinnerCategory, spinnerPeriod;
+    private AutoCompleteTextView autoCompleteCategory, autoCompletePeriod;
 
     private Uri chosenImageUri;
     private String uploadedImageUri;
@@ -68,17 +70,17 @@ public class AddFragment extends Fragment {
         addItemButton = view.findViewById(R.id.addButton);
         editTextItemDescription = view.findViewById(R.id.textInputEditText);
 
-        spinnerCategory = view.findViewById(R.id.categorySpinner);
-        ArrayAdapter<CharSequence> categorySpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.categories_array, android.R.layout.simple_spinner_item);
-        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCategory.setAdapter(categorySpinnerAdapter);
+        autoCompleteCategory = view.findViewById(R.id.categoryAutoCompleteTextView);
+        autoCompletePeriod = view.findViewById(R.id.periodAutoCompleteTextView);
 
-        spinnerPeriod = view.findViewById(R.id.periodSpinner);
-        ArrayAdapter<CharSequence> periodSpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.period_array, android.R.layout.simple_spinner_item);
-        periodSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPeriod.setAdapter(periodSpinnerAdapter);
+        Log.d("ADD", RecyclerViewStaticFragment.getCategories().get(0));
+        ArrayAdapter<String> categoryAutoCompleteAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, RecyclerViewStaticFragment.getCategories());
+        categoryAutoCompleteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        autoCompleteCategory.setAdapter(categoryAutoCompleteAdapter);
+
+        ArrayAdapter<String> periodAutoCompleteAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, RecyclerViewStaticFragment.getPeriods());
+        periodAutoCompleteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        autoCompletePeriod.setAdapter(periodAutoCompleteAdapter);
 
         registerResult();
 
@@ -91,8 +93,8 @@ public class AddFragment extends Fragment {
     private void addItem() {
         String itemLotNumber = editTextItemLotNumber.getText().toString().trim();
         String itemName = editTextItemName.getText().toString().trim();
-        String itemPeriod = spinnerPeriod.getSelectedItem().toString().trim();
-        String itemCategory = spinnerCategory.getSelectedItem().toString().trim();
+        String itemPeriod = autoCompletePeriod.getText().toString().trim();
+        String itemCategory = autoCompleteCategory.getText().toString().trim();
         String itemDescription = editTextItemDescription.getText().toString().trim();
 
 
@@ -143,8 +145,8 @@ public class AddFragment extends Fragment {
                                         editTextItemDescription.setText("");
                                         editTextItemLotNumber.setText("");
                                         editTextItemName.setText("");
-                                        spinnerCategory.setSelection(0);
-                                        spinnerPeriod.setSelection(0);
+                                        autoCompleteCategory.setText("");
+                                        autoCompletePeriod.setText("");
                                         itemImagePreview.setImageResource(R.drawable.box);
                                         chosenImageUri = null;
                                     } else {
