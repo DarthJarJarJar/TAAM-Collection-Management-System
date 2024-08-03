@@ -39,6 +39,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.List;
+
 public class AddFragment extends Fragment {
     private ActivityResultLauncher<Intent> resultLauncher;
     private Button uploadImageButton, addItemButton;
@@ -93,8 +95,8 @@ public class AddFragment extends Fragment {
     private void addItem() {
         String itemLotNumber = editTextItemLotNumber.getText().toString().trim();
         String itemName = editTextItemName.getText().toString().trim();
-        String itemPeriod = autoCompletePeriod.getText().toString().trim();
-        String itemCategory = autoCompleteCategory.getText().toString().trim();
+        String itemPeriod = replaceStringWithListOccurence(RecyclerViewStaticFragment.getPeriods(), autoCompletePeriod.getText().toString().trim());
+        String itemCategory = replaceStringWithListOccurence(RecyclerViewStaticFragment.getCategories(), autoCompleteCategory.getText().toString().trim());;
         String itemDescription = editTextItemDescription.getText().toString().trim();
 
 
@@ -139,6 +141,7 @@ public class AddFragment extends Fragment {
                                 uploadedImageUri = downloadUri.toString();
                                 Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri);
 
+
                                 itemsRef.child(String.valueOf(lotNumber)).setValue(item).addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
@@ -153,6 +156,34 @@ public class AddFragment extends Fragment {
                                         Toast.makeText(getContext(), "Failed to add item", Toast.LENGTH_SHORT).show();
                                     }
                                 });
+
+                                if (!RecyclerViewStaticFragment.getCategories().contains(itemCategory)) {
+                                    DatabaseReference categoriesRef = db.getReference("Categories");
+                                    String id = categoriesRef.push().getKey();
+
+                                    categoriesRef.child(id).setValue(itemCategory).addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getContext(), "New category added", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "Failed to add category", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                                }
+
+                                if (!RecyclerViewStaticFragment.getPeriods().contains(itemPeriod)) {
+                                    DatabaseReference periodsRef = db.getReference("Periods");
+                                    String id = periodsRef.push().getKey();
+
+                                    periodsRef.child(id).setValue(itemPeriod).addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getContext(), "New period added", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getContext(), "Failed to add period", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                                }
 
                                 progressBar.setVisibility(View.GONE);
                             }
@@ -174,6 +205,13 @@ public class AddFragment extends Fragment {
     private void pickImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         resultLauncher.launch(intent);
+    }
+
+    private String replaceStringWithListOccurence(List<String> stringList, String str) {
+        for (String listStr: stringList) {
+            if (listStr.equalsIgnoreCase(str)) return listStr;
+        }
+        return str;
     }
 
     private void registerResult() {
