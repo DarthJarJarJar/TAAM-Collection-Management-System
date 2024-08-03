@@ -55,14 +55,14 @@ public class DeleteItemFragment extends Fragment {
         delete_list = view.findViewById(R.id.delete_list);
         buttonDelete = view.findViewById(R.id.buttonDelete);
 
-        db = FirebaseDatabase.getInstance("https://b07-demo-summer-2024-default-rtdb.firebaseio.com/");
+        db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
 
         // Set up the spinner with categories
         for(int i = 0; i < itemList.size(); i++){
             Item curItem = itemList.get(i);
             Map<String, String> data = new HashMap<String, String>(2);
             data.put("Title", curItem.getTitle());
-            data.put("Lot Number", Integer.toString(curItem.getId()));
+            data.put("Lot Number", "#"+Integer.toString(curItem.getId()));
             output_delete_list.add(data);
         }
 
@@ -73,53 +73,62 @@ public class DeleteItemFragment extends Fragment {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //deleteItemByTitle();
+                iterate_delete_items();
             }
         });
 
         return view;
     }
 
-  /*  private void deleteItemByTitle() {
-        String title = delete_name.getText().toString().trim();
-        String category = spinnerCategory.getSelectedItem().toString().toLowerCase();
+    private void iterate_delete_items() {
 
-        if (title.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter item title", Toast.LENGTH_SHORT).show();
-            return;
+        for (int i = 0; i < itemList.size(); i++) {
+            Item curItem = itemList.get(i);
+            remove_item(curItem);
+
         }
 
-        itemsRef = db.getReference("categories/" + category);
+    }
+
+    private void remove_item(Item item) {
+        int id = item.getId();
+        itemsRef = db.getReference().child("Lot Number");
         itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean itemFound = false;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Item item = snapshot.getValue(Item.class);
-                    if (item != null && item.getTitle().equalsIgnoreCase(title)) {
+                    itemFound = true;
+                    Item val = snapshot.getValue(Item.class);
+                    //Toast.makeText(getContext(), val.getId(), Toast.LENGTH_SHORT).show();
+                    if (val != null && (val.getId() == id)) {
                         snapshot.getRef().removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
+                                getParentFragmentManager().popBackStack();
                             } else {
                                 Toast.makeText(getContext(), "Failed to delete item", Toast.LENGTH_SHORT).show();
+                                getParentFragmentManager().popBackStack();
                             }
                         });
                         itemFound = true;
                         break;
                     }
+
                 }
                 if (!itemFound) {
                     Toast.makeText(getContext(), "Item not found", Toast.LENGTH_SHORT).show();
+                    getParentFragmentManager().popBackStack();
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                getParentFragmentManager().popBackStack();
             }
         });
-
-   }*/
+    }
 
     private void loadFragment(Fragment fragment){
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
