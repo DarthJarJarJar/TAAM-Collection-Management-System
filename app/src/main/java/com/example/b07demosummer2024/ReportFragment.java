@@ -34,6 +34,11 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.collection.BuildConfig;
 
 import java.io.File;
@@ -277,8 +282,9 @@ public class ReportFragment extends Fragment {
                 editTextReportParameter.setVisibility(View.VISIBLE);
                 break;
             case "Category":
-                ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(requireContext(),
-                        R.array.categories_array, R.layout.spinner_item_right_aligned);
+//                ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(requireContext(),
+//                        R.array.categories_array, R.layout.spinner_item_right_aligned);
+                ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_right_aligned, RecyclerViewStaticFragment.getCategories());
                 categoryAdapter.setDropDownViewResource(R.layout.spinner_item_right_aligned);
                 detailSpinner.setAdapter(categoryAdapter);
                 detailTextView.setText(R.string.select_category);
@@ -286,8 +292,9 @@ public class ReportFragment extends Fragment {
                 detailSpinner.setVisibility(View.VISIBLE);
                 break;
             case "Period":
-                ArrayAdapter<CharSequence> periodAdapter = ArrayAdapter.createFromResource(requireContext(),
-                        R.array.period_array, R.layout.spinner_item_right_aligned);
+//                ArrayAdapter<CharSequence> periodAdapter = ArrayAdapter.createFromResource(requireContext(),
+//                        R.array.period_array, R.layout.spinner_item_right_aligned);
+                ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_right_aligned, RecyclerViewStaticFragment.getPeriods());
                 periodAdapter.setDropDownViewResource(R.layout.spinner_item_right_aligned);
                 detailSpinner.setAdapter(periodAdapter);
                 detailTextView.setText(R.string.select_period);
@@ -300,4 +307,5 @@ public class ReportFragment extends Fragment {
                 break;
         }
     }
+
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddItemFragment">
+    tools:context=".AddFragment">
 
     <ScrollView
         android:layout_width="0dp"
@@ -55,26 +55,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lotNumberInput" />
 
-            <Spinner
-                android:id="@+id/periodSpinner"
-                android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/periodAutoCompleteTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:prompt="@string/period_label"
-                android:textAlignment="viewEnd"
-                android:textDirection="ltr"
+                android:ems="10"
+                android:hint="@string/period_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/categorySpinner" />
+                app:layout_constraintTop_toBottomOf="@+id/categoryAutoCompleteTextView" />
 
-            <Spinner
-                android:id="@+id/categorySpinner"
-                android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/categoryAutoCompleteTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:prompt="@string/category_label"
-                android:textAlignment="textEnd"
+                android:ems="10"
+                android:hint="@string/category_label"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
 
@@ -85,11 +84,10 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:hint="Description"
+                android:hint="@string/description_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/periodSpinner" />
+                app:layout_constraintTop_toBottomOf="@+id/periodAutoCompleteTextView" />
 
             <ImageView
                 android:id="@+id/uploadImagePreview"
@@ -125,9 +123,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:text="@string/category_label"
-                app:layout_constraintBottom_toBottomOf="@+id/categorySpinner"
+                app:layout_constraintBottom_toBottomOf="@+id/categoryAutoCompleteTextView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/categorySpinner" />
+                app:layout_constraintTop_toTopOf="@+id/categoryAutoCompleteTextView" />
 
             <TextView
                 android:id="@+id/textView8"
@@ -135,9 +133,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:text="@string/period_label"
-                app:layout_constraintBottom_toBottomOf="@+id/periodSpinner"
+                app:layout_constraintBottom_toBottomOf="@+id/periodAutoCompleteTextView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/periodSpinner" />
+                app:layout_constraintTop_toTopOf="@+id/periodAutoCompleteTextView" />
 
             <TextView
                 android:id="@+id/textView9"

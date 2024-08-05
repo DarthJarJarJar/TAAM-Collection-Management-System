@@ -30,6 +30,8 @@ public class RecyclerViewStaticFragment extends Fragment {
     private TextView pageNoInfo;
     private ItemAdapter itemAdapter;
     private static List<Item> itemList;
+    private static List<String> categories = new ArrayList<String>();
+    private static List<String> periods = new ArrayList<String>();
     private int pageNumber = 1;
     private int maxPages;
 
@@ -67,6 +69,8 @@ public class RecyclerViewStaticFragment extends Fragment {
         });
 
         loadStaticItems();
+        loadCategories();
+        loadPeriods();
 
         return view;
     }
@@ -116,7 +120,52 @@ public class RecyclerViewStaticFragment extends Fragment {
         });
     }
 
+    private void loadCategories() {
+        DatabaseReference itemsRef = db.getReference("Categories");
+        itemsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                categories.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String category = snapshot.getValue(String.class);
+                    categories.add(category);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle possible errors
+            }
+        });
+    }
+
+    private void loadPeriods() {
+        DatabaseReference itemsRef = db.getReference("Periods");
+        itemsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                periods.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String period = snapshot.getValue(String.class);
+                    periods.add(period);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle possible errors
+            }
+        });
+    }
+
     public static List<Item> getItems(){
         return itemList;
     }
+    public static List<String> getCategories(){
+        return categories;
+    }
+    public static List<String> getPeriods(){
+        return periods;
+    }
+
 }
