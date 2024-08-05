@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DeleteItemFragment extends Fragment {
-    int counter =0;
+    int counter = 1;
     private Button buttonDelete;
     private ListView delete_list;
 
@@ -87,9 +87,10 @@ public class DeleteItemFragment extends Fragment {
     }
 
     private void close(){
-        if (counter == 0) {
-            counter++;
+        if (counter == itemList.size()) {
             getParentFragmentManager().popBackStack();
+        } else {
+            counter ++;
         }
     }
 
