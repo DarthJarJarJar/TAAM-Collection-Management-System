@@ -13,7 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import java.util.List;
 
-public class AddItemFragmentPresenter extends AddItemFragmentModelObserver {
+public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterface {
     AddItemFragmentModel model;
     AddItemFragmentView view;
 
@@ -21,8 +21,7 @@ public class AddItemFragmentPresenter extends AddItemFragmentModelObserver {
     private Uri chosenImageUri;
 
     public AddItemFragmentPresenter(AddItemFragmentView view, AddItemFragmentModel model) {
-        super(model);
-        model.registerObserver(this);
+        model.presenterInterface = this;
         this.view = view;
         this.model = model;
     }

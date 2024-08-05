@@ -24,13 +24,12 @@ public class AddItemFragmentModel {
     private DatabaseReference itemsRef;
     private DatabaseManager manager;
     private List<String> categoryList, periodList;
-    List<AddItemFragmentModelObserver> addItemFragmentModelObserverList;
+    AddItemFragmentPresenterInterface presenterInterface;
 
     public AddItemFragmentModel() {
         storage = FirebaseStorage.getInstance();
         manager = DatabaseManager.getInstance();
         db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
-        addItemFragmentModelObserverList = new ArrayList<AddItemFragmentModelObserver>();
         categoryList = manager.getCategories();
         periodList = manager.getPeriods();
     }
@@ -43,45 +42,17 @@ public class AddItemFragmentModel {
         return categoryList;
     }
 
-    public void registerObserver(AddItemFragmentModelObserver addItemFragmentModelObserver) {
-        addItemFragmentModelObserverList.add(addItemFragmentModelObserver);
-    }
-
-    public void raiseToastInObservers(String message) {
-        for (AddItemFragmentModelObserver addItemFragmentModelObserver : addItemFragmentModelObserverList) {
-            addItemFragmentModelObserver.showToast(message);
-        }
-    }
-
-    public void showProgressBarInObservers() {
-        for (AddItemFragmentModelObserver addItemFragmentModelObserver : addItemFragmentModelObserverList) {
-            addItemFragmentModelObserver.showProgressBar();
-        }
-    }
-
-    public void clearProgressBarInObservers() {
-        for (AddItemFragmentModelObserver addItemFragmentModelObserver : addItemFragmentModelObserverList) {
-            addItemFragmentModelObserver.clearProgressBar();
-        }
-    }
-
-    public void clearFormInObservers() {
-        for (AddItemFragmentModelObserver addItemFragmentModelObserver : addItemFragmentModelObserverList) {
-            addItemFragmentModelObserver.clearForm();
-        }
-    }
-
     void addItemToDb(int lotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription, Uri chosenImageUri) {
 
         itemsRef = db.getReference("Lot Number");
-        showProgressBarInObservers();
+        presenterInterface.showProgressBar();
 
         itemsRef.child(String.valueOf(lotNumber)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    raiseToastInObservers("Lot number already exists");
-                    showProgressBarInObservers();
+                    presenterInterface.showToast("Lot number already exists");
+                    presenterInterface.showProgressBar();
                     return;
                 }
 
@@ -92,9 +63,8 @@ public class AddItemFragmentModel {
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        // todo make this work
-                        raiseToastInObservers("Upload failed: " + exception.getMessage());
-                        clearProgressBarInObservers();
+                        presenterInterface.showToast("Upload failed: " + exception.getMessage());
+                        presenterInterface.clearProgressBar();
 
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -109,9 +79,9 @@ public class AddItemFragmentModel {
 
                                 itemsRef.child(String.valueOf(lotNumber)).setValue(item).addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
-                                        clearFormInObservers();
+                                        presenterInterface.clearForm();
                                     } else {
-                                        raiseToastInObservers("Failed to add item");
+                                        presenterInterface.showToast("Failed to add item");
                                     }
                                 });
 
@@ -121,9 +91,9 @@ public class AddItemFragmentModel {
 
                                     categoriesRef.child(id).setValue(itemCategory).addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
-                                            raiseToastInObservers("New category added");
+                                            presenterInterface.showToast("New category added");
                                         } else {
-                                            raiseToastInObservers("Failed to add new category");
+                                            presenterInterface.showToast("Failed to add new category");
                                         }
                                     });
 
@@ -135,14 +105,14 @@ public class AddItemFragmentModel {
 
                                     periodsRef.child(id).setValue(itemPeriod).addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
-                                            raiseToastInObservers("New period added");
+                                            presenterInterface.showToast("New period added");
                                         } else {
-                                            raiseToastInObservers("Failed to add period");
+                                            presenterInterface.showToast("Failed to add period");
                                         }
                                     });
 
                                 }
-                                clearProgressBarInObservers();
+                                presenterInterface.clearProgressBar();
                             }
                         });
                     }
@@ -151,8 +121,8 @@ public class AddItemFragmentModel {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                raiseToastInObservers(error.getMessage());
-                clearProgressBarInObservers();
+                presenterInterface.showToast(error.getMessage());
+                presenterInterface.clearProgressBar();
             }
         });
 

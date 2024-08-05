@@ -101,7 +101,7 @@ public class NavbarFragment extends Fragment implements LoginListener{
     }
     
     private void handleAddButtonClick() {
-        loadFragment(new AddFragment());
+        loadFragment(new AddItemFragmentView());
     }
 
     private void handleReportButtonClick() {
