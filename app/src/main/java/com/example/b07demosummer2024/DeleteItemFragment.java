@@ -1,6 +1,7 @@
 package com.example.b07demosummer2024;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DeleteItemFragment extends Fragment {
-
-
+    int counter =0;
     private Button buttonDelete;
     private ListView delete_list;
 
@@ -81,51 +81,53 @@ public class DeleteItemFragment extends Fragment {
     }
 
     private void iterate_delete_items() {
-
-        for (int i = 0; i < itemList.size(); i++) {
-            Item curItem = itemList.get(i);
+        for (Item curItem : itemList) {
             remove_item(curItem);
-
         }
+    }
 
+    private void close(){
+        if (counter == 0) {
+            counter++;
+            getParentFragmentManager().popBackStack();
+        }
     }
 
     private void remove_item(Item item) {
         int id = item.getId();
-        itemsRef = db.getReference().child("Lot Number");
+        DatabaseReference itemsRef = db.getReference(   "Lot Number");
+
         itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean itemFound = false;
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    itemFound = true;
+
                     Item val = snapshot.getValue(Item.class);
-                    //Toast.makeText(getContext(), val.getId(), Toast.LENGTH_SHORT).show();
+
                     if (val != null && (val.getId() == id)) {
                         snapshot.getRef().removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
-                                getParentFragmentManager().popBackStack();
+                                Toast.makeText(getContext(), "Item deleted: " + val.getTitleWithLotNumber(), Toast.LENGTH_SHORT).show();
+                                close();
                             } else {
-                                Toast.makeText(getContext(), "Failed to delete item", Toast.LENGTH_SHORT).show();
-                                getParentFragmentManager().popBackStack();
+                                Toast.makeText(getContext(), "Failed to delete item" + val.getTitleWithLotNumber(), Toast.LENGTH_SHORT).show();
                             }
                         });
                         itemFound = true;
                         break;
                     }
-
                 }
                 if (!itemFound) {
                     Toast.makeText(getContext(), "Item not found", Toast.LENGTH_SHORT).show();
-                    getParentFragmentManager().popBackStack();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                getParentFragmentManager().popBackStack();
             }
         });
     }
