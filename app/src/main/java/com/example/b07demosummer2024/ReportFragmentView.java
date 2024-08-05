@@ -84,7 +84,7 @@ public class ReportFragmentView extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                presenter.updateDetailSpinnerBasedOnSelection(selectedItem);
+                presenter.setSpinner(selectedItem);
             }
 
             @Override
@@ -93,11 +93,75 @@ public class ReportFragmentView extends Fragment {
             }
         });
 
-        generateButton.setOnClickListener(v -> presenter.makePdf());
+        generateButton.setOnClickListener(v -> {
+            presenter.makePdf(reportTypeSpinner.getSelectedItem().toString(),
+                    descriptionAndImageOnlyCheckbox.isChecked());
+        });
 
         return view;
     }
 
+    void updateDetailSpinnerBasedOnSelection(String selectedItem, List<String> categories, List<String> periods) {
+        detailSpinner.setVisibility(View.GONE);
+        editTextReportParameter.setVisibility(View.GONE);
+        detailTextView.setVisibility(View.GONE);
 
+        switch (selectedItem) {
+            case "Lot Number":
+                editTextReportParameter.setHint("Enter Lot Number");
+                editTextReportParameter.setInputType(InputType.TYPE_CLASS_NUMBER);
+                editTextReportParameter.setVisibility(View.VISIBLE);
+                break;
+            case "Name":
+                editTextReportParameter.setHint("Enter Name");
+                editTextReportParameter.setInputType(InputType.TYPE_CLASS_TEXT);
+                editTextReportParameter.setVisibility(View.VISIBLE);
+                break;
+            case "Category":
+                ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_right_aligned, categories);
+                categoryAdapter.setDropDownViewResource(R.layout.spinner_item_right_aligned);
+                detailSpinner.setAdapter(categoryAdapter);
+                detailTextView.setText(R.string.select_category);
+                detailTextView.setVisibility(View.VISIBLE);
+                detailSpinner.setVisibility(View.VISIBLE);
+                break;
+            case "Period":
+                ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_right_aligned, periods);
+                periodAdapter.setDropDownViewResource(R.layout.spinner_item_right_aligned);
+                detailSpinner.setAdapter(periodAdapter);
+                detailTextView.setText(R.string.select_period);
+                detailTextView.setVisibility(View.VISIBLE);
+                detailSpinner.setVisibility(View.VISIBLE);
+                break;
+            case "All Items":
+                break;
+            default:
+                break;
+        }
+    }
+
+    void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    String getEditTextValue() {
+        return editTextReportParameter.getText().toString();
+    }
+
+    String getDetailSpinnerValue() {
+        return detailSpinner.getSelectedItem().toString();
+    }
+
+    void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    void resetForm() {
+        progressBar.setVisibility(View.GONE);
+        reportTypeSpinner.setSelection(0);
+        detailSpinner.setSelection(0);
+        editTextReportParameter.setText("");
+        descriptionAndImageOnlyCheckbox.setChecked(false);
+    }
 
 }

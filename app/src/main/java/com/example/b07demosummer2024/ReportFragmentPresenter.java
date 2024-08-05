@@ -36,70 +36,95 @@ public class ReportFragmentPresenter {
         this.model = model;
     }
 
-    void makePdf() {
-        String reportType = view.reportTypeSpinner.getSelectedItem().toString();
-        List<Item> allItems = RecyclerViewStaticFragment.getItems();
-        List<Item> reportList = new ArrayList<Item>();
-        String reportTitle = "Report_";
-        boolean imageAndDescriptionOnly = view.descriptionAndImageOnlyCheckbox.isChecked();
+
+    void makePdf(String reportType, boolean imageAndDescriptionOnly) {
+        if (!reportType.equals("All Items") && view.getEditTextValue().isEmpty() && view.getDetailSpinnerValue().isEmpty()) {
+            view.showToast("Please fill all the fields");
+            return;
+        }
+
+        List<Item> allItems = model.getItems();
+        List<Item> reportList = new ArrayList<>();
+        String title = generateReportTitle(reportType, imageAndDescriptionOnly);
 
         switch (reportType) {
             case "Lot Number":
-                int lotNumber = Integer.parseInt(view.editTextReportParameter.getText().toString());
-
+                int lotNumber = Integer.parseInt(view.getEditTextValue());
                 for (Item item: allItems) {
                     if (item.getId() == lotNumber) {
                         reportList.add(item);
                     }
                 }
-
-                reportTitle += "Lot_Number_" + lotNumber;
                 break;
             case "Name":
-                String name = view.editTextReportParameter.getText().toString();
-
+                String name = view.getEditTextValue();
                 for (Item item: allItems) {
                     if (item.getTitle().equals(name)) {
                         reportList.add(item);
                     }
                 }
-                reportTitle += "Name_" + name;
                 break;
             case "Category":
-                String category = view.detailSpinner.getSelectedItem().toString();
-
+                String category = view.getEditTextValue();
                 for (Item item: allItems) {
                     if (item.getCategory().equals(category)) {
                         reportList.add(item);
                     }
                 }
-                reportTitle += "Category_" + category;
                 break;
             case "Period":
-                String period = view.detailSpinner.getSelectedItem().toString();
-
+                String period = view.getDetailSpinnerValue();
                 for (Item item: allItems) {
                     if (item.getPeriod().equals(period)) {
                         reportList.add(item);
                     }
                 }
-                reportTitle += "Period_" + period;
                 break;
             case "All Items":
-                reportList = allItems;
-                reportTitle += "All_Items";
+                reportList.addAll(allItems);
                 break;
             default:
                 break;
         }
 
-        if (imageAndDescriptionOnly) {
-            reportTitle += "_imageAndDescOnly";
+        if (reportList.isEmpty()) {
+            view.showToast("No items match your criteria, report not created");
+            return;
         }
-        reportTitle += "_" + System.currentTimeMillis() + ".pdf";
-        view.progressBar.setVisibility(View.VISIBLE);
 
-        generatePdf(reportList, imageAndDescriptionOnly, reportTitle);
+        view.showProgressBar();
+
+        generatePdf(reportList, imageAndDescriptionOnly, title);
+
+    }
+
+    private String generateReportTitle(String reportType, boolean imageAndDescOnly) {
+        String title = "Report_";
+
+        switch (reportType) {
+            case "Category":
+            case "Period":
+                title += reportType + "_" + view.getDetailSpinnerValue();
+                break;
+            case "Lot Number":
+                title += "Lot_Number_" + view.getEditTextValue();
+                break;
+            case "Name":
+                title += reportType + "_" + view.getEditTextValue();
+                break;
+            case "All Items":
+                title += "All_Items";
+                break;
+            default:
+                break;
+        }
+
+        if (imageAndDescOnly) {
+            title += "_Image_And_Desc_Only";
+        }
+        title += "_" + System.currentTimeMillis() + ".pdf";
+
+        return title;
 
     }
 
@@ -110,144 +135,95 @@ public class ReportFragmentPresenter {
 
     private void loadImageAndGeneratePage(PdfDocument document, List<Item> itemList, int index, boolean imageAndDescriptionOnly, String reportTitle) {
         if (index >= itemList.size()) {
-            // All pages generated, write document to file
+            // all pages have been generated at this point
             File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             File file = new File(downloadsDir, reportTitle);
 
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 document.writeTo(fos);
                 document.close();
-                Toast.makeText(view.getContext(), "Report saved to downloads", Toast.LENGTH_SHORT).show();
-                view.progressBar.setVisibility(View.GONE);
-                view.reportTypeSpinner.setSelection(0);
-                view.detailSpinner.setSelection(0);
-                view.editTextReportParameter.setText("");
-                view.descriptionAndImageOnlyCheckbox.setChecked(false);
+                view.showToast("Report saved to downloads");
+                view.resetForm();
 
             } catch (IOException e) {
-                Log.e("ReportFragment", "Error writing PDF", e);
-                Toast.makeText(view.getContext(), "Failed to generate PDF", Toast.LENGTH_SHORT).show();
-                view.progressBar.setVisibility(View.GONE);
-                view.reportTypeSpinner.setSelection(0);
-                view.detailSpinner.setSelection(0);
-                view.editTextReportParameter.setText("");
-                view.descriptionAndImageOnlyCheckbox.setChecked(false);
+                view.showToast("Failed to generate PDF");
+                view.resetForm();
             }
             return;
         }
 
         Item item = itemList.get(index);
-        View pdfview = LayoutInflater.from(view.getContext()).inflate(R.layout.pdf_layout, null);
-
-        TextView txt = pdfview.findViewById(R.id.pdfLayoutItemTitle);
-        TextView cat = pdfview.findViewById(R.id.pdfLayoutItemCategory);
-        TextView per = pdfview.findViewById(R.id.pdfLayoutItemPeriod);
-        TextView desc = pdfview.findViewById(R.id.pdfLayoutItemDescription);
-        ImageView imageView = pdfview.findViewById(R.id.pdfLayoutItemImage);
-
-        txt.setText(item.getTitleWithLotNumber());
-        cat.setText(item.getCategoryWithLabel());
-        per.setText(item.getPeriodWithLabel());
-        desc.setText(item.getDescription());
-
-        if (imageAndDescriptionOnly) {
-            txt.setVisibility(View.GONE);
-            cat.setVisibility(View.GONE);
-            per.setVisibility(View.GONE);
-        }
+        View pdfView = createPdfPageView(item, imageAndDescriptionOnly);
+        ImageView imageView = pdfView.findViewById(R.id.pdfLayoutItemImage);
 
         String imageUrl = item.getImageUrl();
 
-        Glide.with(pdfview.getContext())
+        Glide.with(pdfView.getContext())
                 .asBitmap()
                 .load(imageUrl)
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         imageView.setImageBitmap(resource);
-                        addPageToDocument(pdfview, document, index + 1);
+                        addPageToDocument(pdfView, document, index + 1);
                         loadImageAndGeneratePage(document, itemList, index + 1, imageAndDescriptionOnly, reportTitle); // Proceed to next item
                     }
 
                     @Override
                     public void onLoadCleared(@Nullable Drawable placeholder) {
                         // do nothing
-                        view.progressBar.setVisibility(View.GONE);
-                        view.reportTypeSpinner.setSelection(0);
-                        view.detailSpinner.setSelection(0);
-                        view.editTextReportParameter.setText("");
-                        view.descriptionAndImageOnlyCheckbox.setSelected(false);
+                        view.resetForm();
                     }
 
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         Toast.makeText(view.getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
-                        view.progressBar.setVisibility(View.GONE);
-                        view.reportTypeSpinner.setSelection(0);
-                        view.detailSpinner.setSelection(0);
-                        view.editTextReportParameter.setText("");
-                        view.descriptionAndImageOnlyCheckbox.setSelected(false);
+                        view.resetForm();
                     }
                 });
     }
 
 
-    private void addPageToDocument(View view, PdfDocument document, int pageNumber) {
-        int PAGE_WIDTH_LETTER_SIZE = 612;
-        int PAGE_HEIGHT_LETTER_SIZE = 792;
-        view.measure(View.MeasureSpec.makeMeasureSpec(PAGE_WIDTH_LETTER_SIZE, View.MeasureSpec.EXACTLY),
+    private void addPageToDocument(View pdfView, PdfDocument document, int pageNumber) {
+        final int PAGE_WIDTH_LETTER_SIZE = 612;
+        final int PAGE_HEIGHT_LETTER_SIZE = 792;
+        pdfView.measure(View.MeasureSpec.makeMeasureSpec(PAGE_WIDTH_LETTER_SIZE, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(PAGE_HEIGHT_LETTER_SIZE, View.MeasureSpec.EXACTLY));
 
-        view.layout(0, 0, PAGE_WIDTH_LETTER_SIZE, PAGE_HEIGHT_LETTER_SIZE);
+        pdfView.layout(0, 0, PAGE_WIDTH_LETTER_SIZE, PAGE_HEIGHT_LETTER_SIZE);
 
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH_LETTER_SIZE, PAGE_HEIGHT_LETTER_SIZE, pageNumber).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();
-        view.draw(canvas);
+        pdfView.draw(canvas);
         document.finishPage(page);
     }
 
-    void updateDetailSpinnerBasedOnSelection(String selectedItem) {
-        view.detailSpinner.setVisibility(View.GONE);
-        view.editTextReportParameter.setVisibility(View.GONE);
-        view.detailTextView.setVisibility(View.GONE);
-
-        switch (selectedItem) {
-            case "Lot Number":
-                view.editTextReportParameter.setHint("Enter Lot Number");
-                view.editTextReportParameter.setInputType(InputType.TYPE_CLASS_NUMBER);
-                view.editTextReportParameter.setVisibility(View.VISIBLE);
-                break;
-            case "Name":
-                view.editTextReportParameter.setHint("Enter Name");
-                view.editTextReportParameter.setInputType(InputType.TYPE_CLASS_TEXT);
-                view.editTextReportParameter.setVisibility(View.VISIBLE);
-                break;
-            case "Category":
-//                ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(requireContext(),
-//                        R.array.categories_array, R.layout.spinner_item_right_aligned);
-                ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(view.requireContext(), R.layout.spinner_item_right_aligned, RecyclerViewStaticFragment.getCategories());
-                categoryAdapter.setDropDownViewResource(R.layout.spinner_item_right_aligned);
-                view.detailSpinner.setAdapter(categoryAdapter);
-                view.detailTextView.setText(R.string.select_category);
-                view.detailTextView.setVisibility(View.VISIBLE);
-                view.detailSpinner.setVisibility(View.VISIBLE);
-                break;
-            case "Period":
-//                ArrayAdapter<CharSequence> periodAdapter = ArrayAdapter.createFromResource(requireContext(),
-//                        R.array.period_array, R.layout.spinner_item_right_aligned);
-                ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(view.requireContext(), R.layout.spinner_item_right_aligned, RecyclerViewStaticFragment.getPeriods());
-                periodAdapter.setDropDownViewResource(R.layout.spinner_item_right_aligned);
-                view.detailSpinner.setAdapter(periodAdapter);
-                view.detailTextView.setText(R.string.select_period);
-                view.detailTextView.setVisibility(View.VISIBLE);
-                view.detailSpinner.setVisibility(View.VISIBLE);
-                break;
-            case "All Items":
-                break;
-            default:
-                break;
-        }
+    public void setSpinner(String selectedSpinnerItem) {
+        view.updateDetailSpinnerBasedOnSelection(selectedSpinnerItem, model.getCategories(), model.getPeriods());
     }
+
+    private View createPdfPageView(Item item, boolean imageAndDescriptionOnly) {
+        View pdfView = LayoutInflater.from(view.getContext()).inflate(R.layout.pdf_layout, null);
+
+        TextView title = pdfView.findViewById(R.id.pdfLayoutItemTitle);
+        TextView category = pdfView.findViewById(R.id.pdfLayoutItemCategory);
+        TextView period = pdfView.findViewById(R.id.pdfLayoutItemPeriod);
+        TextView description = pdfView.findViewById(R.id.pdfLayoutItemDescription);
+
+        title.setText(item.getTitleWithLotNumber());
+        category.setText(item.getCategoryWithLabel());
+        period.setText(item.getPeriodWithLabel());
+        description.setText(item.getDescription());
+
+        if (imageAndDescriptionOnly) {
+            title.setVisibility(View.GONE);
+            category.setVisibility(View.GONE);
+            period.setVisibility(View.GONE);
+        }
+
+        return pdfView;
+    }
+
 }
