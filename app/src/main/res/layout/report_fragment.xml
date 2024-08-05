@@ -46,7 +46,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="Detail"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reportType" />
 
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:textAlignment="textEnd"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/detailTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/detailTextView"
