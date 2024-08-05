@@ -99,12 +99,13 @@ public class NavbarFragment extends Fragment implements LoginListener{
     private void handleHomeButtonClick(){
         loadFragment(new RecyclerViewStaticFragment());
     }
-
-    // to implement
+    
     private void handleAddButtonClick() {
+        loadFragment(new AddFragment());
     }
 
     private void handleReportButtonClick() {
+        loadFragment(new ReportFragment());
     }
 
     private List<Item> addToViewItemList(){

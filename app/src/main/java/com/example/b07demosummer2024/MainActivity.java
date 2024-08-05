@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         myRef.child("movies").setValue("B07 Demo!");
 
         if (savedInstanceState == null) {
-            loadFragment(new HomeFragment());
+            loadFragment(new RecyclerViewStaticFragment());
             // fix
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.navbar_container, new NavbarFragment());
