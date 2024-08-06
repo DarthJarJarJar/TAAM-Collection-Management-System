@@ -132,14 +132,5 @@ public class DeleteItemFragment extends Fragment {
             }
         });
     }
-
-    private void loadFragment(Fragment fragment){
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
 }
 
