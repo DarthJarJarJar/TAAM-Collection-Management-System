@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,14 +29,13 @@ import java.util.List;
 public class NavbarFragmentView extends Fragment {
 
     boolean adminView = true;
+    boolean isInit = true;
 
     private ImageButton buttonAdmin;
-    private ImageButton buttonReport;
-    private ImageButton buttonDelete;
-    private ImageButton buttonAdd;
     private ImageButton buttonBack;
-
+    private TextView operations;
     private Spinner adminSpinner;
+
 
 
     @Nullable
@@ -43,23 +43,23 @@ public class NavbarFragmentView extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_navbar, container, false);
 
+
+
         ImageButton buttonHome = view.findViewById(R.id.home_button);
         ImageButton buttonView = view.findViewById(R.id.view_button);
         ImageButton buttonSearch = view.findViewById(R.id.search_button);
+        operations = view.findViewById(R.id.operations);
 
         buttonBack = view.findViewById(R.id.back_button);
 
         buttonAdmin = view.findViewById(R.id.admin_button);
-        buttonReport = view.findViewById(R.id.report_button);
-        buttonDelete = view.findViewById(R.id.delete_button);
-        buttonAdd = view.findViewById(R.id.add_button);
 
         adminSpinner = view.findViewById(R.id.adminSpinner);
 
-        setupSpinner();
-
         buttonBack.setVisibility(View.INVISIBLE);
         buttonBack.setEnabled(false);
+
+        setupSpinner();
         toggleAdminNavbar();
 
         buttonHome.setOnClickListener(new View.OnClickListener() {
@@ -94,30 +94,6 @@ public class NavbarFragmentView extends Fragment {
             }
         });
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                handleAddButtonClick();
-            }
-        });
-
-        buttonReport.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                handleReportButtonClick();
-            }
-        });
-
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                handleDeleteButtonClick();
-            }
-        });
-
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,54 +102,51 @@ public class NavbarFragmentView extends Fragment {
             }
         });
 
+
         adminSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
         {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-              //  ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
-               // ((TextView) parent.getChildAt(0)).setTextSize(5);
+
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (isInit){
+                    Log.d("test", "isInit is false");
+                    isInit=false;
+                    return;
+                }
 
                 String selectedItem = parent.getItemAtPosition(position).toString();
-                if(selectedItem.equals("Add"))
-                {
-                    handleAddButtonClick();
+                switch (selectedItem) {
+                    case "Add":
+                        handleAddButtonClick();
+                        break;
+                    case "Delete":
+                        handleDeleteButtonClick();
+                        break;
+                    case "Report":
+                        handleReportButtonClick();
+                        break;
                 }
-                else if (selectedItem.equals("Delete")){
-                    handleDeleteButtonClick();
-                }
-                else if (selectedItem.equals("Report")){
-                    handleReportButtonClick();
-                }
-            }
-            public void onNothingSelected(AdapterView<?> parent)
-            {
 
-            }
+                }
+
+
+            public void onNothingSelected(AdapterView<?> parent){}
         });
+
 
         return view;
     }
 
     private void setupSpinner(){
-        List<ImageButton> admin_buttons = new ArrayList<>();
-        admin_buttons.add(buttonAdd);
-        admin_buttons.add(buttonDelete);
-        admin_buttons.add(buttonReport);
 
-        final String[] items = new String[]{"Delete","Add","Report"};
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                getContext(),
-                R.layout.simple_spinner_dropdown_item_2,
-                items
-        );
-        categoryAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item_2);
-        adminSpinner.setAdapter(categoryAdapter);
+       ArrayAdapter<CharSequence> adminAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.admin_options, R.layout.spinner_item_right_aligned);
+       adminAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+       adminSpinner.setAdapter(adminAdapter);
+      //  adminSpinner.setSelection(0,true);
+adminSpinner.setPrompt("Ops");
+       // int initialposition=adminSpinner.getSelectedItemPosition();
+      //  adminSpinner.setSelection(initialposition, false);
         //adminSpinner.setVisibility(View.INVISIBLE);
-        //adminSpinner.setEnabled(false);
-        int initialposition=adminSpinner.getSelectedItemPosition();
-        adminSpinner.setSelection(initialposition, false);
-        adminSpinner.setVisibility(View.VISIBLE);
-         adminSpinner.setEnabled(true);
+       // adminSpinner.setEnabled(false);
     }
 
 
@@ -189,6 +162,7 @@ public class NavbarFragmentView extends Fragment {
     }
 
     private void handleAddButtonClick() {
+        Log.d("test", "adding");
         loadFragment(new AddItemFragmentView(), false);
     }
 
@@ -259,9 +233,6 @@ public class NavbarFragmentView extends Fragment {
         String tag = backEntry.getName();
 
 
-            Log.d("testing", Integer.toString(index));
-
-
         if ("main".equals(backEntry.getName()) || index <= 1){
             buttonBack.setVisibility(View.INVISIBLE);
             buttonBack.setEnabled(false);
@@ -276,34 +247,20 @@ public class NavbarFragmentView extends Fragment {
         if(adminView){
             adminView = false;
 
-            buttonAdd.setVisibility(View.INVISIBLE);
-            buttonAdd.setEnabled(false);
+            adminSpinner.setVisibility(View.INVISIBLE);
+            adminSpinner.setEnabled(false);
 
-            buttonDelete.setVisibility(View.INVISIBLE);
-            buttonDelete.setEnabled(false);
-
-            buttonReport.setVisibility(View.INVISIBLE);
-            buttonReport.setEnabled(false);
-
-           // adminSpinner.setVisibility(View.INVISIBLE);
-           // adminSpinner.setEnabled(false);
+            operations.setVisibility(View.INVISIBLE);
 
             buttonAdmin.setImageResource(R.drawable.baseline_person_24);
 
         }else{
             adminView = true;
 
-            buttonAdd.setVisibility(View.VISIBLE);
-            buttonAdd.setEnabled(true);
+            adminSpinner.setVisibility(View.VISIBLE);
+            adminSpinner.setEnabled(true);
 
-            buttonDelete.setVisibility(View.VISIBLE);
-            buttonDelete.setEnabled(true);
-
-            buttonReport.setVisibility(View.VISIBLE);
-            buttonReport.setEnabled(true);
-
-          //  adminSpinner.setVisibility(View.VISIBLE);
-          //  adminSpinner.setEnabled(true);
+            operations.setVisibility(View.VISIBLE);
 
             buttonAdmin.setImageResource(R.drawable.baseline_exit_to_app_24);
         }
