@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NavbarFragment extends Fragment implements LoginListener{
+public class NavbarFragment extends Fragment {
 
     boolean adminView = true;
 
@@ -157,19 +157,21 @@ public class NavbarFragment extends Fragment implements LoginListener{
     private void handleAdminButtonClick() {
         if(adminView){
             toggleAdminNavbar();
+            Toast.makeText(getContext(), "Logged out", Toast.LENGTH_SHORT).show();
         }else{
-            loadFragment(LoginFragment.newInstance());
+            loadFragment(LoginFragmentView.newInstance());
 
         }
     }
 
-    @Override
+
     public void onLoginSuccess(){
         toggleAdminNavbar();
         loadFragment(new RecyclerViewStaticFragment());
     }
 
-    private void toggleAdminNavbar(){
+
+    public void toggleAdminNavbar(){
         if(adminView){
             adminView = false;
 
