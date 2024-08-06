@@ -51,7 +51,7 @@ public class SearchFragment extends Fragment {
         setupCheckBoxes();
 
         searchButton.setOnClickListener(v -> handleSearchButtonClick());
-        allItems = RecyclerViewStaticFragment.getItems();
+        allItems = DatabaseManager.getInstance().getItems();
 
         if (allItems != null) {
             Log.d("SearchFragment", "allItems: " + allItems.toString());
@@ -174,7 +174,7 @@ public class SearchFragment extends Fragment {
             Toast.makeText(getActivity(), "No items match the search criteria.", Toast.LENGTH_SHORT).show();
         } else {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            Fragment newFragment = ViewItemsFragment.newInstance(filteredItems);
+            Fragment newFragment = ViewItemsFragmentView.newInstance(filteredItems);
 
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, newFragment)

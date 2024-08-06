@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="64dp"
@@ -29,12 +29,13 @@
 
     <Spinner
         android:id="@+id/reportType"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:textAlignment="textEnd"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <TextView
@@ -50,13 +51,14 @@
 
     <Spinner
         android:id="@+id/detailSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:visibility="gone"
         android:textAlignment="textEnd"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/detailTextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detailTextView"
         app:layout_constraintTop_toTopOf="@+id/detailTextView" />
 
     <EditText
@@ -74,7 +76,7 @@
 
     <CheckBox
         android:id="@+id/descriptionAndPictureOnlyCheckBox"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"

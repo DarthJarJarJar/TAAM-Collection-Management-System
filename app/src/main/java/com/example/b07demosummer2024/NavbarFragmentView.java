@@ -17,9 +17,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Registry;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
-public class NavbarFragment extends Fragment implements LoginListener{
+public class NavbarFragmentView extends Fragment {
 
     boolean adminView = true;
 
@@ -125,19 +126,19 @@ public class NavbarFragment extends Fragment implements LoginListener{
     }
 
     private void handleHomeButtonClick(){
-        loadFragment(new RecyclerViewStaticFragment(), true);
+        loadFragment(new MainScreenView(), true);
     }
 
     private void handleAddButtonClick() {
-        loadFragment(new AddFragment(), false);
+        loadFragment(new AddItemFragmentView(), false);
     }
 
     private void handleReportButtonClick() {
-        loadFragment(new ReportFragment(), false);
+        loadFragment(new ReportFragmentView(), false);
     }
 
     private List<Item> addToViewItemList(){
-        List<Item> itemList = RecyclerViewStaticFragment.getItems();
+        List<Item> itemList = DatabaseManager.getInstance().getItems();
         List<Item> viewList = new ArrayList<>();
         for(int i = 0; i < itemList.size(); i++){
             Item curItem = itemList.get(i);
@@ -150,22 +151,22 @@ public class NavbarFragment extends Fragment implements LoginListener{
     }
 
     private void handleDeleteButtonClick() {
-        List<Item> toViewitemList = addToViewItemList();
+        List<Item> toDeleteItemList = NavbarFragmentPresenter.getSelectedItems();
 
-        if(toViewitemList.isEmpty()){
+        if(toDeleteItemList.isEmpty()){
             Toast.makeText(getContext(), "No items selected. Select Item First", Toast.LENGTH_SHORT).show();
         }else{
-            loadFragment(DeleteItemFragment.newInstance(toViewitemList), false);
+            loadFragment(DeleteItemFragment.newInstance(toDeleteItemList), false);
         }
     }
 
     private void handleViewButtonClick() {
-        List<Item> toViewitemList = addToViewItemList();
+        List<Item> toViewItemList = NavbarFragmentPresenter.getSelectedItems();
 
-        if(toViewitemList.isEmpty()){
+        if(toViewItemList.isEmpty()){
             Toast.makeText(getContext(), "No items selected. Select Item First", Toast.LENGTH_SHORT).show();
         }else{
-            loadFragment(ViewItemsFragment.newInstance(toViewitemList), false);
+            loadFragment(ViewItemsFragmentView.newInstance(toViewItemList), false);
         }
     }
 
@@ -178,16 +179,17 @@ public class NavbarFragment extends Fragment implements LoginListener{
     private void handleAdminButtonClick() {
         if(adminView){
             toggleAdminNavbar();
+            Toast.makeText(getContext(), "Logged out", Toast.LENGTH_SHORT).show();
         }else{
-            loadFragment(LoginFragment.newInstance(), false);
+            loadFragment(LoginFragmentView.newInstance(), false);
         }
         toggleBackButton();
     }
 
-    @Override
+
     public void onLoginSuccess(){
         toggleAdminNavbar();
-        loadFragment(new RecyclerViewStaticFragment(), true);
+        loadFragment(new MainScreenView(), true);
     }
 
     private void toggleBackButton(){
@@ -210,8 +212,8 @@ public class NavbarFragment extends Fragment implements LoginListener{
         }
     }
 
-    private void toggleAdminNavbar(){
 
+    public void toggleAdminNavbar(){
         if(adminView){
             adminView = false;
 

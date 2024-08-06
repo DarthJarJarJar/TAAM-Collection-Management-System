@@ -1,7 +1,6 @@
 package com.example.b07demosummer2024;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -24,12 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
 //        myRef.setValue("B07 Demo!");
         myRef.child("movies").setValue("B07 Demo!");
+        DatabaseManager manager = DatabaseManager.getInstance();
 
         if (savedInstanceState == null) {
-            loadFragment(new RecyclerViewStaticFragment(), true);
-
+            loadFragment(new MainScreenView(), true);
+            // fix
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.navbar_container, new NavbarFragment());
+            transaction.replace(R.id.navbar_container, new NavbarFragmentView());
             transaction.addToBackStack(null);
             transaction.commit();
         }
