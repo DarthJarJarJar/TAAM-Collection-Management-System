@@ -1,11 +1,14 @@
 package com.example.b07demosummer2024;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +33,8 @@ public class NavbarFragmentView extends Fragment {
     private ImageButton buttonAdd;
     private ImageButton buttonBack;
 
+    private Spinner adminSpinner;
+
 
     @Nullable
     @Override
@@ -46,6 +51,10 @@ public class NavbarFragmentView extends Fragment {
         buttonReport = view.findViewById(R.id.report_button);
         buttonDelete = view.findViewById(R.id.delete_button);
         buttonAdd = view.findViewById(R.id.add_button);
+
+        adminSpinner = view.findViewById(R.id.adminSpinner);
+
+        setupSpinner();
 
         buttonBack.setVisibility(View.INVISIBLE);
         buttonBack.setEnabled(false);
@@ -117,6 +126,23 @@ public class NavbarFragmentView extends Fragment {
 
         return view;
     }
+
+    private void setupSpinner(){
+        List<ImageButton> admin_buttons = new ArrayList<>();
+        admin_buttons.add(buttonAdd);
+        admin_buttons.add(buttonDelete);
+        admin_buttons.add(buttonReport);
+
+        ArrayAdapter<ImageButton> categoryAdapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_spinner_item,
+                admin_buttons
+        );
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adminSpinner.setAdapter(categoryAdapter);
+
+    }
+
 
     private void handleBackButtonClick() {
         if (buttonBack.isEnabled()) {
