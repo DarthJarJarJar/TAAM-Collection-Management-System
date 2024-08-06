@@ -35,8 +35,8 @@ public class SearchFragmentPresenter {
     }
 
     public void setupSpinners() {
-        List<String> categories = DatabaseManager.getInstance().getCategories();
-        List<String> periods = DatabaseManager.getInstance().getPeriods();
+        List<String> categories = model.getCategories();
+        List<String> periods = model.getPeriods();
 
         if (categories == null) {
             categories = new ArrayList<>();

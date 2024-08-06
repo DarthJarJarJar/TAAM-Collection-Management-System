@@ -18,6 +18,14 @@ public class SearchFragmentModel {
         return allItems;
     }
 
+    public List<String> getCategories(){
+        return DatabaseManager.getInstance().getCategories();
+    }
+
+    public List<String> getPeriods(){
+        return DatabaseManager.getInstance().getPeriods();
+    }
+
     public List<Item> filterItems(int lotNumber, String itemName, String category, String period, boolean checkCategory, boolean checkPeriod) {
         List<Item> filteredItems = new ArrayList<>();
         SearchModel();
