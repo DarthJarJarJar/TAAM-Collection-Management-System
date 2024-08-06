@@ -51,7 +51,7 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
     }
 
     void addItem(String itemLotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription) {
-        if (itemLotNumber.isEmpty() || itemName.isEmpty() || itemPeriod.isEmpty() || itemCategory.isEmpty() || chosenImageUri == null) {
+        if (itemLotNumber.isEmpty() || itemName.isEmpty() || itemPeriod.isEmpty() || itemCategory.isEmpty()) {
             view.showToast("Please fill out all the fields");
             return;
         }

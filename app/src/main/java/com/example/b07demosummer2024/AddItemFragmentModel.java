@@ -42,6 +42,45 @@ public class AddItemFragmentModel {
         return categoryList;
     }
 
+    private void add(Item item) {
+        itemsRef.child(String.valueOf(item.getId())).setValue(item).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                presenterInterface.clearForm();
+            } else {
+                presenterInterface.showToast("Failed to add item");
+            }
+        });
+
+        if (!manager.getCategories().contains(item.getCategory())) {
+            DatabaseReference categoriesRef = db.getReference("Categories");
+            String id = categoriesRef.push().getKey();
+
+            categoriesRef.child(id).setValue(item.getCategory()).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    presenterInterface.showToast("New category added");
+                } else {
+                    presenterInterface.showToast("Failed to add new category");
+                }
+            });
+
+        }
+
+        if (!manager.getPeriods().contains(item.getPeriod())) {
+            DatabaseReference periodsRef = db.getReference("Periods");
+            String id = periodsRef.push().getKey();
+
+            periodsRef.child(id).setValue(item.getPeriod()).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    presenterInterface.showToast("New period added");
+                } else {
+                    presenterInterface.showToast("Failed to add period");
+                }
+            });
+
+        }
+        presenterInterface.clearProgressBar();
+    }
+
     void addItemToDb(int lotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription, Uri chosenImageUri) {
 
         itemsRef = db.getReference("Lot Number");
@@ -53,6 +92,12 @@ public class AddItemFragmentModel {
                 if (snapshot.exists()) {
                     presenterInterface.showToast("Lot number already exists");
                     presenterInterface.showProgressBar();
+                    return;
+                }
+
+                if (chosenImageUri == null) {
+                    String defaultImageUrl = "https://firebasestorage.googleapis.com/v0/b/cscb07final.appspot.com/o/images%2Fplaceholder.jpg?alt=media&token=b2ffde6a-ccfd-44a3-b636-46156b2559da";
+                    add(new Item(lotNumber, itemName,  itemCategory, itemPeriod, itemDescription, defaultImageUrl));
                     return;
                 }
 
@@ -75,44 +120,45 @@ public class AddItemFragmentModel {
                             public void onSuccess(Uri downloadUri) {
                                 String  uploadedImageUri = downloadUri.toString();
                                 Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri);
-
-
-                                itemsRef.child(String.valueOf(lotNumber)).setValue(item).addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        presenterInterface.clearForm();
-                                    } else {
-                                        presenterInterface.showToast("Failed to add item");
-                                    }
-                                });
-
-                                if (!manager.getCategories().contains(itemCategory)) {
-                                    DatabaseReference categoriesRef = db.getReference("Categories");
-                                    String id = categoriesRef.push().getKey();
-
-                                    categoriesRef.child(id).setValue(itemCategory).addOnCompleteListener(task -> {
-                                        if (task.isSuccessful()) {
-                                            presenterInterface.showToast("New category added");
-                                        } else {
-                                            presenterInterface.showToast("Failed to add new category");
-                                        }
-                                    });
-
-                                }
-
-                                if (!manager.getPeriods().contains(itemPeriod)) {
-                                    DatabaseReference periodsRef = db.getReference("Periods");
-                                    String id = periodsRef.push().getKey();
-
-                                    periodsRef.child(id).setValue(itemPeriod).addOnCompleteListener(task -> {
-                                        if (task.isSuccessful()) {
-                                            presenterInterface.showToast("New period added");
-                                        } else {
-                                            presenterInterface.showToast("Failed to add period");
-                                        }
-                                    });
-
-                                }
-                                presenterInterface.clearProgressBar();
+                                add(item);
+//
+//
+//                                itemsRef.child(String.valueOf(lotNumber)).setValue(item).addOnCompleteListener(task -> {
+//                                    if (task.isSuccessful()) {
+//                                        presenterInterface.clearForm();
+//                                    } else {
+//                                        presenterInterface.showToast("Failed to add item");
+//                                    }
+//                                });
+//
+//                                if (!manager.getCategories().contains(itemCategory)) {
+//                                    DatabaseReference categoriesRef = db.getReference("Categories");
+//                                    String id = categoriesRef.push().getKey();
+//
+//                                    categoriesRef.child(id).setValue(itemCategory).addOnCompleteListener(task -> {
+//                                        if (task.isSuccessful()) {
+//                                            presenterInterface.showToast("New category added");
+//                                        } else {
+//                                            presenterInterface.showToast("Failed to add new category");
+//                                        }
+//                                    });
+//
+//                                }
+//
+//                                if (!manager.getPeriods().contains(itemPeriod)) {
+//                                    DatabaseReference periodsRef = db.getReference("Periods");
+//                                    String id = periodsRef.push().getKey();
+//
+//                                    periodsRef.child(id).setValue(itemPeriod).addOnCompleteListener(task -> {
+//                                        if (task.isSuccessful()) {
+//                                            presenterInterface.showToast("New period added");
+//                                        } else {
+//                                            presenterInterface.showToast("Failed to add period");
+//                                        }
+//                                    });
+//
+//                                }
+//                                presenterInterface.clearProgressBar();
                             }
                         });
                     }

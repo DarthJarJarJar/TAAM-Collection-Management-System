@@ -49,8 +49,6 @@ final class DatabaseManager {
                     Item item = snapshot.getValue(Item.class);
                     itemList.add(item);
                 }
-//                maxPages = (itemList.size() + 9) / 10;
-//                updatePage();
             }
 
             @Override
