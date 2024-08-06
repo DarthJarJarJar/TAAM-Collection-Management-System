@@ -97,7 +97,7 @@ public class NavbarFragment extends Fragment implements LoginListener{
     }
 
     private void handleHomeButtonClick(){
-        loadFragment(new RecyclerViewStaticFragment());
+                loadFragment(new MainScreenView());
     }
     
     private void handleAddButtonClick() {

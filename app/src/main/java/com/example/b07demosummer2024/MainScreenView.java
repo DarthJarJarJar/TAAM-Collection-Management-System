@@ -31,14 +31,14 @@ public class MainScreenView extends Fragment {
     private TextView pageNoInfo;
     private ItemAdapter itemAdapter;
     private MainScreenPresenter presenter;
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
         presenter = new MainScreenPresenter(this, new MainScreenModel());
-
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         buttonBack = view.findViewById(R.id.buttonBack);
         buttonNext = view.findViewById(R.id.buttonNext);
         pageNoInfo = view.findViewById(R.id.textView2);
@@ -60,26 +60,18 @@ public class MainScreenView extends Fragment {
         return view;
     }
 
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        presenter.loadItems();
-//    }
-
-//    void setButtonNextEnableState(boolean condition) {
-//        buttonBack.setEnabled(condition);
-//    }
-//
-//    void setButtonBackEnableState(boolean condition) {
-//        buttonNext.setEnabled(condition);
-//    }
-
     void updateRecyclerList(List<Item> updatedList) {
         itemAdapter.updateList(updatedList);
     }
 
     void updatePageInfo(String pageInfo) {
         pageNoInfo.setText(pageInfo);
+    }
+
+    void scrollToTop() {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        if (layoutManager != null)
+            layoutManager.scrollToPositionWithOffset(0, 0);
     }
 
     @Override
