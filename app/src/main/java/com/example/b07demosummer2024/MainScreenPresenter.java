@@ -9,19 +9,18 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
     MainScreenView view;
     MainScreenModel model;
 
-    int pageNumber;
+    private static int pageNumber = 1;
     int maxPages;
 
     public MainScreenPresenter(MainScreenView view, MainScreenModel model) {
         this.view = view;
         this.model = model;
         this.model.setPresenterInterface(this);
-        this.pageNumber = 1;
+
     }
 
     @Override
     public void update(int maxPages) {
-        model.loadItemsFromDb();
         setMaxPages(maxPages);
         updatePage();
     }
@@ -49,11 +48,6 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         }
     }
 
-//    void ensureButtonBounds() {
-//        view.setButtonBackEnableState(pageNumber > 1);
-//        view.setButtonNextEnableState(pageNumber < maxPages);
-//    }
-
     void paginateList() {
         List<Item> pagedList = new ArrayList<>();
         int start = (pageNumber - 1) * 10;
@@ -64,6 +58,7 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         }
 
         view.updateRecyclerList(pagedList);
+        view.scrollToTop();
     }
 
     public void updatePage() {
@@ -72,8 +67,11 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         paginateList();
     }
 
+
     public void setMaxPages(int maxPages) {
         this.maxPages = maxPages;
+        if (maxPages < pageNumber)
+            pageNumber = maxPages;
     }
 
     String makePageString() {

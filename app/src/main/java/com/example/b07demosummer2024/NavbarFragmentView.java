@@ -98,7 +98,7 @@ public class NavbarFragmentView extends Fragment {
     }
 
     private void handleHomeButtonClick(){
-        loadFragment(new RecyclerViewStaticFragment());
+                loadFragment(new MainScreenView());
     }
     
     private void handleAddButtonClick() {

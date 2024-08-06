@@ -51,7 +51,7 @@ public class SearchFragment extends Fragment {
         setupCheckBoxes();
 
         searchButton.setOnClickListener(v -> handleSearchButtonClick());
-        allItems = RecyclerViewStaticFragment.getItems();
+        allItems = DatabaseManager.getInstance().getItems();
 
         if (allItems != null) {
             Log.d("SearchFragment", "allItems: " + allItems.toString());
