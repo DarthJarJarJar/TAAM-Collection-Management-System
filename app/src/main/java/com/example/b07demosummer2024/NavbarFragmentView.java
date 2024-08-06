@@ -12,10 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class NavbarFragment extends Fragment {
+public class NavbarFragmentView extends Fragment {
 
     boolean adminView = true;
 
@@ -108,50 +107,30 @@ public class NavbarFragment extends Fragment {
         loadFragment(new ReportFragmentView());
     }
 
-    private List<Item> addToViewItemList(){
-        List<Item> itemList = RecyclerViewStaticFragment.getItems();
-        List<Item> viewList = new ArrayList<>();
-        for(int i = 0; i < itemList.size(); i++){
-            Item curItem = itemList.get(i);
-            if(curItem.isChecked()){
-                viewList.add(curItem);
-            }
-        }
-
-        return viewList;
-    }
 
     private void handleDeleteButtonClick() {
-        List<Item> toViewitemList = addToViewItemList();
+        List<Item> toDeleteItemList = NavbarFragmentPresenter.getSelectedItems();
 
-        if(toViewitemList.isEmpty()){
+        if(toDeleteItemList.isEmpty()){
             Toast.makeText(getContext(), "No items selected. Select Item First", Toast.LENGTH_SHORT).show();
         }else{
-            loadFragment(DeleteItemFragment.newInstance(toViewitemList));
+            loadFragment(DeleteItemFragment.newInstance(toDeleteItemList));
         }
     }
 
     private void handleViewButtonClick() {
-        List<Item> toViewitemList = addToViewItemList();
+        List<Item> toViewItemList = NavbarFragmentPresenter.getSelectedItems();
 
-        if(toViewitemList.isEmpty()){
+        if(toViewItemList.isEmpty()){
             Toast.makeText(getContext(), "No items selected. Select Item First", Toast.LENGTH_SHORT).show();
         }else{
-            loadFragment(ViewItemsFragment.newInstance(toViewitemList));
+            loadFragment(ViewItemsFragmentView.newInstance(toViewItemList));
         }
     }
 
 
     private void handleSearchButtonClick() {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            Fragment searchFragment = new SearchFragment();
-
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, searchFragment)
-                    .addToBackStack(null)
-                    .commit();
-
+        loadFragment(new SearchFragment());
     }
 
     private void handleAdminButtonClick() {
@@ -160,7 +139,6 @@ public class NavbarFragment extends Fragment {
             Toast.makeText(getContext(), "Logged out", Toast.LENGTH_SHORT).show();
         }else{
             loadFragment(LoginFragmentView.newInstance());
-
         }
     }
 

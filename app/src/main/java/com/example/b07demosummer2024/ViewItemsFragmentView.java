@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,16 +11,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ViewItemsFragment extends Fragment {
+public class ViewItemsFragmentView extends Fragment {
 
     private List<Item> itemList;
     private ItemAdapter itemAdapter;
 
-    public static ViewItemsFragment newInstance(List<Item> itemList) {
-        ViewItemsFragment fragment = new ViewItemsFragment();
+    public static ViewItemsFragmentView newInstance(List<Item> itemList) {
+        ViewItemsFragmentView fragment = new ViewItemsFragmentView();
         fragment.itemList = itemList;
         return fragment;
     }
