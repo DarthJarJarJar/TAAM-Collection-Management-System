@@ -130,7 +130,7 @@ public class NavbarFragmentView extends Fragment {
 
 
     private void handleSearchButtonClick() {
-        loadFragment(new SearchFragment());
+        loadFragment(new SearchFragmentView());
     }
 
     private void handleAdminButtonClick() {

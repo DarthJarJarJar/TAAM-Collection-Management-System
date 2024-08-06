@@ -38,4 +38,5 @@ public class ViewItemsFragmentView extends Fragment {
 
         return view;
     }
+
 }
