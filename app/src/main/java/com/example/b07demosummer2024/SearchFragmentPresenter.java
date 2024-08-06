@@ -31,12 +31,12 @@ public class SearchFragmentPresenter {
     }
 
     public List<Item> getAllItems() {
-        return RecyclerViewStaticFragment.getItems();
+        return model.getItems();
     }
 
     public void setupSpinners() {
-        List<String> categories = RecyclerViewStaticFragment.getCategories();
-        List<String> periods = RecyclerViewStaticFragment.getPeriods();
+        List<String> categories = DatabaseManager.getInstance().getCategories();
+        List<String> periods = DatabaseManager.getInstance().getPeriods();
 
         if (categories == null) {
             categories = new ArrayList<>();

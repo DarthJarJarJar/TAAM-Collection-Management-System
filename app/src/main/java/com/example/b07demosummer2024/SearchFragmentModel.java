@@ -10,12 +10,17 @@ public class SearchFragmentModel {
 
     private List<Item> allItems;
 
-    public void SearchModel() {
-        allItems = RecyclerViewStaticFragment.getItems();
+    private void SearchModel() {
+        allItems = DatabaseManager.getInstance().getItems();
+    }
+
+    public List<Item> getItems(){
+        return allItems;
     }
 
     public List<Item> filterItems(int lotNumber, String itemName, String category, String period, boolean checkCategory, boolean checkPeriod) {
         List<Item> filteredItems = new ArrayList<>();
+        SearchModel();
         if (allItems == null) {
             Log.e("SearchModel", "allItems is null in filterItems");
             return filteredItems;
