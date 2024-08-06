@@ -18,12 +18,18 @@ final class DatabaseManager {
     private final List<String> categoryList;
     private final List<String> periodList;
 
+    private MainScreenPresenterInterface mainScreenPresenterInterface;
+
     private DatabaseManager() {
         this.db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
         itemList = new ArrayList<>();
         categoryList = new ArrayList<>();
         periodList = new ArrayList<>();
         loadData();
+    }
+
+    public void setMainScreenPresenterInterface(MainScreenPresenterInterface mainScreenPresenterInterface) {
+        this.mainScreenPresenterInterface = mainScreenPresenterInterface;
     }
 
     public static DatabaseManager getInstance() {
@@ -39,7 +45,7 @@ final class DatabaseManager {
         loadPeriods();
     }
 
-    private void loadItems() {
+     void loadItems() {
         DatabaseReference itemsRef = db.getReference("Lot Number");
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -49,6 +55,9 @@ final class DatabaseManager {
                     Item item = snapshot.getValue(Item.class);
                     itemList.add(item);
                 }
+                if (mainScreenPresenterInterface != null)
+                    mainScreenPresenterInterface.update((itemList.size() + 9) / 10);
+
             }
 
             @Override

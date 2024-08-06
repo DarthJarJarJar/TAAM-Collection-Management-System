@@ -99,5 +99,13 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
         );
     }
 
+    List<String> getCategories() {
+        return model.getCategoryList();
+    }
+
+    List<String> getPeriods() {
+        return model.getPeriodList();
+    }
+
 
 }

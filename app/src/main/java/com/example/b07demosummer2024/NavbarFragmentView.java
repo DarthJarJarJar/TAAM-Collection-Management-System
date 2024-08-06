@@ -107,6 +107,18 @@ public class NavbarFragmentView extends Fragment {
         loadFragment(new ReportFragmentView());
     }
 
+    private List<Item> addToViewItemList(){
+        List<Item> itemList = DatabaseManager.getInstance().getItems();
+        List<Item> viewList = new ArrayList<>();
+        for(int i = 0; i < itemList.size(); i++){
+            Item curItem = itemList.get(i);
+            if(curItem.isChecked()){
+                viewList.add(curItem);
+            }
+        }
+
+        return viewList;
+    }
 
     private void handleDeleteButtonClick() {
         List<Item> toDeleteItemList = NavbarFragmentPresenter.getSelectedItems();

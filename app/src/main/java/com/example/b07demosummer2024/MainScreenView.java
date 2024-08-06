@@ -52,13 +52,19 @@ public class MainScreenView extends Fragment {
         });
 
         buttonNext.setOnClickListener(v -> {
-            Log.d("Btn", "next pressed");
             presenter.handlePageUp();
         });
 
+        presenter.loadItems();
 
         return view;
     }
+
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//        presenter.loadItems();
+//    }
 
 //    void setButtonNextEnableState(boolean condition) {
 //        buttonBack.setEnabled(condition);
@@ -74,5 +80,11 @@ public class MainScreenView extends Fragment {
 
     void updatePageInfo(String pageInfo) {
         pageNoInfo.setText(pageInfo);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.loadItems();
     }
 }

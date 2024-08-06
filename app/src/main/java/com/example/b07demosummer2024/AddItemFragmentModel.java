@@ -91,7 +91,7 @@ public class AddItemFragmentModel {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     presenterInterface.showToast("Lot number already exists");
-                    presenterInterface.showProgressBar();
+                    presenterInterface.clearProgressBar();
                     return;
                 }
 

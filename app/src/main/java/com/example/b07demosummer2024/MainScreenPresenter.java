@@ -19,20 +19,25 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         this.pageNumber = 1;
     }
 
-    public void initialize() {
-        update(model.getItemList().size() / 10 + 1);
-    }
-
     @Override
     public void update(int maxPages) {
+        model.loadItemsFromDb();
         setMaxPages(maxPages);
         updatePage();
+    }
+
+    void loadItems() {
+        if (model.areItemsLoaded()) {
+            update((model.getItemList().size() + 9) / 10);
+            updatePage();
+        } else {
+            model.loadItemsFromDb();
+        }
     }
 
     void handlePageUp() {
         if (pageNumber < maxPages) {
             pageNumber++;
-            Log.d("pn", "Page number = " + String.valueOf(pageNumber));
             updatePage();
         }
     }
@@ -50,8 +55,6 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
 //    }
 
     void paginateList() {
-        Log.d("paginate", "called");
-        Log.wtf("Wtf", "Wtf");
         List<Item> pagedList = new ArrayList<>();
         int start = (pageNumber - 1) * 10;
         int end = Math.min(start + 10, model.getItemList().size());
@@ -67,8 +70,6 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         String pageInfo = makePageString();
         view.updatePageInfo(pageInfo);
         paginateList();
-//        ensureButtonBounds();
-//        view.updatePage();
     }
 
     public void setMaxPages(int maxPages) {

@@ -69,11 +69,11 @@ public class AddItemFragmentView extends Fragment {
         Button uploadImageButton = view.findViewById(R.id.imageUploadButton);
 
 
-        ArrayAdapter<String> categoryAutoCompleteAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, RecyclerViewStaticFragment.getCategories());
+        ArrayAdapter<String> categoryAutoCompleteAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, presenter.getCategories());
         categoryAutoCompleteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         autoCompleteCategory.setAdapter(categoryAutoCompleteAdapter);
 
-        ArrayAdapter<String> periodAutoCompleteAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, RecyclerViewStaticFragment.getPeriods());
+        ArrayAdapter<String> periodAutoCompleteAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, presenter.getPeriods());
         periodAutoCompleteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         autoCompletePeriod.setAdapter(periodAutoCompleteAdapter);
 

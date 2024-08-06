@@ -12,48 +12,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainScreenModel {
-//    DatabaseManager manager;
+    DatabaseManager manager;
     List<Item> itemList;
-    final private FirebaseDatabase db;
     MainScreenPresenterInterface mainScreenPresenterInterface;
-    private int maxPages;
 
     public MainScreenModel() {
         itemList = new ArrayList<>();
-//        manager = DatabaseManager.getInstance();
-        this.db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
-        loadStaticItems();
+        manager = DatabaseManager.getInstance();
+        itemList = manager.getItems();
 
-//        manager.setMainScreenPresenterInterface(maxPages -> mainScreenPresenterInterface.update(maxPages));
-//        itemList = manager.getItems();
     }
 
     List<Item> getItemList() {
-        return itemList;
+        return manager.getItems();
     }
 
-    private void loadStaticItems() {
-        DatabaseReference itemsRef = db.getReference("Lot Number");
-        itemsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                itemList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Item item = snapshot.getValue(Item.class);
-                    itemList.add(item);
-                }
-                maxPages = (itemList.size() + 9) / 10;
-                mainScreenPresenterInterface.update(maxPages);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle possible errors
-            }
-        });
+    void loadItemsFromDb() {
+        this.itemList = manager.getItems();
     }
 
     public void setPresenterInterface(MainScreenPresenterInterface mainScreenPresenterInterface) {
         this.mainScreenPresenterInterface = mainScreenPresenterInterface;
+        manager.setMainScreenPresenterInterface(mainScreenPresenterInterface);
+    }
+
+    public boolean areItemsLoaded() {
+        return !itemList.isEmpty();
     }
 }
