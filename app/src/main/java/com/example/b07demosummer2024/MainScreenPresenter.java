@@ -38,6 +38,7 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         if (pageNumber < maxPages) {
             pageNumber++;
             updatePage();
+            view.scrollToTop();
         }
     }
 
@@ -45,6 +46,7 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         if (pageNumber > 1) {
             pageNumber--;
             updatePage();
+            view.scrollToTop();
         }
     }
 
@@ -58,7 +60,6 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         }
 
         view.updateRecyclerList(pagedList);
-        view.scrollToTop();
     }
 
     public void updatePage() {
