@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.bumptech.glide.Registry;
-
 import java.util.ArrayList;
 
 import java.util.List;
@@ -172,7 +170,7 @@ public class NavbarFragmentView extends Fragment {
 
 
     private void handleSearchButtonClick() {
-           loadFragment(new SearchFragment(), false);
+           loadFragment(new SearchFragmentView(), false);
 
     }
 
