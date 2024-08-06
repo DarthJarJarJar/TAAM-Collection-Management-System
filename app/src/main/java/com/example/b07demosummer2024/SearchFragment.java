@@ -174,7 +174,7 @@ public class SearchFragment extends Fragment {
             Toast.makeText(getActivity(), "No items match the search criteria.", Toast.LENGTH_SHORT).show();
         } else {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            Fragment newFragment = ViewItemsFragment.newInstance(filteredItems);
+            Fragment newFragment = ViewItemsFragmentView.newInstance(filteredItems);
 
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, newFragment)
