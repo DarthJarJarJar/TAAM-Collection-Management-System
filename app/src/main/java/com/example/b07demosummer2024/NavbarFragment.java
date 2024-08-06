@@ -109,7 +109,7 @@ public class NavbarFragment extends Fragment implements LoginListener{
     }
 
     private List<Item> addToViewItemList(){
-        List<Item> itemList = RecyclerViewStaticFragment.getItems();
+        List<Item> itemList = DatabaseManager.getInstance().getItems();
         List<Item> viewList = new ArrayList<>();
         for(int i = 0; i < itemList.size(); i++){
             Item curItem = itemList.get(i);

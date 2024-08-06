@@ -45,7 +45,7 @@ final class DatabaseManager {
         loadPeriods();
     }
 
-    private void loadItems() {
+     void loadItems() {
         DatabaseReference itemsRef = db.getReference("Lot Number");
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -57,6 +57,7 @@ final class DatabaseManager {
                 }
                 if (mainScreenPresenterInterface != null)
                     mainScreenPresenterInterface.update((itemList.size() + 9) / 10);
+
             }
 
             @Override
