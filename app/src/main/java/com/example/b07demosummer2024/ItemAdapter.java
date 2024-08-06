@@ -79,7 +79,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             Fragment newFragment = new ItemDetails(item);
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack("a");
+            transaction.addToBackStack(null);
             transaction.commit();
         });
         holder.textViewTitle.setText(item.getTitle());

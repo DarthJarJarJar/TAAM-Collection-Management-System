@@ -24,36 +24,41 @@ public class HomeFragment extends Fragment {
         buttonRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new RecyclerViewStaticFragment());
+                loadFragment(new RecyclerViewStaticFragment(), true);
             }
         });
 
         buttonScroller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new ReportFragment());
+                loadFragment(new ReportFragment(), false);
             }
         });
 
         buttonSpinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new AddFragment());
+                loadFragment(new AddFragment(), false);
             }
         });
 
         buttonManageItems.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { loadFragment(new ManageItemsFragment());}
+            public void onClick(View v) { loadFragment(new ManageItemsFragment(), false);}
         });
 
         return view;
     }
 
-    private void loadFragment(Fragment fragment) {
+    private void loadFragment(Fragment fragment, boolean is_main) {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
+
+        if (is_main) {
+            transaction.addToBackStack("main");
+        } else {
+            transaction.addToBackStack(null);
+        }
         transaction.commit();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.b07demosummer2024;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.bumptech.glide.Registry;
 
 import java.util.ArrayList;
 
@@ -24,6 +28,7 @@ public class NavbarFragmentView extends Fragment {
     private ImageButton buttonReport;
     private ImageButton buttonDelete;
     private ImageButton buttonAdd;
+    private ImageButton buttonBack;
 
 
     @Nullable
@@ -35,11 +40,15 @@ public class NavbarFragmentView extends Fragment {
         ImageButton buttonView = view.findViewById(R.id.view_button);
         ImageButton buttonSearch = view.findViewById(R.id.search_button);
 
+        buttonBack = view.findViewById(R.id.back_button);
+
         buttonAdmin = view.findViewById(R.id.admin_button);
         buttonReport = view.findViewById(R.id.report_button);
         buttonDelete = view.findViewById(R.id.delete_button);
         buttonAdd = view.findViewById(R.id.add_button);
 
+        buttonBack.setVisibility(View.INVISIBLE);
+        buttonBack.setEnabled(false);
         toggleAdminNavbar();
 
         buttonHome.setOnClickListener(new View.OnClickListener() {
@@ -58,8 +67,12 @@ public class NavbarFragmentView extends Fragment {
 
         });
 
-        buttonSearch.setOnClickListener(v -> {
-            handleSearchButtonClick();
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleSearchButtonClick();
+            }
+
         });
 
         buttonAdmin.setOnClickListener(new View.OnClickListener() {
@@ -94,19 +107,34 @@ public class NavbarFragmentView extends Fragment {
             }
         });
 
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //toggleBackButton();
+                handleBackButtonClick();
+            }
+        });
+
         return view;
     }
 
-    private void handleHomeButtonClick(){
-                loadFragment(new MainScreenView());
+    private void handleBackButtonClick() {
+        if (buttonBack.isEnabled()) {
+            getParentFragmentManager().popBackStackImmediate();
+            toggleBackButton();
+        }
     }
-    
+
+    private void handleHomeButtonClick(){
+        loadFragment(new MainScreenView(), true);
+    }
+
     private void handleAddButtonClick() {
-        loadFragment(new AddItemFragmentView());
+        loadFragment(new AddItemFragmentView(), false);
     }
 
     private void handleReportButtonClick() {
-        loadFragment(new ReportFragmentView());
+        loadFragment(new ReportFragmentView(), false);
     }
 
     private List<Item> addToViewItemList(){
@@ -128,7 +156,7 @@ public class NavbarFragmentView extends Fragment {
         if(toDeleteItemList.isEmpty()){
             Toast.makeText(getContext(), "No items selected. Select Item First", Toast.LENGTH_SHORT).show();
         }else{
-            loadFragment(DeleteItemFragment.newInstance(toDeleteItemList));
+            loadFragment(DeleteItemFragment.newInstance(toDeleteItemList), false);
         }
     }
 
@@ -138,13 +166,14 @@ public class NavbarFragmentView extends Fragment {
         if(toViewItemList.isEmpty()){
             Toast.makeText(getContext(), "No items selected. Select Item First", Toast.LENGTH_SHORT).show();
         }else{
-            loadFragment(ViewItemsFragmentView.newInstance(toViewItemList));
+            loadFragment(ViewItemsFragmentView.newInstance(toViewItemList), false);
         }
     }
 
 
     private void handleSearchButtonClick() {
-        loadFragment(new SearchFragment());
+           loadFragment(new SearchFragment(), false);
+
     }
 
     private void handleAdminButtonClick() {
@@ -152,14 +181,35 @@ public class NavbarFragmentView extends Fragment {
             toggleAdminNavbar();
             Toast.makeText(getContext(), "Logged out", Toast.LENGTH_SHORT).show();
         }else{
-            loadFragment(LoginFragmentView.newInstance());
+            loadFragment(LoginFragmentView.newInstance(), false);
         }
+        toggleBackButton();
     }
 
 
     public void onLoginSuccess(){
         toggleAdminNavbar();
-        loadFragment(new RecyclerViewStaticFragment());
+        loadFragment(new MainScreenView(), true);
+    }
+
+    private void toggleBackButton(){
+
+        int index = getParentFragmentManager().getBackStackEntryCount() - 1;
+
+        FragmentManager.BackStackEntry backEntry = getParentFragmentManager().getBackStackEntryAt(index);
+        String tag = backEntry.getName();
+
+
+            Log.d("testing", Integer.toString(index));
+
+
+        if ("main".equals(backEntry.getName()) || index <= 1){
+            buttonBack.setVisibility(View.INVISIBLE);
+            buttonBack.setEnabled(false);
+        } else {
+            buttonBack.setVisibility(View.VISIBLE);
+            buttonBack.setEnabled(true);
+        }
     }
 
 
@@ -194,12 +244,19 @@ public class NavbarFragmentView extends Fragment {
         }
     }
 
-    private void loadFragment(Fragment fragment){
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+    private void loadFragment(Fragment fragment, boolean is_main){
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        if (is_main){
+            transaction.addToBackStack("main");
+        } else {
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
+        getParentFragmentManager().executePendingTransactions();
+        toggleBackButton();
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
+
     }
 }

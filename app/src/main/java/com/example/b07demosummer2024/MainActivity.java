@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseManager manager = DatabaseManager.getInstance();
 
         if (savedInstanceState == null) {
-            loadFragment(new MainScreenView());
+            loadFragment(new MainScreenView(), true);
             // fix
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.navbar_container, new NavbarFragmentView());
@@ -35,10 +35,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void loadFragment(Fragment fragment) {
+    private void loadFragment(Fragment fragment, boolean is_main) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
+        if (is_main){
+            transaction.addToBackStack("main");
+        } else {
+            transaction.addToBackStack(null);
+        }
         transaction.commit();
     }
 
