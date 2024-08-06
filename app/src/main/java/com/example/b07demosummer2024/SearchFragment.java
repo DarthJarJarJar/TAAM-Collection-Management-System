@@ -64,8 +64,8 @@ public class SearchFragment extends Fragment {
 
     private void setupSpinners() {
 
-        List<String> categories = RecyclerViewStaticFragment.getCategories();
-        List<String> periods = RecyclerViewStaticFragment.getPeriods();
+        List<String> categories = DatabaseManager.getInstance().getCategories();
+        List<String> periods = DatabaseManager.getInstance().getPeriods();
 
 
         if (categories == null) {
