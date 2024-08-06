@@ -19,14 +19,14 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         this.pageNumber = 1;
     }
 
-    public void initialize() {
-        update(model.getItemList().size() / 10 + 1);
-    }
-
     @Override
     public void update(int maxPages) {
         setMaxPages(maxPages);
         updatePage();
+    }
+
+    void loadItems() {
+        model.loadItemsFromDb();
     }
 
     void handlePageUp() {

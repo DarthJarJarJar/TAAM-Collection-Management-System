@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainScreenModel {
-//    DatabaseManager manager;
+    DatabaseManager manager;
     List<Item> itemList;
     final private FirebaseDatabase db;
     MainScreenPresenterInterface mainScreenPresenterInterface;
@@ -20,16 +20,21 @@ public class MainScreenModel {
 
     public MainScreenModel() {
         itemList = new ArrayList<>();
-//        manager = DatabaseManager.getInstance();
+        manager = DatabaseManager.getInstance();
+        itemList = manager.getItems();
         this.db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
-        loadStaticItems();
+//        loadStaticItems();
 
 //        manager.setMainScreenPresenterInterface(maxPages -> mainScreenPresenterInterface.update(maxPages));
 //        itemList = manager.getItems();
     }
 
     List<Item> getItemList() {
-        return itemList;
+        return manager.getItems();
+    }
+
+    void loadItemsFromDb() {
+        this.itemList = manager.getItems();
     }
 
     private void loadStaticItems() {
@@ -55,5 +60,6 @@ public class MainScreenModel {
 
     public void setPresenterInterface(MainScreenPresenterInterface mainScreenPresenterInterface) {
         this.mainScreenPresenterInterface = mainScreenPresenterInterface;
+        manager.setMainScreenPresenterInterface(mainScreenPresenterInterface);
     }
 }

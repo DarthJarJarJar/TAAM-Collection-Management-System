@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        myRef.setValue("B07 Demo!");
         myRef.child("movies").setValue("B07 Demo!");
+        DatabaseManager manager = DatabaseManager.getInstance();
 
         if (savedInstanceState == null) {
             loadFragment(new MainScreenView());

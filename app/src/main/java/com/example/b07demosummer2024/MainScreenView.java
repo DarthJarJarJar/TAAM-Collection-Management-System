@@ -56,6 +56,7 @@ public class MainScreenView extends Fragment {
             presenter.handlePageUp();
         });
 
+        presenter.loadItems();
 
         return view;
     }
