@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -18,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Registry;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.util.ArrayList;
 
@@ -124,6 +126,31 @@ public class NavbarFragmentView extends Fragment {
             }
         });
 
+        adminSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+              //  ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
+               // ((TextView) parent.getChildAt(0)).setTextSize(5);
+
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                if(selectedItem.equals("Add"))
+                {
+                    handleAddButtonClick();
+                }
+                else if (selectedItem.equals("Delete")){
+                    handleDeleteButtonClick();
+                }
+                else if (selectedItem.equals("Report")){
+                    handleReportButtonClick();
+                }
+            }
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
+
         return view;
     }
 
@@ -133,13 +160,18 @@ public class NavbarFragmentView extends Fragment {
         admin_buttons.add(buttonDelete);
         admin_buttons.add(buttonReport);
 
-        ArrayAdapter<ImageButton> categoryAdapter = new ArrayAdapter<>(
+        final String[] items = new String[]{"Delete","Add","Report"};
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
                 getContext(),
                 android.R.layout.simple_spinner_item,
-                admin_buttons
+                items
         );
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categoryAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item_2);
         adminSpinner.setAdapter(categoryAdapter);
+        adminSpinner.setVisibility(View.INVISIBLE);
+        adminSpinner.setEnabled(false);
+        int initialposition=adminSpinner.getSelectedItemPosition();
+        adminSpinner.setSelection(initialposition, false);
 
     }
 
@@ -252,6 +284,9 @@ public class NavbarFragmentView extends Fragment {
             buttonReport.setVisibility(View.INVISIBLE);
             buttonReport.setEnabled(false);
 
+            adminSpinner.setVisibility(View.INVISIBLE);
+            adminSpinner.setEnabled(false);
+
             buttonAdmin.setImageResource(R.drawable.baseline_person_24);
 
         }else{
@@ -265,6 +300,9 @@ public class NavbarFragmentView extends Fragment {
 
             buttonReport.setVisibility(View.VISIBLE);
             buttonReport.setEnabled(true);
+
+            adminSpinner.setVisibility(View.VISIBLE);
+            adminSpinner.setEnabled(true);
 
             buttonAdmin.setImageResource(R.drawable.baseline_exit_to_app_24);
         }
@@ -280,7 +318,7 @@ public class NavbarFragmentView extends Fragment {
             transaction.addToBackStack(null);
         }
         transaction.commit();
-        getParentFragmentManager().executePendingTransactions();
+       // getParentFragmentManager().executePendingTransactions();
         toggleBackButton();
 
 
