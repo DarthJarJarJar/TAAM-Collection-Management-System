@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             loadFragment(new MainScreenView());
             // fix
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.navbar_container, new NavbarFragment());
+            transaction.replace(R.id.navbar_container, new NavbarFragmentView());
             transaction.addToBackStack(null);
             transaction.commit();
         }

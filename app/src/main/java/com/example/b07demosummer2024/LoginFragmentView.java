@@ -54,7 +54,7 @@ public class LoginFragmentView extends Fragment {
 
     public void showLoginSuccess() {
         Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
-        NavbarFragment navbar = (NavbarFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.navbar_container);
+        NavbarFragmentView navbar = (NavbarFragmentView) getActivity().getSupportFragmentManager().findFragmentById(R.id.navbar_container);
         navbar.onLoginSuccess();
     }
 
