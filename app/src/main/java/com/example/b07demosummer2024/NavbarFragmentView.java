@@ -163,16 +163,17 @@ public class NavbarFragmentView extends Fragment {
         final String[] items = new String[]{"Delete","Add","Report"};
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
                 getContext(),
-                android.R.layout.simple_spinner_item,
+                R.layout.simple_spinner_dropdown_item_2,
                 items
         );
         categoryAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item_2);
         adminSpinner.setAdapter(categoryAdapter);
-        adminSpinner.setVisibility(View.INVISIBLE);
-        adminSpinner.setEnabled(false);
+        //adminSpinner.setVisibility(View.INVISIBLE);
+        //adminSpinner.setEnabled(false);
         int initialposition=adminSpinner.getSelectedItemPosition();
         adminSpinner.setSelection(initialposition, false);
-
+        adminSpinner.setVisibility(View.VISIBLE);
+         adminSpinner.setEnabled(true);
     }
 
 
@@ -284,8 +285,8 @@ public class NavbarFragmentView extends Fragment {
             buttonReport.setVisibility(View.INVISIBLE);
             buttonReport.setEnabled(false);
 
-            adminSpinner.setVisibility(View.INVISIBLE);
-            adminSpinner.setEnabled(false);
+           // adminSpinner.setVisibility(View.INVISIBLE);
+           // adminSpinner.setEnabled(false);
 
             buttonAdmin.setImageResource(R.drawable.baseline_person_24);
 
@@ -301,8 +302,8 @@ public class NavbarFragmentView extends Fragment {
             buttonReport.setVisibility(View.VISIBLE);
             buttonReport.setEnabled(true);
 
-            adminSpinner.setVisibility(View.VISIBLE);
-            adminSpinner.setEnabled(true);
+          //  adminSpinner.setVisibility(View.VISIBLE);
+          //  adminSpinner.setEnabled(true);
 
             buttonAdmin.setImageResource(R.drawable.baseline_exit_to_app_24);
         }
@@ -318,7 +319,7 @@ public class NavbarFragmentView extends Fragment {
             transaction.addToBackStack(null);
         }
         transaction.commit();
-       // getParentFragmentManager().executePendingTransactions();
+        getParentFragmentManager().executePendingTransactions();
         toggleBackButton();
 
 
