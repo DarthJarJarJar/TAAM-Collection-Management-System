@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainScreenView extends Fragment {
-    private Button buttonBack;
-    private Button buttonNext;
     private TextView pageNoInfo;
     private ItemAdapter itemAdapter;
     private MainScreenPresenter presenter;
@@ -39,10 +37,11 @@ public class MainScreenView extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
         presenter = new MainScreenPresenter(this, new MainScreenModel());
         recyclerView = view.findViewById(R.id.recyclerView);
-        buttonBack = view.findViewById(R.id.buttonBack);
-        buttonNext = view.findViewById(R.id.buttonNext);
         pageNoInfo = view.findViewById(R.id.textView2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        Button buttonBack = view.findViewById(R.id.buttonBack);
+        Button buttonNext = view.findViewById(R.id.buttonNext);
 
         itemAdapter = new ItemAdapter(new ArrayList<>(), getParentFragmentManager());
         recyclerView.setAdapter(itemAdapter);
