@@ -113,7 +113,7 @@ public class AddItemFragmentView extends Fragment {
         editTextItemName.setText("");
         autoCompleteCategory.setText("");
         autoCompletePeriod.setText("");
-        itemImagePreview.setImageResource(R.drawable.box);
+        itemImagePreview.setImageResource(R.drawable.placeholder);
     }
 
     void setPreviewImageUri(Uri imageUri) {
