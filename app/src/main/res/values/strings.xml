@@ -20,6 +20,15 @@
     <string name="generate">Generate</string>
     <string name="select_category">Select Category</string>
     <string name="select_period">Select Period</string>
+    <string name="taam">TAAM</string>
+    <string name="home">Home</string>
+    <string name="view">View</string>
+    <string name="search">Search</string>
+    <string name="admin">Admin</string>
+    <string name="login">Login</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="report">Report</string>
 
     <string-array name="categories_array">
         <item>Jade</item>
