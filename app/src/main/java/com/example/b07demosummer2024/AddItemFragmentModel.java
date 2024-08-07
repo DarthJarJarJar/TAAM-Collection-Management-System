@@ -81,7 +81,7 @@ public class AddItemFragmentModel {
         presenterInterface.clearProgressBar();
     }
 
-    void addItemToDb(int lotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription, Uri chosenImageUri) {
+    void addItemToDb(int lotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription, Uri chosenUri, String mediaType) {
 
         itemsRef = db.getReference("Lot Number");
         presenterInterface.showProgressBar();
@@ -95,74 +95,65 @@ public class AddItemFragmentModel {
                     return;
                 }
 
-                if (chosenImageUri == null) {
+                if (chosenUri == null) {
                     String defaultImageUrl = "https://firebasestorage.googleapis.com/v0/b/cscb07final.appspot.com/o/images%2Fplaceholder.jpg?alt=media&token=b2ffde6a-ccfd-44a3-b636-46156b2559da";
-                    add(new Item(lotNumber, itemName,  itemCategory, itemPeriod, itemDescription, defaultImageUrl));
+                    add(new Item(lotNumber, itemName,  itemCategory, itemPeriod, itemDescription, defaultImageUrl, "Image"));
                     return;
                 }
 
                 StorageReference storageRef = storage.getReference();
-                StorageReference imagesRef = storageRef.child("images/" + System.currentTimeMillis() + "_" + chosenImageUri.getLastPathSegment());
-                UploadTask uploadTask = imagesRef.putFile(chosenImageUri);
 
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        presenterInterface.showToast("Upload failed: " + exception.getMessage());
-                        presenterInterface.clearProgressBar();
+                if (mediaType.equals("Image")) {
+                    StorageReference imagesRef = storageRef.child("images/" + System.currentTimeMillis() + "_" + chosenUri.getLastPathSegment());
+                    UploadTask uploadTask = imagesRef.putFile(chosenUri);
 
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri downloadUri) {
-                                String  uploadedImageUri = downloadUri.toString();
-                                Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri);
-                                add(item);
-//
-//
-//                                itemsRef.child(String.valueOf(lotNumber)).setValue(item).addOnCompleteListener(task -> {
-//                                    if (task.isSuccessful()) {
-//                                        presenterInterface.clearForm();
-//                                    } else {
-//                                        presenterInterface.showToast("Failed to add item");
-//                                    }
-//                                });
-//
-//                                if (!manager.getCategories().contains(itemCategory)) {
-//                                    DatabaseReference categoriesRef = db.getReference("Categories");
-//                                    String id = categoriesRef.push().getKey();
-//
-//                                    categoriesRef.child(id).setValue(itemCategory).addOnCompleteListener(task -> {
-//                                        if (task.isSuccessful()) {
-//                                            presenterInterface.showToast("New category added");
-//                                        } else {
-//                                            presenterInterface.showToast("Failed to add new category");
-//                                        }
-//                                    });
-//
-//                                }
-//
-//                                if (!manager.getPeriods().contains(itemPeriod)) {
-//                                    DatabaseReference periodsRef = db.getReference("Periods");
-//                                    String id = periodsRef.push().getKey();
-//
-//                                    periodsRef.child(id).setValue(itemPeriod).addOnCompleteListener(task -> {
-//                                        if (task.isSuccessful()) {
-//                                            presenterInterface.showToast("New period added");
-//                                        } else {
-//                                            presenterInterface.showToast("Failed to add period");
-//                                        }
-//                                    });
-//
-//                                }
-//                                presenterInterface.clearProgressBar();
-                            }
-                        });
-                    }
-                });
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            presenterInterface.showToast("Upload failed: " + exception.getMessage());
+                            presenterInterface.clearProgressBar();
+
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri downloadUri) {
+                                    String  uploadedImageUri = downloadUri.toString();
+                                    Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri, "Image");
+                                    add(item);
+                                }
+                            });
+                        }
+                    });
+                }
+
+                else if (mediaType.equals("Video")) {
+                    StorageReference videosRef = storageRef.child("videos/" + System.currentTimeMillis() + "_" + chosenUri.getLastPathSegment());
+                    UploadTask uploadTask = videosRef.putFile(chosenUri);
+
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            presenterInterface.showToast("Upload failed: " + exception.getMessage());
+                            presenterInterface.clearProgressBar();
+
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            videosRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri downloadUri) {
+                                    String  uploadedVideoUri = downloadUri.toString();
+                                    Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedVideoUri, "Video");
+                                    add(item);
+                                }
+                            });
+                        }
+                    });
+                }
             }
 
             @Override
