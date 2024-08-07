@@ -72,12 +72,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lotNumberInput" />
 
-           
 
             <EditText
                 android:id="@+id/keyWordInput"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
@@ -87,7 +89,7 @@
                 android:minHeight="48dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
 
 
