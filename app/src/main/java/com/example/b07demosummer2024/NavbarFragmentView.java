@@ -107,11 +107,11 @@ public class NavbarFragmentView extends Fragment {
         {
 
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (isInit){
-                    Log.d("test", "isInit is false");
-                    isInit=false;
-                    return;
-                }
+              //  if (isInit){
+            //        Log.d("test", "isInit is false");
+             //       isInit=false;
+            //        return;
+           //     }
 
                 String selectedItem = parent.getItemAtPosition(position).toString();
                 switch (selectedItem) {
@@ -142,11 +142,11 @@ public class NavbarFragmentView extends Fragment {
        adminAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
        adminSpinner.setAdapter(adminAdapter);
       //  adminSpinner.setSelection(0,true);
-adminSpinner.setPrompt("Ops");
+      //  adminSpinner.setSelection(0,false);
        // int initialposition=adminSpinner.getSelectedItemPosition();
       //  adminSpinner.setSelection(initialposition, false);
-        //adminSpinner.setVisibility(View.INVISIBLE);
-       // adminSpinner.setEnabled(false);
+        adminSpinner.setVisibility(View.VISIBLE);
+       adminSpinner.setEnabled(true);
     }
 
 
@@ -247,10 +247,9 @@ adminSpinner.setPrompt("Ops");
         if(adminView){
             adminView = false;
 
-            adminSpinner.setVisibility(View.INVISIBLE);
-            adminSpinner.setEnabled(false);
-
-            operations.setVisibility(View.INVISIBLE);
+         //   adminSpinner.setVisibility(View.INVISIBLE);
+         //   adminSpinner.setEnabled(false);
+//        operations.setVisibility(View.INVISIBLE);
 
             buttonAdmin.setImageResource(R.drawable.baseline_person_24);
 

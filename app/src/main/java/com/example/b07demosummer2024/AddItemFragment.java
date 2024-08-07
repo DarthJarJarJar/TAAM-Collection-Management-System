@@ -69,7 +69,7 @@ public class AddItemFragment extends Fragment {
 
         itemsRef = db.getReference("categories/" + category);
         String id = itemsRef.push().getKey();
-        Item item = new Item(2, title, author, genre, description, "https://media.discordapp.net/attachments/1254846354245685400/1268049986285994004/Screenshot_2024-07-30_at_11.37.51_PM.png?ex=66ab0313&is=66a9b193&hm=3397910bf664044c4b9dcc367813f6b68caf78529e1b46d59e210b78cda55f77&=&format=webp&quality=lossless&width=832&height=676");
+        Item item = new Item(2, title, author, genre, description, "https://media.discordapp.net/attachments/1254846354245685400/1268049986285994004/Screenshot_2024-07-30_at_11.37.51_PM.png?ex=66ab0313&is=66a9b193&hm=3397910bf664044c4b9dcc367813f6b68caf78529e1b46d59e210b78cda55f77&=&format=webp&quality=lossless&width=832&height=676", "https://media.discordapp.net/attachments/1254846354245685400/1268049986285994004/Screenshot_2024-07-30_at_11.37.51_PM.png?ex=66ab0313&is=66a9b193&hm=3397910bf664044c4b9dcc367813f6b68caf78529e1b46d59e210b78cda55f77&=&format=webp&quality=lossless&width=832&height=676", "Image");
 
         itemsRef.child(id).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

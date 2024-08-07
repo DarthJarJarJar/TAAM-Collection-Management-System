@@ -8,17 +8,21 @@ public class Item {
     private String period;
     private String description;
     private String imageUrl;
+    private String url;
+    private String mediaType;
     private boolean isCheckedForView;
 
     public Item() {}
 
-    public Item(int id, String title, String category, String period, String description, String imageUrl) {
+    public Item(int id, String title, String category, String period, String description, String imageUrl, String url, String mediaType) {
         this.id = id;
         this.title = title;
         this.category = category;
         this.period = period;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.url = url;
+        this.mediaType = mediaType;
         this.isCheckedForView = false;
     }
 
@@ -41,10 +45,15 @@ public class Item {
     public String getImageUrl() {
         return imageUrl;
     }
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public String getUrl(){ return url; }
+    public void setUrl(String url) { this.url = url; }
+
+    public String getMediaType() { return mediaType ; }
+    public void setMediaType() { this.mediaType = mediaType; }
 
     public boolean isChecked(){
         return isCheckedForView;

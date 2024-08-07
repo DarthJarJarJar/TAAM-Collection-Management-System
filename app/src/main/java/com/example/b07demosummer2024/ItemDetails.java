@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,9 +17,11 @@ import com.bumptech.glide.Glide;
 
 public class ItemDetails extends Fragment {
     Item item;
+    DatabaseManager manager;
 
     public ItemDetails(Item item) {
         this.item = item;
+        manager = DatabaseManager.getInstance();
     }
 
     @Nullable
@@ -31,10 +35,12 @@ public class ItemDetails extends Fragment {
         TextView description = view.findViewById(R.id.textViewDescription);
         ImageView image = view.findViewById(R.id.imageViewItemImage);
         ImageView back_button = view.findViewById(R.id.back_arrow);
+        VideoView video = view.findViewById(R.id.videoViewItem);
 
         back_button.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
         });
+
 
         String imgUrl = item.getImageUrl();
 

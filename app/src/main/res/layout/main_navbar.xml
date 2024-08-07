@@ -8,6 +8,7 @@
     android:padding="16dp"
     >
 
+
     <TextView
         android:id="@id/operations"
         android:layout_width="0dp"

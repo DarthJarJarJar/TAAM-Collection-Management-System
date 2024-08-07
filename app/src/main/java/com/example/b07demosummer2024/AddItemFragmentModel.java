@@ -97,7 +97,7 @@ public class AddItemFragmentModel {
 
                 if (chosenImageUri == null) {
                     String defaultImageUrl = "https://firebasestorage.googleapis.com/v0/b/cscb07final.appspot.com/o/images%2Fplaceholder.jpg?alt=media&token=b2ffde6a-ccfd-44a3-b636-46156b2559da";
-                    add(new Item(lotNumber, itemName,  itemCategory, itemPeriod, itemDescription, defaultImageUrl));
+                    add(new Item(lotNumber, itemName,  itemCategory, itemPeriod, itemDescription, defaultImageUrl, defaultImageUrl, "Image"));
                     return;
                 }
 
@@ -119,7 +119,7 @@ public class AddItemFragmentModel {
                             @Override
                             public void onSuccess(Uri downloadUri) {
                                 String  uploadedImageUri = downloadUri.toString();
-                                Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri);
+                                Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri, uploadedImageUri, "Image");
                                 add(item);
 //
 //
