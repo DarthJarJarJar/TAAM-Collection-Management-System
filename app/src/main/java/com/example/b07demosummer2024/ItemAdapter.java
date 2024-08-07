@@ -89,15 +89,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.textViewCategory.setText(item.getCategory());
         holder.textViewLotNumber.setText(item.getLotNumberString());
 
-        if (item.getMediaType().equals("Image")) {
-            Glide.with(holder.itemView.getContext())
-                    .load(item.getUrl())
-                    .into(holder.itemImage);
-        } else if (item.getMediaType().equals("Video")) {
-            Glide.with(holder.itemView.getContext())
-                    .load(item.getUrl()+"/0.jpg")
-                    .into(holder.itemImage);
-        }
+
+        Glide.with(holder.itemView.getContext())
+                .load(item.getUrl())
+                .into(holder.itemImage);
     }
 
     @Override

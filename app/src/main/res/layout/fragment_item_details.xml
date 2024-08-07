@@ -50,18 +50,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <VideoView
-            android:id="@+id/videoViewItem"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginTop="16dp"
-            android:background="#D3D3D3"
-            android:contentDescription="TODO"
-            android:scaleType="fitXY"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-            app:srcCompat="@drawable/placeholder"/>
 
         <ImageView
             android:id="@+id/imageViewItemImage"
@@ -75,6 +63,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
             app:srcCompat="@drawable/placeholder" />
+
+        <VideoView
+            android:id="@+id/videoViewItem"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewItemImage"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewItemImage"
+            app:layout_constraintStart_toStartOf="@+id/imageViewItemImage"
+            app:layout_constraintTop_toTopOf="@+id/imageViewItemImage" />
 
         <TextView
             android:id="@+id/textViewDescription"

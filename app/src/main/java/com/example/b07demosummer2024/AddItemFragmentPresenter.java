@@ -94,9 +94,15 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+
                             chosenUri = result.getData().getData();
                             if (chosenUri != null) {
-                                view.setPreviewImageUri(chosenUri);
+                                String str_URI = chosenUri.toString().toUpperCase();
+                                if (str_URI.contains("IMAGE")) {
+                                    view.setPreviewImageUri(chosenUri);
+                                } else if (str_URI.contains("VIDEO")) {
+                                    view.setPreviewVideoUri(chosenUri);
+                                }
                             } else {
                                 showToast("No Image/Video Selected");
                             }

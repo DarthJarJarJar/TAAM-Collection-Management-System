@@ -2,6 +2,7 @@ package com.example.b07demosummer2024;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -133,5 +135,19 @@ public class AddItemFragmentView extends Fragment {
     void setPreviewImageUri(Uri imageUri) {
         itemImagePreview.setImageURI(imageUri);
     }
+    void setPreviewVideoUri(Uri imageUri) {
+        itemVideoPreview.setVideoURI(imageUri);
 
+        MediaController mediaController = new MediaController(getContext());
+        mediaController.setAnchorView(itemVideoPreview);
+        itemVideoPreview.setMediaController(mediaController);
+
+        itemVideoPreview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+                mp.start();
+            }
+        });
+    }
 }

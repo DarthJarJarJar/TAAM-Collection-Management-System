@@ -1,10 +1,14 @@
 package com.example.b07demosummer2024;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -14,6 +18,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
+
+import java.net.CookieHandler;
+import java.net.CookieManager;
 
 public class ItemDetails extends Fragment {
     Item item;
@@ -37,6 +44,9 @@ public class ItemDetails extends Fragment {
         ImageView back_button = view.findViewById(R.id.back_arrow);
         VideoView video = view.findViewById(R.id.videoViewItem);
 
+        image.setVisibility(View.INVISIBLE);
+        video.setVisibility(View.INVISIBLE);
+
         back_button.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
         });
@@ -45,11 +55,28 @@ public class ItemDetails extends Fragment {
         String imgUrl = item.getUrl();
 
         if (item.getMediaType().equals("Image")) {
+            image.setVisibility(View.VISIBLE);
+            video.setVisibility(View.INVISIBLE);
             Glide.with(this)
                     .load(imgUrl)
                     .into(image);
-        } else if (item.getMediaType().equals("Video"){
+        } else if (item.getMediaType().equals("Video")) {
+            video.setVisibility(View.VISIBLE);
+            image.setVisibility(View.INVISIBLE);
 
+            video.setVideoPath(imgUrl+".mp4");
+
+            MediaController mediaController = new MediaController(getContext());
+            mediaController.setAnchorView(video);
+            video.setMediaController(mediaController);
+
+            video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setLooping(true);
+                    mp.start();
+                }
+            });
         }
 
         title.setText(item.getTitle());
