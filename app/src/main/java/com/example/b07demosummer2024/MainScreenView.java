@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,23 +27,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainScreenView extends Fragment {
-    private Button buttonBack;
-    private Button buttonNext;
     private TextView pageNoInfo;
     private ItemAdapter itemAdapter;
     private MainScreenPresenter presenter;
     private RecyclerView recyclerView;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         presenter = new MainScreenPresenter(this, new MainScreenModel());
         recyclerView = view.findViewById(R.id.recyclerView);
-        buttonBack = view.findViewById(R.id.buttonBack);
-        buttonNext = view.findViewById(R.id.buttonNext);
         pageNoInfo = view.findViewById(R.id.textView2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        Button buttonBack = view.findViewById(R.id.buttonBack);
+        Button buttonNext = view.findViewById(R.id.buttonNext);
 
         itemAdapter = new ItemAdapter(new ArrayList<>(), getParentFragmentManager());
         recyclerView.setAdapter(itemAdapter);
@@ -58,6 +60,12 @@ public class MainScreenView extends Fragment {
         presenter.loadItems();
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        super.onPause();
     }
 
     void updateRecyclerList(List<Item> updatedList) {

@@ -27,9 +27,10 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
 
     void loadItems() {
         if (model.areItemsLoaded()) {
+            Log.d("LOAD", "in else");
             update((model.getItemList().size() + 9) / 10);
-            updatePage();
         } else {
+            Log.d("LOAD", "loading items again");
             model.loadItemsFromDb();
         }
     }
@@ -60,6 +61,7 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         }
 
         view.updateRecyclerList(pagedList);
+        view.scrollToTop();
     }
 
     public void updatePage() {

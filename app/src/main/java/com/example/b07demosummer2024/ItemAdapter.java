@@ -1,5 +1,6 @@
 package com.example.b07demosummer2024;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,19 +33,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         this.fragmentManager = fragmentManager;
     }
 
-    public ItemAdapter(List<Item> itemList, int pageNumber, FragmentManager fragmentManager) {
-        this.itemList = itemList.subList(Math.max(0, (pageNumber - 1) * 10), Math.min(itemList.size(), (pageNumber) * 10));
-        this.fragmentManager = fragmentManager;
+    public void updateList(List<Item> newList) {
+        itemList.clear();
+        itemList.addAll(newList);
 
         checkedStates = new HashMap<>();
         for (Item item : itemList) {
             checkedStates.put(String.valueOf(item.getId()), item.isChecked());
         }
-    }
-
-    public void updateList(List<Item> newList) {
-        itemList.clear();
-        itemList.addAll(newList);
         notifyDataSetChanged();
     }
 

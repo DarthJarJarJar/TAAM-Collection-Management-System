@@ -69,4 +69,5 @@ public class Item {
     public String getTitleWithLotNumber() {
         return getLotNumberString() + ": " + getTitle();
      }
+
 }

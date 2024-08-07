@@ -95,7 +95,7 @@ public class ReportFragment extends Fragment {
 
     private void makePdf() {
         String reportType = reportTypeSpinner.getSelectedItem().toString();
-        List<Item> allItems = RecyclerViewStaticFragment.getItems();
+        List<Item> allItems = DatabaseManager.getInstance().getItems();
         List<Item> reportList = new ArrayList<Item>();
         String reportTitle = "Report_";
         boolean imageAndDescriptionOnly = descriptionAndImageOnlyCheckbox.isChecked();
