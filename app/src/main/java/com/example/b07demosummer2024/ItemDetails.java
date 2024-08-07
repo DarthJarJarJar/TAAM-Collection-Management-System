@@ -63,9 +63,9 @@ public class ItemDetails extends Fragment {
 
             video.setVideoPath(imgUrl+".mp4");
 
-            MediaController mediaController = new MediaController(getContext());
+            MediaController mediaController = new MediaController(getContext(), false);
             mediaController.setAnchorView(video);
-            video.setMediaController(mediaController);
+            video.setMediaController(null);
 
             video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override

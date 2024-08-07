@@ -138,9 +138,9 @@ public class AddItemFragmentView extends Fragment {
     void setPreviewVideoUri(Uri imageUri) {
         itemVideoPreview.setVideoURI(imageUri);
 
-        MediaController mediaController = new MediaController(getContext());
+        MediaController mediaController = new MediaController(getContext(), false);
         mediaController.setAnchorView(itemVideoPreview);
-        itemVideoPreview.setMediaController(mediaController);
+        itemVideoPreview.setMediaController(null);
 
         itemVideoPreview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
