@@ -72,20 +72,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lotNumberInput" />
 
-            <TextView
-                android:id="@+id/labelKeyWord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="28dp"
-                android:text="Key Word"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
+           
 
             <EditText
                 android:id="@+id/keyWordInput"
-                android:layout_width="268dp"
-                android:layout_height="37dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
@@ -95,7 +87,7 @@
                 android:minHeight="48dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/labelKeyWord"
+                app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
 
 
