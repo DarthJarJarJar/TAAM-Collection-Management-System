@@ -10,9 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import java.util.List;
 
 public class MainActivityView extends AppCompatActivity {
     MainActivityPresenter presenter;
@@ -30,7 +27,7 @@ public class MainActivityView extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         }
 
 
