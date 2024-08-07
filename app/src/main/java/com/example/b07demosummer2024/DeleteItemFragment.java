@@ -1,6 +1,7 @@
 package com.example.b07demosummer2024;
 
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -31,6 +32,9 @@ import java.util.Map;
 
 public class DeleteItemFragment extends Fragment {
     int counter = 1;
+
+    private SearchFragmentModel search;
+
     private Button buttonDelete;
     private ListView delete_list;
 
@@ -57,6 +61,8 @@ public class DeleteItemFragment extends Fragment {
 
         db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
 
+        search = new SearchFragmentModel();
+
         // Set up the spinner with categories
         for(int i = 0; i < itemList.size(); i++){
             Item curItem = itemList.get(i);
@@ -82,7 +88,14 @@ public class DeleteItemFragment extends Fragment {
 
     private void iterate_delete_items() {
         for (Item curItem : itemList) {
-            remove_item(curItem);
+            remove_item(curItem, new DeletionSuccessListener() {
+                @Override
+                public void onSuccess(String category, String period) {
+                    System.out.println("found");
+                    checkRemoveCategory(category);
+                    checkRemovePeriod(period);
+                }
+            });
         }
     }
 
@@ -94,8 +107,11 @@ public class DeleteItemFragment extends Fragment {
         }
     }
 
-    private void remove_item(Item item) {
+    private void remove_item(Item item, DeletionSuccessListener listener) {
         int id = item.getId();
+        String category = item.getCategory();
+        String period = item.getPeriod();
+
         DatabaseReference itemsRef = db.getReference(   "Lot Number");
 
         itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -112,6 +128,7 @@ public class DeleteItemFragment extends Fragment {
                         snapshot.getRef().removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getContext(), "Item deleted: " + val.getTitleWithLotNumber(), Toast.LENGTH_SHORT).show();
+                                listener.onSuccess(category, period);
                                 close();
                             } else {
                                 Toast.makeText(getContext(), "Failed to delete item" + val.getTitleWithLotNumber(), Toast.LENGTH_SHORT).show();
@@ -132,5 +149,52 @@ public class DeleteItemFragment extends Fragment {
             }
         });
     }
+
+    private void checkRemoveCategory(String category){
+        List<Item> res = search.filterItems(-1, "", category, "", true, false);
+
+        if(res.isEmpty()){
+            removeField("Categories", category);
+        }
+    }
+
+    private void checkRemovePeriod(String period){
+        List<Item> res = search.filterItems(-1, "", "", period, false, true);
+
+        if(res.isEmpty()){
+            removeField("Periods", period);
+        }
+    }
+
+    private void removeField(String reference, String fieldToRemove){
+        DatabaseReference fieldRef = db.getReference(reference);
+        fieldRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    String fieldValue = snapshot.getValue(String.class);
+                    if (fieldToRemove.equals(fieldValue)) {
+                        // Remove the field
+                        snapshot.getRef().removeValue().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d("removeField", "Field removed successfully");
+                            } else {
+                                Log.d("removeField", "Failed to remove field");
+                            }
+                        });
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("removeField", "Database error: " + error.getMessage());
+            }
+        });
+    }
+
 }
 
