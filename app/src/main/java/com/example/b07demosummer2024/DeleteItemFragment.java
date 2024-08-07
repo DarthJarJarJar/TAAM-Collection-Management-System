@@ -101,6 +101,7 @@ public class DeleteItemFragment extends Fragment {
 
     private void close(){
         if (counter == itemList.size()) {
+            Toast.makeText(getContext(), Integer.toString(counter) + " Items deleted", Toast.LENGTH_SHORT).show();
             getParentFragmentManager().popBackStack();
         } else {
             counter ++;
@@ -127,7 +128,6 @@ public class DeleteItemFragment extends Fragment {
                     if (val != null && (val.getId() == id)) {
                         snapshot.getRef().removeValue().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), "Item deleted: " + val.getTitleWithLotNumber(), Toast.LENGTH_SHORT).show();
                                 listener.onSuccess(category, period);
                                 close();
                             } else {
