@@ -101,9 +101,11 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
                             if (chosenUri != null) {
                                 String str_URI = chosenUri.toString().toUpperCase();
                                 if (str_URI.contains("IMAGE")) {
+                                    media="Image";
                                     view.setPreviewImageUri(chosenUri);
                                 } else if (str_URI.contains("VIDEO")) {
                                     view.hideImage();
+                                    media="Video";
                                     view.setPreviewVideoUri(chosenUri);
                                 }
                             } else {

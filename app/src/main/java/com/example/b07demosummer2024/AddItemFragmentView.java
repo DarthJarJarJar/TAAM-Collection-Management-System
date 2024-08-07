@@ -130,6 +130,7 @@ public class AddItemFragmentView extends Fragment {
         autoCompleteCategory.setText("");
         autoCompletePeriod.setText("");
         itemImagePreview.setImageResource(R.drawable.placeholder);
+        hideVideo();
     }
 
     void setPreviewImageUri(Uri imageUri) {
@@ -154,6 +155,7 @@ public class AddItemFragmentView extends Fragment {
     void hideVideo(){
         itemVideoPreview.setVisibility(View.INVISIBLE);
         itemImagePreview.setVisibility(View.VISIBLE);
+        itemImagePreview.setImageResource(R.drawable.placeholder);
     }
 
     void hideImage(){
