@@ -1,5 +1,7 @@
 package com.example.b07demosummer2024;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -10,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivityPresenter implements MainActivityPresenterLoginInterface {
+    private static final String PREFS_NAME = "app_prefs";
+    private static final String KEY_ADMIN_VIEW = "admin_view";
+
     MainActivityView view;
     MainActivityModel model;
     boolean adminView;
@@ -17,6 +22,7 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
     public MainActivityPresenter(MainActivityView view, MainActivityModel model) {
         this.view = view;
         this.model = model;
+        loadAdminViewState();
     }
 
     public List<Item> getSelectedItems(){
@@ -85,7 +91,7 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
             loadFragment(new ReportFragmentView());
             return true;
         } else if (optionId == R.id.admin_logout) {
-            adminView = false;
+            setAdminView(false);
             view.showToast("Logged Out");
             view.invalidateOptionsMenu();
             loadFragment(new MainScreenView());
@@ -114,8 +120,25 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
     }
 
     public void toggleAdminNavbarOnLoginSuccess() {
-        adminView = true;
+        setAdminView(true);
         loadFragment(new MainScreenView());
         view.invalidateOptionsMenu();
+    }
+
+    private void setAdminView(boolean isAdmin) {
+        this.adminView = isAdmin;
+        SharedPreferences prefs = view.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(KEY_ADMIN_VIEW, isAdmin);
+        editor.apply();
+    }
+
+    private void loadAdminViewState() {
+        SharedPreferences prefs = view.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        adminView = prefs.getBoolean(KEY_ADMIN_VIEW, false);
+    }
+
+    public void exitAppDialogBox() {
+        (new AppExitDialogFragment()).show(view.getSupportFragmentManager(), "EXIT_DIALOG");
     }
 }
