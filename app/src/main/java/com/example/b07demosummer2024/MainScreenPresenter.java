@@ -27,10 +27,8 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
 
     void loadItems() {
         if (model.areItemsLoaded()) {
-            Log.d("LOAD", "in else");
             update((model.getItemList().size() + 9) / 10);
         } else {
-            Log.d("LOAD", "loading items again");
             model.loadItemsFromDb();
         }
     }
@@ -73,11 +71,15 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
 
     public void setMaxPages(int maxPages) {
         this.maxPages = maxPages;
-        if (maxPages < pageNumber)
+        if (maxPages < pageNumber && maxPages != 0) {
+            Log.d("BUG", "Setting page number to " + maxPages);
             pageNumber = maxPages;
+        }
     }
 
     String makePageString() {
+        if (maxPages == 0 && pageNumber == 1)
+            return "No Items";
         return "Page " + pageNumber + " of " + maxPages;
     }
 

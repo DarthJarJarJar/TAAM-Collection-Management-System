@@ -28,7 +28,7 @@ public class LoginFragmentView extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.login_form_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_login_form, container, false);
 
         usernameTextfield = view.findViewById(R.id.username_textfield);
         passwordTextfield = view.findViewById(R.id.password_textfield);
