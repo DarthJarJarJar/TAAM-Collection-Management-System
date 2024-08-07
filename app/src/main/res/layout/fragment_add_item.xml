@@ -36,18 +36,21 @@
                 android:id="@+id/lotNumberInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
                 android:hint="@string/lot_number"
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <EditText
                 android:id="@+id/itemNameInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:autofillHints=""
@@ -55,28 +58,33 @@
                 android:hint="@string/item_name"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lotNumberInput" />
 
             <AutoCompleteTextView
                 android:id="@+id/periodAutoCompleteTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
                 android:hint="@string/period_label"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/categoryAutoCompleteTextView" />
 
             <AutoCompleteTextView
                 android:id="@+id/categoryAutoCompleteTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
                 android:hint="@string/category_label"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
 
             <com.google.android.material.textfield.TextInputEditText
@@ -93,29 +101,27 @@
 
             <ImageView
                 android:id="@+id/uploadImagePreview"
-                android:layout_width="0dp"
+                android:layout_width="329dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputEditText"
+                app:layout_constraintTop_toBottomOf="@+id/videoUploadButton"
                 app:srcCompat="@drawable/placeholder"
                 tools:src="@tools:sample/avatars" />
 
             <VideoView
                 android:id="@+id/uploadVideoPreview"
-                android:layout_width="0dp"
+                android:layout_width="329dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputEditText"
+                app:layout_constraintTop_toBottomOf="@+id/videoUploadButton"
                 app:srcCompat="@drawable/placeholder"
                 tools:src="@tools:sample/avatars" />
 
@@ -125,91 +131,53 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="64dp"
                 android:backgroundTint="#000000"
                 android:text="Upload Image"
                 android:textColor="#FFC107"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/uploadImagePreview" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
 
             <Button
                 android:id="@+id/videoUploadButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="36dp"
                 android:backgroundTint="#000000"
                 android:text="Upload Video"
                 android:textColor="#FFC107"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageUploadButton" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="@string/category_label"
-                app:layout_constraintBottom_toBottomOf="@+id/categoryAutoCompleteTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/categoryAutoCompleteTextView" />
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="@string/period_label"
-                app:layout_constraintBottom_toBottomOf="@+id/periodAutoCompleteTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/periodAutoCompleteTextView" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="@string/lot_number"
-                app:layout_constraintBottom_toBottomOf="@+id/lotNumberInput"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/lotNumberInput" />
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="@string/item_name"
-                app:layout_constraintBottom_toBottomOf="@+id/itemNameInput"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/itemNameInput" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
 
             <Button
                 android:id="@+id/addButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
                 android:backgroundTint="#000000"
                 android:text="@string/add_item"
                 android:textColor="#FFC107"
-                app:layout_constraintBottom_toBottomOf="@+id/imageUploadButton"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageUploadButton" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/uploadImagePreview"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="?android:attr/progressBarStyleLarge"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
