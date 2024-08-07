@@ -61,6 +61,7 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
         }
 
         view.updateRecyclerList(pagedList);
+        view.scrollToTop();
     }
 
     public void updatePage() {

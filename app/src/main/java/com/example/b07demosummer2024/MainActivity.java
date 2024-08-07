@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityLogin
             handleViewButtonClick();
             return true;
         } else if (id == R.id.nav_search) {
-            loadFragment(new SearchFragment());
+            loadFragment(new SearchFragmentView());
             return true;
         } else if (id == R.id.admin_login) {
             loadFragment(LoginFragmentView.newInstance(this));
@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityLogin
             adminView = false;
             Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
             invalidateOptionsMenu();
+            loadFragment(new MainScreenView());
             return true;
         }
 
