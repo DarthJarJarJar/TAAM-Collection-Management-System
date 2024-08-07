@@ -6,24 +6,24 @@
         android:id="@+id/nav_home"
         android:title="@string/home"
         app:showAsAction="always"
-        android:icon="@drawable/baseline_home_24" />
+        android:icon="@drawable/ic_home" />
 
     <item
         android:id="@+id/nav_view"
         android:title="@string/view"
         app:showAsAction="always"
-        android:icon="@drawable/baseline_remove_red_eye_24" />
+        android:icon="@drawable/ic_view" />
 
     <item
         android:id="@+id/nav_search"
         android:title="@string/search"
         app:showAsAction="always"
-        android:icon="@drawable/baseline_search_24" />
+        android:icon="@drawable/ic_search" />
 
     <item
         android:id="@+id/nav_admin"
         android:title="@string/admin"
-        android:icon="@drawable/baseline_person_24"
+        android:icon="@drawable/ic_admin"
         app:showAsAction="always">
         <menu>
             <item
