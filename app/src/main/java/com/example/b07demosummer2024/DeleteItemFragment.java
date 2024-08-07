@@ -151,7 +151,7 @@ public class DeleteItemFragment extends Fragment {
     }
 
     private void checkRemoveCategory(String category){
-        List<Item> res = search.filterItems(-1, "", category, "", true, false);
+        List<Item> res = search.filterItems(-1, "", category, "", true, false, "");
 
         if(res.isEmpty()){
             removeField("Categories", category);
@@ -159,7 +159,7 @@ public class DeleteItemFragment extends Fragment {
     }
 
     private void checkRemovePeriod(String period){
-        List<Item> res = search.filterItems(-1, "", "", period, false, true);
+        List<Item> res = search.filterItems(-1, "", "", period, false, true, "");
 
         if(res.isEmpty()){
             removeField("Periods", period);

@@ -26,6 +26,7 @@ public class SearchFragmentView extends Fragment {
 
     private EditText lotNumberInput;
     private EditText itemNameInput;
+    private EditText keyWordInput;
     private Spinner categorySpinner;
     private Spinner periodSpinner;
     private TextView categoryLabel;
@@ -49,6 +50,7 @@ public class SearchFragmentView extends Fragment {
 
         lotNumberInput = view.findViewById(R.id.lotNumberInput);
         itemNameInput = view.findViewById(R.id.itemNameInput);
+        keyWordInput = view.findViewById(R.id.keyWordInput);
         categorySpinner = view.findViewById(R.id.categorySpinner);
         periodSpinner = view.findViewById(R.id.periodSpinner);
         categoryLabel = view.findViewById(R.id.categoryLabel);
@@ -131,6 +133,10 @@ public class SearchFragmentView extends Fragment {
 
     public String getPeriod() {
         return checkBoxPeriod.isChecked() ? (periodSpinner != null && periodSpinner.getSelectedItem() != null ? periodSpinner.getSelectedItem().toString() : "Any") : "Any";
+    }
+
+    public String getKeyword(){
+        return keyWordInput != null ? keyWordInput.getText().toString().trim() : "";
     }
 
 
