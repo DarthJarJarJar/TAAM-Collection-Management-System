@@ -115,7 +115,7 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
         if (toDeleteItemList.isEmpty()) {
             view.showToast("No items selected. Select Item First");
         } else {
-            loadFragment(DeleteItemFragment.newInstance(toDeleteItemList));
+            loadFragment(DeleteItemFragmentView.newInstance(toDeleteItemList));
         }
     }
 
