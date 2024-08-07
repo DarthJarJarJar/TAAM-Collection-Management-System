@@ -139,7 +139,7 @@ public class AddFragment extends Fragment {
                             @Override
                             public void onSuccess(Uri downloadUri) {
                                 uploadedImageUri = downloadUri.toString();
-                                Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri, uploadedImageUri, "Image");
+                                Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri, "Image");
 
 
                                 itemsRef.child(String.valueOf(lotNumber)).setValue(item).addOnCompleteListener(task -> {

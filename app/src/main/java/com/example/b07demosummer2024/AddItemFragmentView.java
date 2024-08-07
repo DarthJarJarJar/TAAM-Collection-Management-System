@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +44,10 @@ import java.util.List;
 
 public class AddItemFragmentView extends Fragment {
     private ImageView itemImagePreview;
+    private VideoView itemVideoPreview;
+
+    private String media = "";
+
     private EditText editTextItemName, editTextItemLotNumber;
     private TextInputEditText editTextItemDescription;
     private AutoCompleteTextView autoCompleteCategory, autoCompletePeriod;
@@ -58,6 +63,7 @@ public class AddItemFragmentView extends Fragment {
         presenter = new AddItemFragmentPresenter(this, new AddItemFragmentModel());
 
         itemImagePreview = view.findViewById(R.id.uploadImagePreview);
+        itemVideoPreview = view.findViewById(R.id.uploadVideoPreview);
         editTextItemName = view.findViewById(R.id.itemNameInput);
         editTextItemLotNumber = view.findViewById(R.id.lotNumberInput);
         editTextItemDescription = view.findViewById(R.id.textInputEditText);
@@ -67,6 +73,7 @@ public class AddItemFragmentView extends Fragment {
 
         Button addItemButton = view.findViewById(R.id.addButton);
         Button uploadImageButton = view.findViewById(R.id.imageUploadButton);
+        Button uploadVideoButton = view.findViewById(R.id.videoUploadButton);
 
 
         ArrayAdapter<String> categoryAutoCompleteAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, presenter.getCategories());
@@ -80,13 +87,15 @@ public class AddItemFragmentView extends Fragment {
         presenter.registerResult();
 
         uploadImageButton.setOnClickListener(v -> presenter.pickImage());
+        uploadVideoButton.setOnClickListener(v -> presenter.pickVideo());
 
         addItemButton.setOnClickListener(v -> {
             presenter.addItem(editTextItemLotNumber.getText().toString().trim(),
                     editTextItemName.getText().toString().trim(),
                     autoCompletePeriod.getText().toString().trim(),
                     autoCompleteCategory.getText().toString().trim(),
-                    editTextItemDescription.getText().toString().trim()
+                    editTextItemDescription.getText().toString().trim(),
+                    media
             );
 
         });
@@ -120,4 +129,5 @@ public class AddItemFragmentView extends Fragment {
         itemImagePreview.setImageURI(imageUri);
     }
 
+    
 }

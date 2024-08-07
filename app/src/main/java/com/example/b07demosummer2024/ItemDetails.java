@@ -42,7 +42,7 @@ public class ItemDetails extends Fragment {
         });
 
 
-        String imgUrl = item.getImageUrl();
+        String imgUrl = item.getUrl();
 
         Glide.with(this)
                         .load(imgUrl)

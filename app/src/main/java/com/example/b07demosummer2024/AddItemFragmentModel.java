@@ -81,7 +81,7 @@ public class AddItemFragmentModel {
         presenterInterface.clearProgressBar();
     }
 
-    void addItemToDb(int lotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription, Uri chosenImageUri) {
+    void addItemToDb(int lotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription, Uri chosenUri, String mediaType) {
 
         itemsRef = db.getReference("Lot Number");
         presenterInterface.showProgressBar();
@@ -95,15 +95,15 @@ public class AddItemFragmentModel {
                     return;
                 }
 
-                if (chosenImageUri == null) {
+                if (chosenUri == null) {
                     String defaultImageUrl = "https://firebasestorage.googleapis.com/v0/b/cscb07final.appspot.com/o/images%2Fplaceholder.jpg?alt=media&token=b2ffde6a-ccfd-44a3-b636-46156b2559da";
-                    add(new Item(lotNumber, itemName,  itemCategory, itemPeriod, itemDescription, defaultImageUrl, defaultImageUrl, "Image"));
+                    add(new Item(lotNumber, itemName,  itemCategory, itemPeriod, itemDescription, defaultImageUrl, "Image"));
                     return;
                 }
 
                 StorageReference storageRef = storage.getReference();
-                StorageReference imagesRef = storageRef.child("images/" + System.currentTimeMillis() + "_" + chosenImageUri.getLastPathSegment());
-                UploadTask uploadTask = imagesRef.putFile(chosenImageUri);
+                StorageReference imagesRef = storageRef.child("images/" + System.currentTimeMillis() + "_" + chosenUri.getLastPathSegment());
+                UploadTask uploadTask = imagesRef.putFile(chosenUri);
 
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -119,7 +119,7 @@ public class AddItemFragmentModel {
                             @Override
                             public void onSuccess(Uri downloadUri) {
                                 String  uploadedImageUri = downloadUri.toString();
-                                Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri, uploadedImageUri, "Image");
+                                Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri, "Image");
                                 add(item);
 //
 //

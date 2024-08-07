@@ -213,7 +213,7 @@ public class ReportFragment extends Fragment {
             per.setVisibility(View.GONE);
         }
 
-        String imageUrl = item.getImageUrl();
+        String imageUrl = item.getUrl();
 
         Glide.with(getContext())
                 .asBitmap()

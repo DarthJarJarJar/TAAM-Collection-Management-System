@@ -87,7 +87,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.textViewCategory.setText(item.getCategory());
         holder.textViewLotNumber.setText(item.getLotNumberString());
         Glide.with(holder.itemView.getContext())
-                .load(item.getImageUrl())
+                .load(item.getUrl())
                 .into(holder.itemImage);
     }
 

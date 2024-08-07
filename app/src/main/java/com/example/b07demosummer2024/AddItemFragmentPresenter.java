@@ -18,7 +18,7 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
     AddItemFragmentView view;
 
     private ActivityResultLauncher<Intent> resultLauncher;
-    private Uri chosenImageUri;
+    private Uri chosenUri;
 
     public AddItemFragmentPresenter(AddItemFragmentView view, AddItemFragmentModel model) {
         model.presenterInterface = this;
@@ -40,7 +40,7 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
 
     public void clearForm() {
         view.clearForm();
-        chosenImageUri = null;
+        chosenUri = null;
     }
 
     private String replaceStringWithListOccurence(List<String> stringList, String str) {
@@ -50,7 +50,7 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
         return str;
     }
 
-    void addItem(String itemLotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription) {
+    void addItem(String itemLotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription, String media) {
         if (itemLotNumber.isEmpty() || itemName.isEmpty() || itemPeriod.isEmpty() || itemCategory.isEmpty()) {
             view.showToast("Please fill out all the fields");
             return;
@@ -70,11 +70,16 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
                 replaceStringWithListOccurence(model.getPeriodList(), itemPeriod),
                 replaceStringWithListOccurence(model.getCategoryList(), itemCategory),
                 itemDescription,
-                chosenImageUri);
+                chosenUri, media);
     }
 
     void pickImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        resultLauncher.launch(intent);
+    }
+
+    void pickVideo(){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         resultLauncher.launch(intent);
     }
 
@@ -85,14 +90,14 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                            chosenImageUri = result.getData().getData();
-                            if (chosenImageUri != null) {
-                                view.setPreviewImageUri(chosenImageUri);
+                            chosenUri = result.getData().getData();
+                            if (chosenUri != null) {
+                                view.setPreviewImageUri(chosenUri);
                             } else {
-                                showToast("No Image Selected");
+                                showToast("No Image/Video Selected");
                             }
                         } else {
-                            showToast("No Image Selected");
+                            showToast("No Image/Video Selected");
                         }
                     }
                 }

@@ -156,7 +156,7 @@ public class ReportFragmentPresenter {
         View pdfView = createPdfPageView(item, imageAndDescriptionOnly);
         ImageView imageView = pdfView.findViewById(R.id.pdfLayoutItemImage);
 
-        String imageUrl = item.getImageUrl();
+        String imageUrl = item.getUrl();
 
         Glide.with(pdfView.getContext())
                 .asBitmap()
