@@ -21,7 +21,7 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
     private ActivityResultLauncher<Intent> resultLauncher;
     private Uri chosenUri;
 
-    String media = "Image";
+    private String media = "Image";
 
     public AddItemFragmentPresenter(AddItemFragmentView view, AddItemFragmentModel model) {
         model.presenterInterface = this;

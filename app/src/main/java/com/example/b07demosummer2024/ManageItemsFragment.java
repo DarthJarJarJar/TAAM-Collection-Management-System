@@ -27,7 +27,7 @@ public class ManageItemsFragment extends Fragment {
             }
         });
 
-        buttonDeleteItem.setOnClickListener(v -> loadFragment(new DeleteItemFragment()));
+        buttonDeleteItem.setOnClickListener(v -> loadFragment(new DeleteItemFragmentView()));
 
         buttonBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 

@@ -1,3 +1,4 @@
+/*
 package com.example.b07demosummer2024;
 
 import android.os.Bundle;
@@ -88,7 +89,7 @@ public class DeleteItemFragment extends Fragment {
 
     private void iterate_delete_items() {
         for (Item curItem : itemList) {
-            remove_item(curItem, new DeletionSuccessListener() {
+            model.remove_item(curItem, new DeletionSuccessListener() {
                 @Override
                 public void onSuccess(String category, String period) {
                     System.out.println("found");
@@ -108,47 +109,7 @@ public class DeleteItemFragment extends Fragment {
         }
     }
 
-    private void remove_item(Item item, DeletionSuccessListener listener) {
-        int id = item.getId();
-        String category = item.getCategory();
-        String period = item.getPeriod();
 
-        DatabaseReference itemsRef = db.getReference(   "Lot Number");
-
-        itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean itemFound = false;
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    Item val = snapshot.getValue(Item.class);
-
-                    if (val != null && (val.getId() == id)) {
-                        snapshot.getRef().removeValue().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                listener.onSuccess(category, period);
-                                close();
-                            } else {
-                                Toast.makeText(getContext(), "Failed to delete item" + val.getTitleWithLotNumber(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        itemFound = true;
-                        break;
-                    }
-                }
-                if (!itemFound) {
-                    Toast.makeText(getContext(), "Item not found", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void checkRemoveCategory(String category){
         List<Item> res = search.filterItems(-1, "", category, "", true, false, "");
@@ -166,35 +127,4 @@ public class DeleteItemFragment extends Fragment {
         }
     }
 
-    private void removeField(String reference, String fieldToRemove){
-        DatabaseReference fieldRef = db.getReference(reference);
-        fieldRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    String fieldValue = snapshot.getValue(String.class);
-                    if (fieldToRemove.equals(fieldValue)) {
-                        // Remove the field
-                        snapshot.getRef().removeValue().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Log.d("removeField", "Field removed successfully");
-                            } else {
-                                Log.d("removeField", "Failed to remove field");
-                            }
-                        });
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("removeField", "Database error: " + error.getMessage());
-            }
-        });
-    }
-
-}
-
+}*/
