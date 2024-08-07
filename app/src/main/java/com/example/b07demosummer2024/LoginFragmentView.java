@@ -17,9 +17,9 @@ public class LoginFragmentView extends Fragment {
     private EditText usernameTextfield;
     private EditText passwordTextfield;
     private LoginFragmentPresenter presenter;
-    private MainActivityLoginInterface mainActivityLoginInterface;
+    private MainActivityPresenterLoginInterface mainActivityLoginInterface;
 
-    public static LoginFragmentView newInstance(MainActivityLoginInterface mainActivity) {
+    public static LoginFragmentView newInstance(MainActivityPresenterLoginInterface mainActivity) {
         LoginFragmentView fragment = new LoginFragmentView();
         fragment.mainActivityLoginInterface = mainActivity;
         return fragment;
