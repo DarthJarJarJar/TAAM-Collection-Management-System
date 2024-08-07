@@ -150,4 +150,14 @@ public class AddItemFragmentView extends Fragment {
             }
         });
     }
+
+    void hideVideo(){
+        itemVideoPreview.setVisibility(View.INVISIBLE);
+        itemImagePreview.setVisibility(View.VISIBLE);
+    }
+
+    void hideImage(){
+        itemVideoPreview.setVisibility(View.VISIBLE);
+        itemImagePreview.setVisibility(View.INVISIBLE);
+    }
 }
