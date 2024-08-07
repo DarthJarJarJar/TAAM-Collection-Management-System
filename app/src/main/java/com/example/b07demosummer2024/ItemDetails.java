@@ -41,15 +41,12 @@ public class ItemDetails extends Fragment {
         TextView period = view.findViewById(R.id.textViewPeriod);
         TextView description = view.findViewById(R.id.textViewDescription);
         ImageView image = view.findViewById(R.id.imageViewItemImage);
-        ImageView back_button = view.findViewById(R.id.back_arrow);
+
         VideoView video = view.findViewById(R.id.videoViewItem);
 
         image.setVisibility(View.INVISIBLE);
         video.setVisibility(View.INVISIBLE);
 
-        back_button.setOnClickListener(v -> {
-            getParentFragmentManager().popBackStack();
-        });
 
 
         String imgUrl = item.getUrl();
