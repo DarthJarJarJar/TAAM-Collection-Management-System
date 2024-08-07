@@ -18,7 +18,9 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
     AddItemFragmentView view;
 
     private ActivityResultLauncher<Intent> resultLauncher;
-    private Uri chosenImageUri;
+    private Uri chosenUri;
+
+    String media = "Image";
 
     public AddItemFragmentPresenter(AddItemFragmentView view, AddItemFragmentModel model) {
         model.presenterInterface = this;
@@ -40,7 +42,7 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
 
     public void clearForm() {
         view.clearForm();
-        chosenImageUri = null;
+        chosenUri = null;
     }
 
     private String replaceStringWithListOccurence(List<String> stringList, String str) {
@@ -70,12 +72,19 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
                 replaceStringWithListOccurence(model.getPeriodList(), itemPeriod),
                 replaceStringWithListOccurence(model.getCategoryList(), itemCategory),
                 itemDescription,
-                chosenImageUri);
+                chosenUri, media);
     }
 
     void pickImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         resultLauncher.launch(intent);
+        media="Image";
+    }
+
+    void pickVideo(){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        resultLauncher.launch(intent);
+        media="Video";
     }
 
     void registerResult() {
@@ -85,14 +94,20 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                            chosenImageUri = result.getData().getData();
-                            if (chosenImageUri != null) {
-                                view.setPreviewImageUri(chosenImageUri);
+
+                            chosenUri = result.getData().getData();
+                            if (chosenUri != null) {
+                                String str_URI = chosenUri.toString().toUpperCase();
+                                if (str_URI.contains("IMAGE")) {
+                                    view.setPreviewImageUri(chosenUri);
+                                } else if (str_URI.contains("VIDEO")) {
+                                    view.setPreviewVideoUri(chosenUri);
+                                }
                             } else {
-                                showToast("No Image Selected");
+                                showToast("No Image/Video Selected");
                             }
                         } else {
-                            showToast("No Image Selected");
+                            showToast("No Image/Video Selected");
                         }
                     }
                 }
@@ -106,6 +121,5 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
     List<String> getPeriods() {
         return model.getPeriodList();
     }
-
 
 }

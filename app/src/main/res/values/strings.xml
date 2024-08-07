@@ -72,5 +72,10 @@
         <item>All Items</item>
     </string-array>
 
+    <string-array name="admin_options">
+        <item>Add</item>
+        <item>Delete</item>
+        <item>Report</item>
+    </string-array>
 
 </resources>

@@ -2,6 +2,7 @@ package com.example.b07demosummer2024;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,9 +15,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +46,8 @@ import java.util.List;
 
 public class AddItemFragmentView extends Fragment {
     private ImageView itemImagePreview;
+    private VideoView itemVideoPreview;
+
     private EditText editTextItemName, editTextItemLotNumber;
     private TextInputEditText editTextItemDescription;
     private AutoCompleteTextView autoCompleteCategory, autoCompletePeriod;
@@ -58,6 +63,7 @@ public class AddItemFragmentView extends Fragment {
         presenter = new AddItemFragmentPresenter(this, new AddItemFragmentModel());
 
         itemImagePreview = view.findViewById(R.id.uploadImagePreview);
+        itemVideoPreview = view.findViewById(R.id.uploadVideoPreview);
         editTextItemName = view.findViewById(R.id.itemNameInput);
         editTextItemLotNumber = view.findViewById(R.id.lotNumberInput);
         editTextItemDescription = view.findViewById(R.id.textInputEditText);
@@ -67,7 +73,8 @@ public class AddItemFragmentView extends Fragment {
 
         Button addItemButton = view.findViewById(R.id.addButton);
         Button uploadImageButton = view.findViewById(R.id.imageUploadButton);
-
+        Button uploadVideoButton = view.findViewById(R.id.videoUploadButton);
+        itemVideoPreview.setVisibility(View.INVISIBLE);
 
         ArrayAdapter<String> categoryAutoCompleteAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, presenter.getCategories());
         categoryAutoCompleteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -79,7 +86,17 @@ public class AddItemFragmentView extends Fragment {
 
         presenter.registerResult();
 
-        uploadImageButton.setOnClickListener(v -> presenter.pickImage());
+        uploadImageButton.setOnClickListener(v -> {
+                presenter.pickImage();
+                itemVideoPreview.setVisibility(View.INVISIBLE);
+                itemImagePreview.setVisibility(View.VISIBLE);
+        });
+
+        uploadVideoButton.setOnClickListener(v -> {
+                presenter.pickVideo();
+                itemImagePreview.setVisibility(View.INVISIBLE);
+                itemVideoPreview.setVisibility(View.VISIBLE);
+        });
 
         addItemButton.setOnClickListener(v -> {
             presenter.addItem(editTextItemLotNumber.getText().toString().trim(),
@@ -88,7 +105,6 @@ public class AddItemFragmentView extends Fragment {
                     autoCompleteCategory.getText().toString().trim(),
                     editTextItemDescription.getText().toString().trim()
             );
-
         });
 
         return view;
@@ -119,5 +135,19 @@ public class AddItemFragmentView extends Fragment {
     void setPreviewImageUri(Uri imageUri) {
         itemImagePreview.setImageURI(imageUri);
     }
+    void setPreviewVideoUri(Uri imageUri) {
+        itemVideoPreview.setVideoURI(imageUri);
 
+        MediaController mediaController = new MediaController(getContext());
+        mediaController.setAnchorView(itemVideoPreview);
+        itemVideoPreview.setMediaController(mediaController);
+
+        itemVideoPreview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+                mp.start();
+            }
+        });
+    }
 }
