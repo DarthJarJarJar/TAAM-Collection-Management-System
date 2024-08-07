@@ -44,10 +44,13 @@ public class ItemDetails extends Fragment {
 
         String imgUrl = item.getUrl();
 
-        Glide.with(this)
-                        .load(imgUrl)
-                                .into(image);
+        if (item.getMediaType().equals("Image")) {
+            Glide.with(this)
+                    .load(imgUrl)
+                    .into(image);
+        } else if (item.getMediaType().equals("Video"){
 
+        }
 
         title.setText(item.getTitle());
         category.setText(item.getCategory());

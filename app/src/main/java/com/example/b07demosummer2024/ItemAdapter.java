@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -86,9 +88,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.textViewPeriod.setText(item.getPeriod());
         holder.textViewCategory.setText(item.getCategory());
         holder.textViewLotNumber.setText(item.getLotNumberString());
-        Glide.with(holder.itemView.getContext())
-                .load(item.getUrl())
-                .into(holder.itemImage);
+
+        if (item.getMediaType().equals("Image")) {
+            Glide.with(holder.itemView.getContext())
+                    .load(item.getUrl())
+                    .into(holder.itemImage);
+        } else if (item.getMediaType().equals("Video")) {
+            Glide.with(holder.itemView.getContext())
+                    .load(item.getUrl()+"/0.jpg")
+                    .into(holder.itemImage);
+        }
     }
 
     @Override
