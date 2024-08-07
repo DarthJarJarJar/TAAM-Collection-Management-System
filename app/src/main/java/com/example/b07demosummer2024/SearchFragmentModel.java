@@ -36,7 +36,7 @@ public class SearchFragmentModel {
     }
 
 
-    public List<Item> filterItems(int lotNumber, String itemName, String category, String period, boolean checkCategory, boolean checkPeriod) {
+    public List<Item> filterItems(int lotNumber, String itemName, String category, String period, boolean checkCategory, boolean checkPeriod, String keyword) {
         List<Item> filteredItems = new ArrayList<>();
         SearchModel();
         if (allItems == null) {
@@ -45,7 +45,10 @@ public class SearchFragmentModel {
         }
         for (Item item : allItems) {
             boolean matchesLotNumber = (lotNumber == -1) || (item.getId() == lotNumber);
-            boolean matchesItemName = itemName.isEmpty() || item.getTitle().equalsIgnoreCase(itemName);
+            boolean matchesItemName = (itemName.isEmpty() && keyword.isEmpty()) ||
+                    (keyword.isEmpty() && item.getTitle().equalsIgnoreCase(itemName)) ||
+                    (itemName.isEmpty() && isSubstring(item, keyword)) ||
+                    (item.getTitle().equalsIgnoreCase((itemName)) && isSubstring(item, keyword));
             boolean matchesCategory = !checkCategory || category.equals("Any") || item.getCategory().equals(category);
             boolean matchesPeriod = !checkPeriod || period.equals("Any") || item.getPeriod().equals(period);
 
@@ -55,5 +58,9 @@ public class SearchFragmentModel {
             }
         }
         return filteredItems;
+    }
+
+    private boolean isSubstring(Item item, String substring){
+        return item.getTitle().toLowerCase().contains(substring.toLowerCase());
     }
 }

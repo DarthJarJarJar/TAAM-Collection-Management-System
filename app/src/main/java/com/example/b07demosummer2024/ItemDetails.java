@@ -1,11 +1,17 @@
 package com.example.b07demosummer2024;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,11 +19,16 @@ import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+
 public class ItemDetails extends Fragment {
     Item item;
+    DatabaseManager manager;
 
     public ItemDetails(Item item) {
         this.item = item;
+        manager = DatabaseManager.getInstance();
     }
 
     @Nullable
@@ -31,12 +42,39 @@ public class ItemDetails extends Fragment {
         TextView description = view.findViewById(R.id.textViewDescription);
         ImageView image = view.findViewById(R.id.imageViewItemImage);
 
-        String imgUrl = item.getImageUrl();
+        VideoView video = view.findViewById(R.id.videoViewItem);
 
-        Glide.with(this)
-                        .load(imgUrl)
-                                .into(image);
+        image.setVisibility(View.INVISIBLE);
+        video.setVisibility(View.INVISIBLE);
 
+
+
+        String imgUrl = item.getUrl();
+
+        if (item.getMediaType().equals("Image")) {
+            image.setVisibility(View.VISIBLE);
+            video.setVisibility(View.INVISIBLE);
+            Glide.with(this)
+                    .load(imgUrl)
+                    .into(image);
+        } else if (item.getMediaType().equals("Video")) {
+            video.setVisibility(View.VISIBLE);
+            image.setVisibility(View.INVISIBLE);
+
+            video.setVideoPath(imgUrl+".mp4");
+
+            MediaController mediaController = new MediaController(getContext(), false);
+            mediaController.setAnchorView(video);
+            video.setMediaController(null);
+
+            video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setLooping(true);
+                    mp.start();
+                }
+            });
+        }
 
         title.setText(item.getTitle());
         category.setText(item.getCategory());

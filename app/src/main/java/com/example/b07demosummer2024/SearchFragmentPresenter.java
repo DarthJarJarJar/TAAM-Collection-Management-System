@@ -24,15 +24,17 @@ public class SearchFragmentPresenter {
         String itemName = view.getItemName();
         String category = view.getCategory();
         String period = view.getPeriod();
+        String keyword = view.getKeyword();
 
+        System.out.println(keyword);
 
-        boolean noCriteriaEntered = lotNumber == -1 && itemName.isEmpty() && category.equals("Any") && period.equals("Any");
+        boolean noCriteriaEntered = (lotNumber == -1) && itemName.isEmpty() && category.equals("Any") && period.equals("Any") && keyword.isEmpty();
 
 
         if (noCriteriaEntered) {
             view.showToast("Please enter at least one search criterion.");
         } else {
-            List<Item> filteredItems = model.filterItems(lotNumber, itemName, category, period, view.categoryChecked(), view.periodChecked());
+            List<Item> filteredItems = model.filterItems(lotNumber, itemName, category, period, view.categoryChecked(), view.periodChecked(), keyword);
             view.displayResults(filteredItems);
         }
     }

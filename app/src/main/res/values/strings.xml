@@ -10,6 +10,7 @@
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
     <string name="item_name">Item Name</string>
+    <string name="key_word">Keyword</string>
     <string name="lot_number">Lot Number</string>
     <string name="add_new_item">Add New Item</string>
     <string name="category_label">Category</string>
@@ -29,6 +30,9 @@
     <string name="add">Add</string>
     <string name="delete">Delete</string>
     <string name="report">Report</string>
+    <string name="exit">Exit</string>
+    <string name="cancel">Cancel</string>
+    <string name="exit_question">Do you want to exit the app?</string>
 
     <string-array name="categories_array">
         <item>Jade</item>
@@ -69,5 +73,10 @@
         <item>All Items</item>
     </string-array>
 
+    <string-array name="admin_options">
+        <item>Add</item>
+        <item>Delete</item>
+        <item>Report</item>
+    </string-array>
 
 </resources>

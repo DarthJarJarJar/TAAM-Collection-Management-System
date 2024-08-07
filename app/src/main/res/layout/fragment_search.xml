@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchFragmentView"
+    tools:context=".SearchFragment"
 
     >
 
@@ -35,23 +35,14 @@
 
             <!-- Lot Number Label -->
 
-            <TextView
-                android:id="@+id/labelLotNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="136dp"
-                android:text="Lot Number"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
 
             <EditText
                 android:id="@+id/lotNumberInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="28dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="32dp"
                 android:ems="10"
                 android:hint="@string/lot_number"
                 android:inputType="number"
@@ -59,23 +50,16 @@
                 android:minHeight="48dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/labelLotNumber"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-            <TextView
-                android:id="@+id/labelItemName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="28dp"
-                android:text="Item Name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lotNumberInput" />
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <EditText
                 android:id="@+id/itemNameInput"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
@@ -85,8 +69,28 @@
                 android:minHeight="48dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/labelItemName"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lotNumberInput" />
+
+
+            <EditText
+                android:id="@+id/keyWordInput"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:ems="10"
+                android:hint="@string/key_word"
+                android:inputType="text"
+                android:minWidth="100dp"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
 
 
             <CheckBox
@@ -97,7 +101,7 @@
                 android:layout_marginStart="32dp"
                 android:text="Search by category"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
+                app:layout_constraintTop_toBottomOf="@+id/keyWordInput" />
 
             <TextView
                 android:id="@+id/categoryLabel"
@@ -155,16 +159,22 @@
 
             <Button
                 android:id="@+id/buttonSearch"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="32dp"
+
                 android:backgroundTint="#000000"
                 android:text="Search"
                 android:textColor="#FFC107"
-                app:layout_constraintTop_toBottomOf="@+id/periodSpinner"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5" />
+
+                app:layout_constraintHorizontal_bias="0.5"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/periodSpinner" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -183,8 +193,8 @@
                 android:id="@+id/searchResultsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/buttonSearch"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

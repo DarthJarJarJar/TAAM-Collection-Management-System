@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReportFragmentPresenter {
+    private static final int PAGE_WIDTH_LETTER_SIZE = 612;
+    private static final int PAGE_HEIGHT_LETTER_SIZE = 792;
+
     ReportFragmentView view;
     ReportFragmentModel model;
 
@@ -36,9 +39,24 @@ public class ReportFragmentPresenter {
         this.model = model;
     }
 
+    private boolean validateGenerateReportForm(String reportType) {
+        switch (reportType) {
+            case "Lot Number":
+            case "Name":
+                return !(view.getEditTextValue().isEmpty());
+            case "Category":
+            case "Period":
+                return !(view.getDetailSpinnerValue().isEmpty());
+            case "All Items":
+                return true;
+            default:
+                return false;
+        }
+    }
+
 
     void makePdf(String reportType, boolean imageAndDescriptionOnly) {
-        if (!reportType.equals("All Items") && view.getEditTextValue().isEmpty() && view.getDetailSpinnerValue().isEmpty()) {
+        if (!validateGenerateReportForm(reportType)) {
             view.showToast("Please fill all the fields");
             return;
         }
@@ -156,7 +174,7 @@ public class ReportFragmentPresenter {
         View pdfView = createPdfPageView(item, imageAndDescriptionOnly);
         ImageView imageView = pdfView.findViewById(R.id.pdfLayoutItemImage);
 
-        String imageUrl = item.getImageUrl();
+        String imageUrl = item.getUrl();
 
         Glide.with(pdfView.getContext())
                 .asBitmap()
@@ -185,8 +203,6 @@ public class ReportFragmentPresenter {
 
 
     private void addPageToDocument(View pdfView, PdfDocument document, int pageNumber) {
-        final int PAGE_WIDTH_LETTER_SIZE = 612;
-        final int PAGE_HEIGHT_LETTER_SIZE = 792;
         pdfView.measure(View.MeasureSpec.makeMeasureSpec(PAGE_WIDTH_LETTER_SIZE, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(PAGE_HEIGHT_LETTER_SIZE, View.MeasureSpec.EXACTLY));
 

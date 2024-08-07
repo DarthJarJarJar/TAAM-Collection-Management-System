@@ -44,8 +44,7 @@ public class MainActivityView extends AppCompatActivity {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (currentFragment instanceof MainScreenView) {
-            finish();
-            System.exit(0);
+            presenter.exitAppDialogBox();
         } else {
             if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                 getSupportFragmentManager().popBackStack();
