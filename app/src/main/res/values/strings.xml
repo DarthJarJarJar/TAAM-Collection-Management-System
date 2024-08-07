@@ -9,7 +9,8 @@
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
-    <string name="key_word">Item Name</string>
+    <string name="item_name">Item Name</string>
+    <string name="key_word">Keyword</string>
     <string name="lot_number">Lot Number</string>
     <string name="add_new_item">Add New Item</string>
     <string name="category_label">Category</string>
