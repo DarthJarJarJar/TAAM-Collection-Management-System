@@ -1,0 +1,10 @@
+<resources>
+    <style name="CustomMenuTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize color of navigation drawer icon and back arrow -->
+        <item name="colorControlNormal">@color/yellow</item>
+    </style>
+</resources>

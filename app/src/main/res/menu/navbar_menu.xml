@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="@string/home"
+        app:showAsAction="always"
+        android:icon="@drawable/baseline_home_24" />
+
+    <item
+        android:id="@+id/nav_view"
+        android:title="@string/view"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/baseline_remove_red_eye_24" />
+
+    <item
+        android:id="@+id/nav_search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/baseline_search_24" />
+
+    <item
+        android:id="@+id/nav_admin"
+        android:title="@string/admin"
+        android:icon="@drawable/baseline_person_24"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/admin_login"
+                android:title="@string/login" />
+            <item
+                android:id="@+id/admin_add"
+                android:title="@string/add"
+                android:visible="false" />
+            <item
+                android:id="@+id/admin_delete"
+                android:title="@string/delete"
+                android:visible="false" />
+            <item
+                android:id="@+id/admin_report"
+                android:title="@string/report"
+                android:visible="false" />
+            <item
+                android:id="@+id/admin_logout"
+                android:title="@string/back"
+                android:visible="false" />
+        </menu>
+    </item>
+</menu>

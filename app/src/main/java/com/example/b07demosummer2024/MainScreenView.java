@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,10 +32,12 @@ public class MainScreenView extends Fragment {
     private MainScreenPresenter presenter;
     private RecyclerView recyclerView;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         presenter = new MainScreenPresenter(this, new MainScreenModel());
         recyclerView = view.findViewById(R.id.recyclerView);
         pageNoInfo = view.findViewById(R.id.textView2);
@@ -57,6 +60,12 @@ public class MainScreenView extends Fragment {
         presenter.loadItems();
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        super.onPause();
     }
 
     void updateRecyclerList(List<Item> updatedList) {
