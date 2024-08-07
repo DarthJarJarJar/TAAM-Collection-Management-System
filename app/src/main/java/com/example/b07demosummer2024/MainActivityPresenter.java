@@ -127,10 +127,10 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
 
     private void setAdminView(boolean isAdmin) {
         this.adminView = isAdmin;
-        SharedPreferences prefs = view.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+      /*  SharedPreferences prefs = view.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(KEY_ADMIN_VIEW, isAdmin);
-        editor.apply();
+        editor.apply();*/
     }
 
     private void loadAdminViewState() {
