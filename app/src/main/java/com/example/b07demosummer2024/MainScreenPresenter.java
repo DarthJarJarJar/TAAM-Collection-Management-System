@@ -73,7 +73,7 @@ public class MainScreenPresenter implements MainScreenPresenterInterface {
 
     public void setMaxPages(int maxPages) {
         this.maxPages = maxPages;
-        if (maxPages < pageNumber)
+        if (maxPages < pageNumber && maxPages != 0)
             pageNumber = maxPages;
     }
 
