@@ -102,67 +102,58 @@ public class AddItemFragmentModel {
                 }
 
                 StorageReference storageRef = storage.getReference();
-                StorageReference imagesRef = storageRef.child("images/" + System.currentTimeMillis() + "_" + chosenUri.getLastPathSegment());
-                UploadTask uploadTask = imagesRef.putFile(chosenUri);
 
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        presenterInterface.showToast("Upload failed: " + exception.getMessage());
-                        presenterInterface.clearProgressBar();
+                if (mediaType.equals("Image")) {
+                    StorageReference imagesRef = storageRef.child("images/" + System.currentTimeMillis() + "_" + chosenUri.getLastPathSegment());
+                    UploadTask uploadTask = imagesRef.putFile(chosenUri);
 
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri downloadUri) {
-                                String  uploadedImageUri = downloadUri.toString();
-                                Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri, "Image");
-                                add(item);
-//
-//
-//                                itemsRef.child(String.valueOf(lotNumber)).setValue(item).addOnCompleteListener(task -> {
-//                                    if (task.isSuccessful()) {
-//                                        presenterInterface.clearForm();
-//                                    } else {
-//                                        presenterInterface.showToast("Failed to add item");
-//                                    }
-//                                });
-//
-//                                if (!manager.getCategories().contains(itemCategory)) {
-//                                    DatabaseReference categoriesRef = db.getReference("Categories");
-//                                    String id = categoriesRef.push().getKey();
-//
-//                                    categoriesRef.child(id).setValue(itemCategory).addOnCompleteListener(task -> {
-//                                        if (task.isSuccessful()) {
-//                                            presenterInterface.showToast("New category added");
-//                                        } else {
-//                                            presenterInterface.showToast("Failed to add new category");
-//                                        }
-//                                    });
-//
-//                                }
-//
-//                                if (!manager.getPeriods().contains(itemPeriod)) {
-//                                    DatabaseReference periodsRef = db.getReference("Periods");
-//                                    String id = periodsRef.push().getKey();
-//
-//                                    periodsRef.child(id).setValue(itemPeriod).addOnCompleteListener(task -> {
-//                                        if (task.isSuccessful()) {
-//                                            presenterInterface.showToast("New period added");
-//                                        } else {
-//                                            presenterInterface.showToast("Failed to add period");
-//                                        }
-//                                    });
-//
-//                                }
-//                                presenterInterface.clearProgressBar();
-                            }
-                        });
-                    }
-                });
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            presenterInterface.showToast("Upload failed: " + exception.getMessage());
+                            presenterInterface.clearProgressBar();
+
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri downloadUri) {
+                                    String  uploadedImageUri = downloadUri.toString();
+                                    Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedImageUri, "Image");
+                                    add(item);
+                                }
+                            });
+                        }
+                    });
+                }
+
+                else if (mediaType.equals("Video")) {
+                    StorageReference videosRef = storageRef.child("videos/" + System.currentTimeMillis() + "_" + chosenUri.getLastPathSegment());
+                    UploadTask uploadTask = videosRef.putFile(chosenUri);
+
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            presenterInterface.showToast("Upload failed: " + exception.getMessage());
+                            presenterInterface.clearProgressBar();
+
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            videosRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri downloadUri) {
+                                    String  uploadedVideoUri = downloadUri.toString();
+                                    Item item = new Item(lotNumber, itemName, itemCategory, itemPeriod, itemDescription, uploadedVideoUri, "Video");
+                                    add(item);
+                                }
+                            });
+                        }
+                    });
+                }
             }
 
             @Override

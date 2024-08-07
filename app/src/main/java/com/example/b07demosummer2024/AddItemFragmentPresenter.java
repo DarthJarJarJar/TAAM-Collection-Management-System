@@ -20,7 +20,7 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
     private ActivityResultLauncher<Intent> resultLauncher;
     private Uri chosenUri;
 
-    String media = "";
+    String media = "Image";
 
     public AddItemFragmentPresenter(AddItemFragmentView view, AddItemFragmentModel model) {
         model.presenterInterface = this;
@@ -78,11 +78,13 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
     void pickImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         resultLauncher.launch(intent);
+        media="Image";
     }
 
     void pickVideo(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         resultLauncher.launch(intent);
+        media="Video";
     }
 
     void registerResult() {
@@ -114,7 +116,4 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
         return model.getPeriodList();
     }
 
-    void updateMedia(){
-        if (view.)
-    }
 }

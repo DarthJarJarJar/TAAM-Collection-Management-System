@@ -45,7 +45,6 @@ import java.util.List;
 public class AddItemFragmentView extends Fragment {
     private ImageView itemImagePreview;
     private VideoView itemVideoPreview;
-    String media;
 
     private EditText editTextItemName, editTextItemLotNumber;
     private TextInputEditText editTextItemDescription;
@@ -73,7 +72,7 @@ public class AddItemFragmentView extends Fragment {
         Button addItemButton = view.findViewById(R.id.addButton);
         Button uploadImageButton = view.findViewById(R.id.imageUploadButton);
         Button uploadVideoButton = view.findViewById(R.id.videoUploadButton);
-
+        itemVideoPreview.setVisibility(View.INVISIBLE);
 
         ArrayAdapter<String> categoryAutoCompleteAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, presenter.getCategories());
         categoryAutoCompleteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -85,18 +84,25 @@ public class AddItemFragmentView extends Fragment {
 
         presenter.registerResult();
 
-        uploadImageButton.setOnClickListener(v -> presenter.pickImage());
-        uploadVideoButton.setOnClickListener(v -> presenter.pickVideo());
+        uploadImageButton.setOnClickListener(v -> {
+                presenter.pickImage();
+                itemVideoPreview.setVisibility(View.INVISIBLE);
+                itemImagePreview.setVisibility(View.VISIBLE);
+        });
+
+        uploadVideoButton.setOnClickListener(v -> {
+                presenter.pickVideo();
+                itemImagePreview.setVisibility(View.INVISIBLE);
+                itemVideoPreview.setVisibility(View.VISIBLE);
+        });
 
         addItemButton.setOnClickListener(v -> {
-            presenter.updateMedia();
             presenter.addItem(editTextItemLotNumber.getText().toString().trim(),
                     editTextItemName.getText().toString().trim(),
                     autoCompletePeriod.getText().toString().trim(),
                     autoCompleteCategory.getText().toString().trim(),
-                    editTextItemDescription.getText().toString().trim(),
+                    editTextItemDescription.getText().toString().trim()
             );
-
         });
 
         return view;
@@ -128,13 +134,4 @@ public class AddItemFragmentView extends Fragment {
         itemImagePreview.setImageURI(imageUri);
     }
 
-    void updateMedia(){
-        if (itemImagePreview.getVisibility() == View.VISIBLE) {
-            media = "Image";
-        } else if (itemVideoPreview.getVisibility() == View.VISIBLE) {
-            media = "Video";
-        } else {
-            media = null;
-        }
-    }
 }
