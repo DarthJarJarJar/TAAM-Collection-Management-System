@@ -130,6 +130,7 @@ public class AddItemFragmentView extends Fragment {
         autoCompleteCategory.setText("");
         autoCompletePeriod.setText("");
         itemImagePreview.setImageResource(R.drawable.placeholder);
+        hideVideo();
     }
 
     void setPreviewImageUri(Uri imageUri) {
@@ -138,9 +139,9 @@ public class AddItemFragmentView extends Fragment {
     void setPreviewVideoUri(Uri imageUri) {
         itemVideoPreview.setVideoURI(imageUri);
 
-        MediaController mediaController = new MediaController(getContext());
+        MediaController mediaController = new MediaController(getContext(), false);
         mediaController.setAnchorView(itemVideoPreview);
-        itemVideoPreview.setMediaController(mediaController);
+        itemVideoPreview.setMediaController(null);
 
         itemVideoPreview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -149,5 +150,16 @@ public class AddItemFragmentView extends Fragment {
                 mp.start();
             }
         });
+    }
+
+    void hideVideo(){
+        itemVideoPreview.setVisibility(View.INVISIBLE);
+        itemImagePreview.setVisibility(View.VISIBLE);
+        itemImagePreview.setImageResource(R.drawable.placeholder);
+    }
+
+    void hideImage(){
+        itemVideoPreview.setVisibility(View.VISIBLE);
+        itemImagePreview.setVisibility(View.INVISIBLE);
     }
 }

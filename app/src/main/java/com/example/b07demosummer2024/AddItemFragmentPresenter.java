@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -93,14 +94,18 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
+                        view.hideVideo();
                         if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
 
                             chosenUri = result.getData().getData();
                             if (chosenUri != null) {
                                 String str_URI = chosenUri.toString().toUpperCase();
                                 if (str_URI.contains("IMAGE")) {
+                                    media="Image";
                                     view.setPreviewImageUri(chosenUri);
                                 } else if (str_URI.contains("VIDEO")) {
+                                    view.hideImage();
+                                    media="Video";
                                     view.setPreviewVideoUri(chosenUri);
                                 }
                             } else {
