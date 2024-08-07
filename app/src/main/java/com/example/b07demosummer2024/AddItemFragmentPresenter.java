@@ -20,6 +20,8 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
     private ActivityResultLauncher<Intent> resultLauncher;
     private Uri chosenUri;
 
+    String media = "";
+
     public AddItemFragmentPresenter(AddItemFragmentView view, AddItemFragmentModel model) {
         model.presenterInterface = this;
         this.view = view;
@@ -50,7 +52,7 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
         return str;
     }
 
-    void addItem(String itemLotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription, String media) {
+    void addItem(String itemLotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription) {
         if (itemLotNumber.isEmpty() || itemName.isEmpty() || itemPeriod.isEmpty() || itemCategory.isEmpty()) {
             view.showToast("Please fill out all the fields");
             return;
@@ -112,5 +114,7 @@ public class AddItemFragmentPresenter implements AddItemFragmentPresenterInterfa
         return model.getPeriodList();
     }
 
-
+    void updateMedia(){
+        if (view.)
+    }
 }

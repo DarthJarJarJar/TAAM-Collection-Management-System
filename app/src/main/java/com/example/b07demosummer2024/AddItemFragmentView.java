@@ -45,8 +45,7 @@ import java.util.List;
 public class AddItemFragmentView extends Fragment {
     private ImageView itemImagePreview;
     private VideoView itemVideoPreview;
-
-    private String media = "";
+    String media;
 
     private EditText editTextItemName, editTextItemLotNumber;
     private TextInputEditText editTextItemDescription;
@@ -90,12 +89,12 @@ public class AddItemFragmentView extends Fragment {
         uploadVideoButton.setOnClickListener(v -> presenter.pickVideo());
 
         addItemButton.setOnClickListener(v -> {
+            presenter.updateMedia();
             presenter.addItem(editTextItemLotNumber.getText().toString().trim(),
                     editTextItemName.getText().toString().trim(),
                     autoCompletePeriod.getText().toString().trim(),
                     autoCompleteCategory.getText().toString().trim(),
                     editTextItemDescription.getText().toString().trim(),
-                    media
             );
 
         });
@@ -129,5 +128,13 @@ public class AddItemFragmentView extends Fragment {
         itemImagePreview.setImageURI(imageUri);
     }
 
-    
+    void updateMedia(){
+        if (itemImagePreview.getVisibility() == View.VISIBLE) {
+            media = "Image";
+        } else if (itemVideoPreview.getVisibility() == View.VISIBLE) {
+            media = "Video";
+        } else {
+            media = null;
+        }
+    }
 }
