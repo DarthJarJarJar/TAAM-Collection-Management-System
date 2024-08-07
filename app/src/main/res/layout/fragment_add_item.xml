@@ -37,11 +37,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="64dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
                 android:hint="@string/lot_number"
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView9"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <EditText
@@ -49,12 +51,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="32dp"
                 android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/item_name"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView10"
                 app:layout_constraintTop_toBottomOf="@+id/lotNumberInput" />
 
             <AutoCompleteTextView
@@ -62,10 +66,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
                 android:hint="@string/period_label"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView8"
                 app:layout_constraintTop_toBottomOf="@+id/categoryAutoCompleteTextView" />
 
             <AutoCompleteTextView
@@ -73,10 +79,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
                 android:hint="@string/category_label"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
 
             <com.google.android.material.textfield.TextInputEditText
