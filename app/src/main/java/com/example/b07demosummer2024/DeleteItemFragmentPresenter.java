@@ -1,5 +1,6 @@
 package com.example.b07demosummer2024;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,16 +18,18 @@ public class DeleteItemFragmentPresenter implements DeleteItemFragmentPresenterI
     DeleteItemFragmentModel model;
     DeleteItemFragmentView view;
     private SearchFragmentModel search;
+    Context context;
 
 
     int counter = 1;
     private List<Map<String, String>> output_delete_list = new ArrayList<Map<String, String>>();
     private List<Item> itemList;
 
-    public DeleteItemFragmentPresenter(DeleteItemFragmentView view, DeleteItemFragmentModel model) {
+    public DeleteItemFragmentPresenter(Context context, DeleteItemFragmentView view, DeleteItemFragmentModel model) {
         model.presenterInterface = this;
         this.view = view;
         this.model = model;
+        this.context = context;
     }
 
     void iterate_delete_items() {
@@ -42,16 +46,20 @@ public class DeleteItemFragmentPresenter implements DeleteItemFragmentPresenterI
 
     private void checkRemoveCategory(String category){
         List<Item> res = search.filterItems(-1, "", category, "", true, false, "");
+        String[] defaultCategories = context.getResources().getStringArray(R.array.categories_array);
+        List<String> defaultCategoriesList = Arrays.asList(defaultCategories);
 
-        if(res.isEmpty()){
+        if(res.isEmpty() && !defaultCategoriesList.contains(category)){
             model.removeField("Categories", category);
         }
     }
 
     private void checkRemovePeriod(String period){
         List<Item> res = search.filterItems(-1, "", "", period, false, true, "");
+        String[] defaultPeriods = context.getResources().getStringArray(R.array.period_array);
+        List<String> defaultPeriodsList = Arrays.asList(defaultPeriods);
 
-        if(res.isEmpty()){
+        if(res.isEmpty() && !defaultPeriodsList.contains(period)){
             model.removeField("Periods", period);
         }
     }

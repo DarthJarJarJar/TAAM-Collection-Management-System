@@ -42,7 +42,7 @@ public class DeleteItemFragmentView extends Fragment {
         buttonDelete = view.findViewById(R.id.buttonDelete);
 
 
-        presenter = new DeleteItemFragmentPresenter(this, new DeleteItemFragmentModel());
+        presenter = new DeleteItemFragmentPresenter(requireContext(), this, new DeleteItemFragmentModel());
 
         presenter.setSearch(new SearchFragmentModel());
         presenter.setItemList(itemList);
