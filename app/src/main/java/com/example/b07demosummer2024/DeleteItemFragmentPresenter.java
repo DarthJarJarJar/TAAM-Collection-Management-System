@@ -1,5 +1,6 @@
 package com.example.b07demosummer2024;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,67 +18,55 @@ import java.util.Map;
  */
 public class DeleteItemFragmentPresenter implements DeleteItemFragmentPresenterInterface {
 
-  DeleteItemFragmentModel model;
-  DeleteItemFragmentView view;
-  private SearchFragmentModel search;
+    DeleteItemFragmentModel model;
+    DeleteItemFragmentView view;
+    private SearchFragmentModel search;
+    Context context;
 
 
-  int counter = 1;
-  private List<Map<String, String>> output_delete_list = new ArrayList<Map<String, String>>();
-  private List<Item> itemList;
+    int counter = 1;
+    private List<Map<String, String>> output_delete_list = new ArrayList<Map<String, String>>();
+    private List<Item> itemList;
 
-  /**
-   * constructor for the presenter
-   *
-   * @param view  the view
-   * @param model the model
-   */
-  public DeleteItemFragmentPresenter(DeleteItemFragmentView view, DeleteItemFragmentModel model) {
-    model.presenterInterface = this;
-    this.view = view;
-    this.model = model;
-  }
+    public DeleteItemFragmentPresenter(Context context, DeleteItemFragmentView view, DeleteItemFragmentModel model) {
+        model.presenterInterface = this;
+        this.view = view;
+        this.model = model;
+        this.context = context;
+    }
 
-  /**
-   * iterates over the selected items in itemList
-   */
-  void iterate_delete_items() {
-    for (Item curItem : itemList) {
-      model.remove_item(curItem, new DeletionSuccessListener() {
-        @Override
-        public void onSuccess(String category, String period) {
-          checkRemoveCategory(category);
-          checkRemovePeriod(period);
+    void iterate_delete_items() {
+        for (Item curItem : itemList) {
+            model.remove_item(curItem, new DeletionSuccessListener() {
+                @Override
+                public void onSuccess(String category, String period) {
+                    checkRemoveCategory(category);
+                    checkRemovePeriod(period);
+                }
+            });
         }
       });
     }
-  }
 
-  /**
-   * removes category if none of its items are left in the db
-   *
-   * @param category the category
-   */
-  private void checkRemoveCategory(String category) {
-    List<Item> res = search.filterItems(-1, "", category, "",
-        true, false, "");
 
-    if (res.isEmpty()) {
-      model.removeField("Categories", category);
+    private void checkRemoveCategory(String category){
+        List<Item> res = search.filterItems(-1, "", category, "", true, false, "");
+        String[] defaultCategories = context.getResources().getStringArray(R.array.categories_array);
+        List<String> defaultCategoriesList = Arrays.asList(defaultCategories);
+
+        if(res.isEmpty() && !defaultCategoriesList.contains(category)){
+            model.removeField("Categories", category);
+        }
     }
-  }
 
-  /**
-   * removes a period of none of its items are left in the db
-   *
-   * @param period the period
-   */
-  private void checkRemovePeriod(String period) {
-    List<Item> res = search.filterItems(-1, "", "", period,
-        false, true, "");
+    private void checkRemovePeriod(String period){
+        List<Item> res = search.filterItems(-1, "", "", period, false, true, "");
+        String[] defaultPeriods = context.getResources().getStringArray(R.array.period_array);
+        List<String> defaultPeriodsList = Arrays.asList(defaultPeriods);
 
-    if (res.isEmpty()) {
-      model.removeField("Periods", period);
+        if(res.isEmpty() && !defaultPeriodsList.contains(period)){
+            model.removeField("Periods", period);
+        }
     }
   }
 

@@ -22,68 +22,55 @@ import java.util.Map;
  */
 public class DeleteItemFragmentView extends Fragment {
 
-  private Button buttonDelete;
-  private ListView delete_list;
-  DeleteItemFragmentPresenter presenter;
 
-  private List<Map<String, String>> output_delete_list = new ArrayList<Map<String, String>>();
-  private List<Item> itemList;
+    private Button buttonDelete;
+    private ListView delete_list;
+    DeleteItemFragmentPresenter presenter;
 
-  /**
-   * creates an instance of this fragment
-   *
-   * @param itemList the list of items to be removed
-   * @return the instance of this fragment
-   */
-  public static DeleteItemFragmentView newInstance(List<Item> itemList) {
-    DeleteItemFragmentView fragment = new DeleteItemFragmentView();
-    fragment.itemList = itemList;
-    return fragment;
-  }
+    private List<Map<String, String>> output_delete_list = new ArrayList<Map<String, String>>();
+    private List<Item> itemList;
 
-  @Nullable
-  @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_delete_item, container, false);
+    public static DeleteItemFragmentView newInstance(List<Item> itemList) {
+        DeleteItemFragmentView fragment = new DeleteItemFragmentView();
+        fragment.itemList = itemList;
+        return fragment;
+    }
 
-    delete_list = view.findViewById(R.id.delete_list);
-    buttonDelete = view.findViewById(R.id.buttonDelete);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_delete_item, container, false);
 
-    presenter = new DeleteItemFragmentPresenter(this, new DeleteItemFragmentModel());
+        delete_list = view.findViewById(R.id.delete_list);
+        buttonDelete = view.findViewById(R.id.buttonDelete);
 
-    presenter.setSearch(new SearchFragmentModel());
-    presenter.setItemList(itemList);
-    output_delete_list = new ArrayList<Map<String, String>>(presenter.setupSpinner());
 
-    SimpleAdapter adapter = new SimpleAdapter(getContext(), output_delete_list,
-        android.R.layout.simple_list_item_2, new String[]{"Title", "Lot Number"},
-        new int[]{android.R.id.text1, android.R.id.text2});
-    delete_list.setAdapter(adapter);
+        presenter = new DeleteItemFragmentPresenter(requireContext(), this, new DeleteItemFragmentModel());
 
-    buttonDelete.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        presenter.iterate_delete_items();
-      }
-    });
+        presenter.setSearch(new SearchFragmentModel());
+        presenter.setItemList(itemList);
+        output_delete_list = new ArrayList<Map<String, String>>(presenter.setupSpinner());
 
-    return view;
-  }
+        SimpleAdapter adapter = new SimpleAdapter(getContext(), output_delete_list, android.R.layout.simple_list_item_2, new String[] {"Title", "Lot Number"}, new int[] {android.R.id.text1, android.R.id.text2});
+        delete_list.setAdapter(adapter);
 
-  /**
-   * closes the fragment by popping backstack
-   */
-  void closeFragment() {
-    getParentFragmentManager().popBackStack();
-  }
 
-  /**
-   * shows a toast message in UI
-   *
-   * @param message the message to be displayed
-   */
-  void showToast(String message) {
-    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-  }
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.iterate_delete_items();
+            }
+        });
+
+        return view;
+    }
+
+    void closeFragment(){
+        getParentFragmentManager().popBackStack();
+    }
+
+    void showToast(String message){
+        Toast.makeText(getContext(),message, Toast.LENGTH_SHORT).show();
+    }
+
 }
