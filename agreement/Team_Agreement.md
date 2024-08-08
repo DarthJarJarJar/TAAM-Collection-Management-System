@@ -17,18 +17,14 @@
 Our expected response time is 30 minutes for our Discord Server. We expect everyone in the group to be willing to promptly respond and support our other team members.
 
 **Meetings:**
-We plan on conducting standup scrum meetings four times a week. The timings for the meeting are listed below:
+We plan on conducting standup scrum meetings three times in each sprint. The timings for the each meeting will be 6:30pm-6:45pm
 
-- Monday 6:30pm-6:45pm
-- Tuesday 6:30pm-6:45pm
-- Thursday 6:30pm-6:45pm
-- Friday 6:30pm-6:45pm
 
 In these standup meetings, each team member would be required to share what work they have done since the previous standup meeting, what work they plan on doing before the next meetings, and if they are facing any obstacles or blockers. In the event of a team member encountering an obstacle or blocker, we would briefly discuss steps to handle the situation and separate meetings would be scheduled to further discuss the matter if needed. Weekly recurring meetings will be set up on Zoom on the aforementioned days. Meeting details and passcode would be shared on Discord. 
 
 We plan to document each meeting using Google Docs, alongside defining Key Performance Indicators (these are already defined in the requirements of the assignment), helping us to stay on track despite any setbacks.
 
-On Wednesday, July 3 at 2pm we would be holding a meeting to create and review user stories that would be added to our backlog. Our sprints would be one week long. Each sprint would begin with a sprint planning meeting (right after Monday’s standup meeting) where we would be discussing which user stories will be picked up in the upcoming sprint, and assign each team member their respective tasks. At the end of each sprint, we aim to conduct a sprint retrospective meeting (to be held after Friday’s standup meeting) where we would be discussing what went well in the past sprint, and areas in which we could have done better. 
+On Wednesday, July 3 at 2pm we would be holding a meeting to create and review user stories that would be added to our backlog. Our sprints would be 3 days long. Each sprint would begin with a sprint planning meeting where we would be discussing which user stories will be picked up in the upcoming sprint, and assign each team member their respective tasks. At the end of each sprint, we aim to conduct a sprint retrospective meeting where we would be discussing what went well in the past sprint, and areas in which we could have done better. 
 
 **Definition of Done**:
 All code must be formatted according to Google’s Java style guide https://google.github.io/styleguide/javaguide.html
