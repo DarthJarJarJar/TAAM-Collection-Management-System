@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * presenter for report fragment
+ */
 public class ReportFragmentPresenter {
     private static final int PAGE_WIDTH_LETTER_SIZE = 612;
     private static final int PAGE_HEIGHT_LETTER_SIZE = 792;
@@ -34,11 +37,21 @@ public class ReportFragmentPresenter {
     ReportFragmentView view;
     ReportFragmentModel model;
 
+    /**
+     * constructor for the presenter
+     * @param view the view
+     * @param model the model
+     */
     public ReportFragmentPresenter(ReportFragmentView view, ReportFragmentModel model) {
         this.view = view;
         this.model = model;
     }
 
+    /**
+     * validates the generate report form based on the selected reportType
+     * @param reportType the type of report selected in UI
+     * @return trye iff the fields corresponding the reportType are nonempty
+     */
     private boolean validateGenerateReportForm(String reportType) {
         switch (reportType) {
             case "Lot Number":
@@ -54,7 +67,11 @@ public class ReportFragmentPresenter {
         }
     }
 
-
+    /**
+     * generates pdf report of items
+     * @param reportType the type of report to be generated
+     * @param imageAndDescriptionOnly whether the report will only have image and description
+     */
     void makePdf(String reportType, boolean imageAndDescriptionOnly) {
         if (!validateGenerateReportForm(reportType)) {
             view.showToast("Please fill all the fields");
@@ -116,6 +133,12 @@ public class ReportFragmentPresenter {
 
     }
 
+    /**
+     * generates title of report based on its type
+     * @param reportType type of the report
+     * @param imageAndDescOnly whether the report will only have images and descriptions
+     * @return the report title
+     */
     private String generateReportTitle(String reportType, boolean imageAndDescOnly) {
         String title = "Report_";
 
@@ -146,14 +169,29 @@ public class ReportFragmentPresenter {
 
     }
 
-    private void generatePdf(List<Item> itemList, boolean imageAndDescriptionOnly, String reportTitle) {
+    /**
+     * generates all pages of the pdf document
+     * @param itemList list of items to include in the report
+     * @param imageAndDescriptionOnly whether the report is item and description only
+     * @param reportTitle the title of the report
+     */
+    private void generatePdf(List<Item> itemList, boolean imageAndDescriptionOnly,
+                             String reportTitle) {
         PdfDocument document = new PdfDocument();
         loadImageAndGeneratePage(document, itemList, 0, imageAndDescriptionOnly, reportTitle);
     }
 
+    /**
+     * recursively loads pages to the pdf
+     * @param document the pdf document
+     * @param itemList the list of items
+     * @param index index of the item whose page is to be generated
+     * @param imageAndDescriptionOnly whether the report is image and description only
+     * @param reportTitle the title of the report
+     */
     private void loadImageAndGeneratePage(PdfDocument document, List<Item> itemList, int index, boolean imageAndDescriptionOnly, String reportTitle) {
         if (index >= itemList.size()) {
-            // all pages have been generated at this point
+            // base case: all pages have been generated at this point
             File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             File file = new File(downloadsDir, reportTitle);
 
@@ -202,6 +240,12 @@ public class ReportFragmentPresenter {
     }
 
 
+    /**
+     * adds a page to a pdf document
+     * @param pdfView the xml view representing the page layout
+     * @param document the document where the page will be added
+     * @param pageNumber page number of the page to be added
+     */
     private void addPageToDocument(View pdfView, PdfDocument document, int pageNumber) {
         pdfView.measure(View.MeasureSpec.makeMeasureSpec(PAGE_WIDTH_LETTER_SIZE, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(PAGE_HEIGHT_LETTER_SIZE, View.MeasureSpec.EXACTLY));
@@ -216,10 +260,21 @@ public class ReportFragmentPresenter {
         document.finishPage(page);
     }
 
+    /**
+     * sets the reports detail spinner depending on the type of report
+     * @param selectedSpinnerItem the selected report type
+     */
     public void setSpinner(String selectedSpinnerItem) {
-        view.updateDetailSpinnerBasedOnSelection(selectedSpinnerItem, model.getCategories(), model.getPeriods());
+        view.updateDetailSpinnerBasedOnSelection(selectedSpinnerItem, model.getCategories(),
+                model.getPeriods());
     }
 
+    /**
+     * creates a pdf page from an xml view
+     * @param item the item which will be on the page
+     * @param imageAndDescriptionOnly whether to include image and description only
+     * @return the generated view having info about the item
+     */
     private View createPdfPageView(Item item, boolean imageAndDescriptionOnly) {
         View pdfView = LayoutInflater.from(view.getContext()).inflate(R.layout.pdf_layout, null);
 

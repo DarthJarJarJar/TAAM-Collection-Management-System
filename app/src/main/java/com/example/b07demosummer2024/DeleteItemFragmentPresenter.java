@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * the presenter for DeleteItem fragment
+ */
 public class DeleteItemFragmentPresenter implements DeleteItemFragmentPresenterInterface {
 
     DeleteItemFragmentModel model;
@@ -22,12 +25,20 @@ public class DeleteItemFragmentPresenter implements DeleteItemFragmentPresenterI
     private List<Map<String, String>> output_delete_list = new ArrayList<Map<String, String>>();
     private List<Item> itemList;
 
+    /**
+     * constructor for the presenter
+     * @param view the view
+     * @param model the model
+     */
     public DeleteItemFragmentPresenter(DeleteItemFragmentView view, DeleteItemFragmentModel model) {
         model.presenterInterface = this;
         this.view = view;
         this.model = model;
     }
 
+    /**
+     * iterates over the selected items in itemList
+     */
     void iterate_delete_items() {
         for (Item curItem : itemList) {
             model.remove_item(curItem, new DeletionSuccessListener() {
@@ -40,22 +51,35 @@ public class DeleteItemFragmentPresenter implements DeleteItemFragmentPresenterI
         }
     }
 
+    /**
+     * removes category if none of its items are left in the db
+     * @param category the category
+     */
     private void checkRemoveCategory(String category){
-        List<Item> res = search.filterItems(-1, "", category, "", true, false, "");
+        List<Item> res = search.filterItems(-1, "", category, "",
+                true, false, "");
 
         if(res.isEmpty()){
             model.removeField("Categories", category);
         }
     }
 
+    /**
+     * removes a period of none of its items are left in the db
+     * @param period the period
+     */
     private void checkRemovePeriod(String period){
-        List<Item> res = search.filterItems(-1, "", "", period, false, true, "");
+        List<Item> res = search.filterItems(-1, "", "", period,
+                false, true, "");
 
         if(res.isEmpty()){
             model.removeField("Periods", period);
         }
     }
 
+    /**
+     * closes the delete screen and displays a success message once all items are deleted
+     */
     @Override
     public void close(){
         if (counter == itemList.size()) {
@@ -66,19 +90,35 @@ public class DeleteItemFragmentPresenter implements DeleteItemFragmentPresenterI
         }
     }
 
+    /**
+     * shows failure message as a toast
+     * @param message the message
+     */
     @Override
     public void printFailure(String message){
         view.showToast(message);
     }
 
+    /**
+     * sets the search fragment model
+     * @param search the search fragment model
+     */
     void setSearch(SearchFragmentModel search){
         this.search = search;
     }
 
+    /**
+     * initializes the itemList
+     * @param itemList the list of items
+     */
     void setItemList(List<Item> itemList){
         this.itemList = new ArrayList<>(itemList);
     }
 
+    /**
+     * sets up the spinner and adds items to the output delete list to be returned
+     * @return the list of items that are going to be deleted
+     */
     List<Map<String, String>> setupSpinner(){
         for(int i = 0; i < itemList.size(); i++){
             Item curItem = itemList.get(i);

@@ -13,11 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * view for the view fragment
+ */
 public class ViewItemsFragmentView extends Fragment {
 
     private List<Item> itemList;
     private ItemAdapter itemAdapter;
 
+    /**
+     * creates an instance for this fragment
+     * @param itemList list of items to view
+     * @return instance of this view
+     */
     public static ViewItemsFragmentView newInstance(List<Item> itemList) {
         ViewItemsFragmentView fragment = new ViewItemsFragmentView();
         fragment.itemList = itemList;

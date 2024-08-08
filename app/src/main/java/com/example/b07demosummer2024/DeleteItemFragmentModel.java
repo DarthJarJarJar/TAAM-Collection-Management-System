@@ -12,16 +12,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
+/**
+ * model for the DeleteItem fragment
+ */
 public class DeleteItemFragmentModel {
     private FirebaseDatabase db;
     private DatabaseReference itemsRef;
 
     DeleteItemFragmentPresenterInterface presenterInterface;
 
+    /**
+     * initializes the model with an instance of the firebase db
+     */
     public DeleteItemFragmentModel() {
         this.db = FirebaseDatabase.getInstance("https://cscb07final-default-rtdb.firebaseio.com/");
     }
 
+    /**
+     * removes a given item, if exits, from the DB and informs all listeners
+     * @param item the item to be deleted
+     * @param listener listener to be informed of deletion
+     */
     void remove_item(Item item, DeletionSuccessListener listener) {
         int id = item.getId();
         String category = item.getCategory();
@@ -45,7 +56,8 @@ public class DeleteItemFragmentModel {
                                 listener.onSuccess(category, period);
                                 presenterInterface.close();
                             } else {
-                                presenterInterface.printFailure("Failed to delete item: " + item.getTitleWithLotNumber());
+                                presenterInterface.printFailure(
+                                        "Failed to delete item: " + item.getTitleWithLotNumber());
                             }
                         });
                         itemFound = true;
@@ -64,6 +76,11 @@ public class DeleteItemFragmentModel {
         });
     }
 
+    /**
+     * removes a field from the database
+     * @param reference reference to the DB collection
+     * @param fieldToRemove the field to remove
+     */
     void removeField(String reference, String fieldToRemove){
         itemsRef = db.getReference(reference);
         itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
