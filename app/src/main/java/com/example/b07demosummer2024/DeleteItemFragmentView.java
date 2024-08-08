@@ -18,59 +18,73 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * the view for DeleteItemFragment
+ * view for delete fragment
  */
 public class DeleteItemFragmentView extends Fragment {
 
+  private Button buttonDelete;
+  private ListView delete_list;
+  DeleteItemFragmentPresenter presenter;
 
-    private Button buttonDelete;
-    private ListView delete_list;
-    DeleteItemFragmentPresenter presenter;
+  private List<Map<String, String>> output_delete_list = new ArrayList<Map<String, String>>();
+  private List<Item> itemList;
 
-    private List<Map<String, String>> output_delete_list = new ArrayList<Map<String, String>>();
-    private List<Item> itemList;
+  /**
+   * creates a new instance of this class
+   *
+   * @param itemList the list of items to be deleted
+   * @return an instance of this class
+   */
+  public static DeleteItemFragmentView newInstance(List<Item> itemList) {
+    DeleteItemFragmentView fragment = new DeleteItemFragmentView();
+    fragment.itemList = itemList;
+    return fragment;
+  }
 
-    public static DeleteItemFragmentView newInstance(List<Item> itemList) {
-        DeleteItemFragmentView fragment = new DeleteItemFragmentView();
-        fragment.itemList = itemList;
-        return fragment;
-    }
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_delete_item, container, false);
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_delete_item, container, false);
+    delete_list = view.findViewById(R.id.delete_list);
+    buttonDelete = view.findViewById(R.id.buttonDelete);
 
-        delete_list = view.findViewById(R.id.delete_list);
-        buttonDelete = view.findViewById(R.id.buttonDelete);
+    presenter = new DeleteItemFragmentPresenter(requireContext(), this,
+        new DeleteItemFragmentModel());
 
+    presenter.setSearch(new SearchFragmentModel());
+    presenter.setItemList(itemList);
+    output_delete_list = new ArrayList<Map<String, String>>(presenter.setupSpinner());
 
-        presenter = new DeleteItemFragmentPresenter(requireContext(), this, new DeleteItemFragmentModel());
+    SimpleAdapter adapter = new SimpleAdapter(getContext(), output_delete_list,
+        android.R.layout.simple_list_item_2, new String[]{"Title", "Lot Number"},
+        new int[]{android.R.id.text1, android.R.id.text2});
+    delete_list.setAdapter(adapter);
 
-        presenter.setSearch(new SearchFragmentModel());
-        presenter.setItemList(itemList);
-        output_delete_list = new ArrayList<Map<String, String>>(presenter.setupSpinner());
+    buttonDelete.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        presenter.iterate_delete_items();
+      }
+    });
 
-        SimpleAdapter adapter = new SimpleAdapter(getContext(), output_delete_list, android.R.layout.simple_list_item_2, new String[] {"Title", "Lot Number"}, new int[] {android.R.id.text1, android.R.id.text2});
-        delete_list.setAdapter(adapter);
+    return view;
+  }
 
+  /**
+   * closes the delete fragment by popping back stack
+   */
+  void closeFragment() {
+    getParentFragmentManager().popBackStack();
+  }
 
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.iterate_delete_items();
-            }
-        });
-
-        return view;
-    }
-
-    void closeFragment(){
-        getParentFragmentManager().popBackStack();
-    }
-
-    void showToast(String message){
-        Toast.makeText(getContext(),message, Toast.LENGTH_SHORT).show();
-    }
-
+  /**
+   * shows a toast message on UI
+   *
+   * @param message the message to be shown on the toast
+   */
+  void showToast(String message) {
+    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+  }
 }
