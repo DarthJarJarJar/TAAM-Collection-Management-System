@@ -13,29 +13,39 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * view for the view fragment
+ */
 public class ViewItemsFragmentView extends Fragment {
 
-    private List<Item> itemList;
-    private ItemAdapter itemAdapter;
+  private List<Item> itemList;
+  private ItemAdapter itemAdapter;
 
-    public static ViewItemsFragmentView newInstance(List<Item> itemList) {
-        ViewItemsFragmentView fragment = new ViewItemsFragmentView();
-        fragment.itemList = itemList;
-        return fragment;
-    }
+  /**
+   * creates an instance for this fragment
+   *
+   * @param itemList list of items to view
+   * @return instance of this view
+   */
+  public static ViewItemsFragmentView newInstance(List<Item> itemList) {
+    ViewItemsFragmentView fragment = new ViewItemsFragmentView();
+    fragment.itemList = itemList;
+    return fragment;
+  }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_viewitems_view, container, false);
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_viewitems_view, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.viewItemsView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    RecyclerView recyclerView = view.findViewById(R.id.viewItemsView);
+    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        itemAdapter = new ItemAdapter(itemList, getParentFragmentManager());
+    itemAdapter = new ItemAdapter(itemList, getParentFragmentManager());
 
-        recyclerView.setAdapter(itemAdapter);
+    recyclerView.setAdapter(itemAdapter);
 
-        return view;
-    }
+    return view;
+  }
 }

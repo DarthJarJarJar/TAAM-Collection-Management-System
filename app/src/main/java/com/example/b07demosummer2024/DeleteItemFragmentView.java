@@ -17,8 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * the view for DeleteItemFragment
+ */
 public class DeleteItemFragmentView extends Fragment {
+
 
     private Button buttonDelete;
     private ListView delete_list;
@@ -69,4 +72,5 @@ public class DeleteItemFragmentView extends Fragment {
     void showToast(String message){
         Toast.makeText(getContext(),message, Toast.LENGTH_SHORT).show();
     }
+
 }

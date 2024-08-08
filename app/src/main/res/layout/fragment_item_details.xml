@@ -67,8 +67,10 @@
             android:text="Description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toBottomOf="@+id/textView11"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/categoryLabel"
@@ -85,7 +87,7 @@
             android:id="@+id/periodLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="56dp"
             android:text="@string/period_label"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -96,30 +98,35 @@
             android:id="@+id/textViewCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:text="TextView"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/categoryLabel"
-            app:layout_constraintStart_toEndOf="@+id/categoryLabel"
-            app:layout_constraintTop_toTopOf="@+id/categoryLabel" />
+            app:layout_constraintBottom_toTopOf="@+id/periodLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/categoryLabel"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textViewPeriod"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/periodLabel"
-            app:layout_constraintEnd_toEndOf="@+id/textViewCategory"
-            app:layout_constraintTop_toTopOf="@+id/periodLabel" />
+            app:layout_constraintBottom_toTopOf="@+id/textView11"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/periodLabel"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="56dp"
             android:text="@string/description_label"
             android:textSize="16sp"
             android:textStyle="bold"
