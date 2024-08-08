@@ -12,91 +12,85 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-
 public class TestLoginPresenter {
 
-    @Mock
-    LoginFragmentView view;
+  @Mock
+  LoginFragmentView view;
 
-    @Mock
-    LoginFragmentModel model;
+  @Mock
+  LoginFragmentModel model;
 
-    LoginFragmentPresenter presenter;
+  LoginFragmentPresenter presenter;
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        presenter = new LoginFragmentPresenter(view, model);
+  @Before
+  public void setUp() {
+    MockitoAnnotations.openMocks(this);
+    presenter = new LoginFragmentPresenter(view, model);
 
-    }
-
-
-
-    @Test
-    public void testHandleLoginButtonClick_SuccessfulCase() {
-        when(view.getUsername()).thenReturn("username");
-        when(view.getPassword()).thenReturn("password");
-
-        doAnswer(invocation -> {
-            LoginListener listener = invocation.getArgument(2, LoginListener.class);
-            listener.onLoginSuccess();
-            return null;
-        }).when(model).queryCredentials(eq("username"), eq("password"), any(LoginListener.class));
-
-        presenter.handleLoginButtonClick();
-        verify(view).showLoginSuccess();
-
-    }
+  }
 
 
-    @Test
-    public void testHandleLoginButtonClick_FailureCase() {
-        when(view.getUsername()).thenReturn("username");
-        when(view.getPassword()).thenReturn("password");
+  @Test
+  public void testHandleLoginButtonClick_SuccessfulCase() {
+    when(view.getUsername()).thenReturn("username");
+    when(view.getPassword()).thenReturn("password");
 
-        doAnswer(invocation -> {
-            LoginListener listener = invocation.getArgument(2, LoginListener.class);
-            listener.onLoginFailure("Invalid Credentials");
-            return null;
-        }).when(model).queryCredentials(eq("username"), eq("password"), any(LoginListener.class));
+    doAnswer(invocation -> {
+      LoginListener listener = invocation.getArgument(2, LoginListener.class);
+      listener.onLoginSuccess();
+      return null;
+    }).when(model).queryCredentials(eq("username"), eq("password"), any(LoginListener.class));
 
-        presenter.handleLoginButtonClick();
-        verify(view).showLoginFailure("Invalid Credentials");
-    }
+    presenter.handleLoginButtonClick();
+    verify(view).showLoginSuccess();
 
-
-    @Test
-    public void testHandleLoginButtonClick_NoUsernameProvided() {
-        when(view.getUsername()).thenReturn("");
-        when(view.getPassword()).thenReturn("password");
-
-        presenter.handleLoginButtonClick();
-        verify(view).showLoginFailure("Missing fields");
-    }
+  }
 
 
-    @Test
-    public void testHandleLoginButtonClick_NoPasswordProvided() {
-        when(view.getUsername()).thenReturn("username");
-        when(view.getPassword()).thenReturn("");
+  @Test
+  public void testHandleLoginButtonClick_FailureCase() {
+    when(view.getUsername()).thenReturn("username");
+    when(view.getPassword()).thenReturn("password");
 
-        presenter.handleLoginButtonClick();
-        verify(view).showLoginFailure("Missing fields");
-    }
+    doAnswer(invocation -> {
+      LoginListener listener = invocation.getArgument(2, LoginListener.class);
+      listener.onLoginFailure("Invalid Credentials");
+      return null;
+    }).when(model).queryCredentials(eq("username"), eq("password"), any(LoginListener.class));
 
-
-
-
-    @Test
-    public void testHandleLoginButtonClick_EmptyFields() {
-        when(view.getUsername()).thenReturn("");
-        when(view.getPassword()).thenReturn("");
-
-        presenter.handleLoginButtonClick();
-        verify(view).showLoginFailure("Missing fields");
-    }
+    presenter.handleLoginButtonClick();
+    verify(view).showLoginFailure("Invalid Credentials");
+  }
 
 
+  @Test
+  public void testHandleLoginButtonClick_NoUsernameProvided() {
+    when(view.getUsername()).thenReturn("");
+    when(view.getPassword()).thenReturn("password");
+
+    presenter.handleLoginButtonClick();
+    verify(view).showLoginFailure("Missing fields");
+  }
+
+
+  @Test
+  public void testHandleLoginButtonClick_NoPasswordProvided() {
+    when(view.getUsername()).thenReturn("username");
+    when(view.getPassword()).thenReturn("");
+
+    presenter.handleLoginButtonClick();
+    verify(view).showLoginFailure("Missing fields");
+  }
+
+
+  @Test
+  public void testHandleLoginButtonClick_EmptyFields() {
+    when(view.getUsername()).thenReturn("");
+    when(view.getPassword()).thenReturn("");
+
+    presenter.handleLoginButtonClick();
+    verify(view).showLoginFailure("Missing fields");
+  }
 
 
 }

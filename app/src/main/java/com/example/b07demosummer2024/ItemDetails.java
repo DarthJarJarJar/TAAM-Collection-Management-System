@@ -26,81 +26,82 @@ import java.net.CookieManager;
  * view representing the expanded screen of a given item with all its details
  */
 public class ItemDetails extends Fragment {
-    Item item;
-    DatabaseManager manager;
 
-    /**
-     * constructor for this view
-     * @param item the item whose details will be displayed
-     */
-    public ItemDetails(Item item) {
-        this.item = item;
-        manager = DatabaseManager.getInstance();
-    }
+  Item item;
+  DatabaseManager manager;
 
-    /**
-     * sets all the fields of the item inside the view, and displays image or video according to
-     * whatever the current item has
-     * @param inflater The LayoutInflater object that can be used to inflate
-     * any views in the fragment,
-     * @param container If non-null, this is the parent view that the fragment's
-     * UI should be attached to.  The fragment should not add the view itself,
-     * but this can be used to generate the LayoutParams of the view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed
-     * from a previous saved state as given here.
-     *
-     * @return the created view
-     */
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_details, container, false);
+  /**
+   * constructor for this view
+   *
+   * @param item the item whose details will be displayed
+   */
+  public ItemDetails(Item item) {
+    this.item = item;
+    manager = DatabaseManager.getInstance();
+  }
 
-        TextView title = view.findViewById(R.id.textViewTitle);
-        TextView category = view.findViewById(R.id.textViewCategory);
-        TextView period = view.findViewById(R.id.textViewPeriod);
-        TextView description = view.findViewById(R.id.textViewDescription);
-        ImageView image = view.findViewById(R.id.imageViewItemImage);
+  /**
+   * sets all the fields of the item inside the view, and displays image or video according to
+   * whatever the current item has
+   *
+   * @param inflater           The LayoutInflater object that can be used to inflate any views in
+   *                           the fragment,
+   * @param container          If non-null, this is the parent view that the fragment's UI should be
+   *                           attached to.  The fragment should not add the view itself, but this
+   *                           can be used to generate the LayoutParams of the view.
+   * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+   *                           saved state as given here.
+   * @return the created view
+   */
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_item_details, container, false);
 
-        VideoView video = view.findViewById(R.id.videoViewItem);
+    TextView title = view.findViewById(R.id.textViewTitle);
+    TextView category = view.findViewById(R.id.textViewCategory);
+    TextView period = view.findViewById(R.id.textViewPeriod);
+    TextView description = view.findViewById(R.id.textViewDescription);
+    ImageView image = view.findViewById(R.id.imageViewItemImage);
 
-        image.setVisibility(View.INVISIBLE);
-        video.setVisibility(View.INVISIBLE);
+    VideoView video = view.findViewById(R.id.videoViewItem);
 
+    image.setVisibility(View.INVISIBLE);
+    video.setVisibility(View.INVISIBLE);
 
+    String imgUrl = item.getUrl();
 
-        String imgUrl = item.getUrl();
+    if (item.getMediaType().equals("Image")) {
+      image.setVisibility(View.VISIBLE);
+      video.setVisibility(View.INVISIBLE);
+      Glide.with(this)
+          .load(imgUrl)
+          .into(image);
+    } else if (item.getMediaType().equals("Video")) {
+      video.setVisibility(View.VISIBLE);
+      image.setVisibility(View.INVISIBLE);
 
-        if (item.getMediaType().equals("Image")) {
-            image.setVisibility(View.VISIBLE);
-            video.setVisibility(View.INVISIBLE);
-            Glide.with(this)
-                    .load(imgUrl)
-                    .into(image);
-        } else if (item.getMediaType().equals("Video")) {
-            video.setVisibility(View.VISIBLE);
-            image.setVisibility(View.INVISIBLE);
+      video.setVideoPath(imgUrl + ".mp4");
 
-            video.setVideoPath(imgUrl+".mp4");
+      MediaController mediaController = new MediaController(getContext(), false);
+      mediaController.setAnchorView(video);
+      video.setMediaController(null);
 
-            MediaController mediaController = new MediaController(getContext(), false);
-            mediaController.setAnchorView(video);
-            video.setMediaController(null);
-
-            video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.setLooping(true);
-                    mp.start();
-                }
-            });
+      video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        @Override
+        public void onPrepared(MediaPlayer mp) {
+          mp.setLooping(true);
+          mp.start();
         }
-
-        title.setText(item.getTitle());
-        category.setText(item.getCategory());
-        period.setText(item.getPeriod());
-        description.setText(item.getDescription());
-
-        return view;
+      });
     }
+
+    title.setText(item.getTitle());
+    category.setText(item.getCategory());
+    period.setText(item.getPeriod());
+    description.setText(item.getDescription());
+
+    return view;
+  }
 }
