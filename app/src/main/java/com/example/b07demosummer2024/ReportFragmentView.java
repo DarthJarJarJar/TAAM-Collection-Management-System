@@ -21,6 +21,9 @@ import androidx.fragment.app.Fragment;
 
 import java.util.List;
 
+/**
+ * view for ReportFragment
+ */
 public class ReportFragmentView extends Fragment {
 
     private ReportFragmentPresenter presenter;
@@ -74,7 +77,14 @@ public class ReportFragmentView extends Fragment {
         return view;
     }
 
-    void updateDetailSpinnerBasedOnSelection(String selectedItem, List<String> categories, List<String> periods) {
+    /**
+     * updates the detail spinner/edit text based on the report type selected
+     * @param selectedItem the selected report type
+     * @param categories list of categories
+     * @param periods list of periods
+     */
+    void updateDetailSpinnerBasedOnSelection(String selectedItem, List<String> categories,
+                                             List<String> periods) {
         detailSpinner.setVisibility(View.GONE);
         editTextReportParameter.setVisibility(View.GONE);
         detailTextView.setVisibility(View.GONE);
@@ -113,22 +123,40 @@ public class ReportFragmentView extends Fragment {
         }
     }
 
+    /**
+     * shows a toast on the UI
+     * @param message the toast message
+     */
     void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * getter for the text value inside the editText on this UI
+     * @return the text value inside the editText on this UI
+     */
     String getEditTextValue() {
         return editTextReportParameter.getText().toString();
     }
 
+    /**
+     * getter for the value inside the details spinner on this UI
+     * @return the value inside the details spinner on this ui
+     */
     String getDetailSpinnerValue() {
         return detailSpinner.getSelectedItem().toString();
     }
 
+    /**
+     * shows progress bar on the UI
+     */
     void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * resets all fields on the generate report form
+     */
     void resetForm() {
         progressBar.setVisibility(View.GONE);
         reportTypeSpinner.setSelection(0);

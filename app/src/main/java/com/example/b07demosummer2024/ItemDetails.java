@@ -22,15 +22,35 @@ import com.bumptech.glide.Glide;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 
+/**
+ * view representing the expanded screen of a given item with all its details
+ */
 public class ItemDetails extends Fragment {
     Item item;
     DatabaseManager manager;
 
+    /**
+     * constructor for this view
+     * @param item the item whose details will be displayed
+     */
     public ItemDetails(Item item) {
         this.item = item;
         manager = DatabaseManager.getInstance();
     }
 
+    /**
+     * sets all the fields of the item inside the view, and displays image or video according to
+     * whatever the current item has
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return the created view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

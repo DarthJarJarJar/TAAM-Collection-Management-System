@@ -44,6 +44,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.List;
 
+/**
+ * the view for AddItemFragment
+ */
 public class AddItemFragmentView extends Fragment {
     private ImageView itemImagePreview;
     private VideoView itemVideoPreview;
@@ -110,18 +113,31 @@ public class AddItemFragmentView extends Fragment {
         return view;
     }
 
+    /**
+     * displays a toast message
+     * @param message the message to be displayed
+     */
     void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-
+    /**
+     * displays progress bar
+     */
     void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
     }
+
+    /**
+     * hides progress bar
+     */
     void clearProgressBar() {
         progressBar.setVisibility(View.GONE);
     }
 
+    /**
+     * clears the form
+     */
     void clearForm() {
         showToast("Item added");
         editTextItemDescription.setText("");
@@ -133,11 +149,20 @@ public class AddItemFragmentView extends Fragment {
         hideVideo();
     }
 
+    /**
+     * setter for imageUri for the previewed image
+     * @param imageUri the uri of the image to be previewed
+     */
     void setPreviewImageUri(Uri imageUri) {
         itemImagePreview.setImageURI(imageUri);
     }
-    void setPreviewVideoUri(Uri imageUri) {
-        itemVideoPreview.setVideoURI(imageUri);
+
+    /**
+     * setter for videoUri for the previewed video
+     * @param videoUri the uri of the video to be previewed
+     */
+    void setPreviewVideoUri(Uri videoUri) {
+        itemVideoPreview.setVideoURI(videoUri);
 
         MediaController mediaController = new MediaController(getContext(), false);
         mediaController.setAnchorView(itemVideoPreview);
@@ -152,12 +177,18 @@ public class AddItemFragmentView extends Fragment {
         });
     }
 
+    /**
+     * hides the video player from UI
+     */
     void hideVideo(){
         itemVideoPreview.setVisibility(View.INVISIBLE);
         itemImagePreview.setVisibility(View.VISIBLE);
         itemImagePreview.setImageResource(R.drawable.placeholder);
     }
 
+    /**
+     * hides the image view from UI
+     */
     void hideImage(){
         itemVideoPreview.setVisibility(View.VISIBLE);
         itemImagePreview.setVisibility(View.INVISIBLE);

@@ -17,7 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * the view for DeleteItemFragment
+ */
 public class DeleteItemFragmentView extends Fragment {
 
     private Button buttonDelete;
@@ -27,6 +29,11 @@ public class DeleteItemFragmentView extends Fragment {
     private List<Map<String, String>> output_delete_list = new ArrayList<Map<String, String>>();
     private List<Item> itemList;
 
+    /**
+     * creates an instance of this fragment
+     * @param itemList the list of items to be removed
+     * @return the instance of this fragment
+     */
     public static DeleteItemFragmentView newInstance(List<Item> itemList) {
         DeleteItemFragmentView fragment = new DeleteItemFragmentView();
         fragment.itemList = itemList;
@@ -40,7 +47,6 @@ public class DeleteItemFragmentView extends Fragment {
 
         delete_list = view.findViewById(R.id.delete_list);
         buttonDelete = view.findViewById(R.id.buttonDelete);
-
 
         presenter = new DeleteItemFragmentPresenter(this, new DeleteItemFragmentModel());
 
@@ -62,10 +68,17 @@ public class DeleteItemFragmentView extends Fragment {
         return view;
     }
 
+    /**
+     * closes the fragment by popping backstack
+     */
     void closeFragment(){
         getParentFragmentManager().popBackStack();
     }
 
+    /**
+     * shows a toast message in UI
+     * @param message the message to be displayed
+     */
     void showToast(String message){
         Toast.makeText(getContext(),message, Toast.LENGTH_SHORT).show();
     }

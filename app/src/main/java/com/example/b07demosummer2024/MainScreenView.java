@@ -26,6 +26,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * view for the main screen
+ */
 public class MainScreenView extends Fragment {
     private TextView pageNoInfo;
     private ItemAdapter itemAdapter;
@@ -62,26 +65,44 @@ public class MainScreenView extends Fragment {
         return view;
     }
 
+    /**
+     * runs when going to another fragment, so starts showing the back button on the navbar
+     */
     @Override
     public void onPause() {
+        // can never be null because we set action bar inside main activity always
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onPause();
     }
 
+    /**
+     * updates the recycler view list with items from updatedList
+     * @param updatedList a list of items
+     */
     void updateRecyclerList(List<Item> updatedList) {
         itemAdapter.updateList(updatedList);
     }
 
+    /**
+     * sets the page number info string in UI
+     * @param pageInfo the page number info string
+     */
     void updatePageInfo(String pageInfo) {
         pageNoInfo.setText(pageInfo);
     }
 
+    /**
+     * scrolls to the top of the recycler view
+     */
     void scrollToTop() {
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         if (layoutManager != null)
             layoutManager.scrollToPositionWithOffset(0, 0);
     }
 
+    /**
+     * loads items again when coming back to this view from somewhere else
+     */
     @Override
     public void onResume() {
         super.onResume();

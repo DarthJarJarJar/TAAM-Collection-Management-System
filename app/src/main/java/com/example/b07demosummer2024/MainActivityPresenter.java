@@ -11,17 +11,29 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * presenter for main activity
+ */
 public class MainActivityPresenter implements MainActivityPresenterLoginInterface {
 
     MainActivityView view;
     MainActivityModel model;
     boolean adminView;
 
+    /**
+     * initializes the presenter
+     * @param view the view
+     * @param model the model
+     */
     public MainActivityPresenter(MainActivityView view, MainActivityModel model) {
         this.view = view;
         this.model = model;
     }
 
+    /**
+     * gets the items that are selected (currently marked checked)
+     * @return the list of selected items
+     */
     public List<Item> getSelectedItems(){
         List<Item> itemList = model.getItems(); //DatabaseManager is the model for this fragment
         List<Item> selectedItemList = new ArrayList<>();
@@ -35,6 +47,10 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
         return selectedItemList;
     }
 
+    /**
+     * loads a fragment
+     * @param fragment the fragment to be loaded
+     */
     public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = view.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
@@ -42,6 +58,10 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
         transaction.commit();
     }
 
+    /**
+     * updates menu items according to current login state
+     * @param menu the menu with all items
+     */
     public void updateMenuItems(Menu menu) {
         MenuItem loginItem = menu.findItem(R.id.admin_login);
         MenuItem addItem = menu.findItem(R.id.admin_add);
@@ -64,6 +84,11 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
         }
     }
 
+    /**
+     * handles the click of menu items
+     * @param optionId the id of the selected item
+     * @return true iff a valid option is selected in the menu
+     */
     public boolean loadSelectedOption(int optionId) {
         // all the options
         if (optionId == R.id.nav_home) {
@@ -98,6 +123,9 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
         return false;
     }
 
+    /**
+     * loads the view items fragment when view button is clicked
+     */
     private void handleViewButtonClick() {
         List<Item> toViewItemList = getSelectedItems();
         if (toViewItemList.isEmpty()) {
@@ -107,6 +135,9 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
         }
     }
 
+    /**
+     * loads the delete items fragment when delete button is clicked
+     */
     private void handleDeleteButtonClick() {
         List<Item> toDeleteItemList = getSelectedItems();
         if (toDeleteItemList.isEmpty()) {
@@ -116,17 +147,27 @@ public class MainActivityPresenter implements MainActivityPresenterLoginInterfac
         }
     }
 
+    /**
+     * toggles the menu options on toolbar when login is successful and reloads main screen
+     */
     public void toggleAdminNavbarOnLoginSuccess() {
         setAdminView(true);
         loadFragment(new MainScreenView());
         view.invalidateOptionsMenu();
     }
 
+    /**
+     * setter for adminView
+     * @param isAdmin true or false based on if current user is logged in or not
+     */
     private void setAdminView(boolean isAdmin) {
         this.adminView = isAdmin;
     }
 
 
+    /**
+     * display the exit app dialog box
+     */
     public void exitAppDialogBox() {
         (new AppExitDialogFragment()).show(view.getSupportFragmentManager(), "EXIT_DIALOG");
     }

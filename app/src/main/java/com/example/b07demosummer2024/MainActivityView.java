@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+/**
+ * view for main activity, that holds the toolbar and any fragments
+ */
 public class MainActivityView extends AppCompatActivity {
     MainActivityPresenter presenter;
 
@@ -36,6 +39,10 @@ public class MainActivityView extends AppCompatActivity {
         }
     }
 
+    /**
+     * handles back button press. if the user is on main screen, exits then app. if not,
+     * pop back stack
+     */
     @Override
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -52,6 +59,11 @@ public class MainActivityView extends AppCompatActivity {
     }
 
 
+    /**
+     * loads the option menu
+     * @param menu the option menu
+     * @return always true as menu will always be loaded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -60,6 +72,11 @@ public class MainActivityView extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * handles the click of a menu item
+     * @param item the item clicked
+     * @return true iff a valid option is selected
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -87,6 +104,10 @@ public class MainActivityView extends AppCompatActivity {
 
     }
 
+    /**
+     * shows a toast on the UI
+     * @param message the toast message
+     */
     public void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+/**
+ * the view for login fragment
+ */
 public class LoginFragmentView extends Fragment {
 
     private EditText usernameTextfield;
@@ -19,6 +22,11 @@ public class LoginFragmentView extends Fragment {
     private LoginFragmentPresenter presenter;
     private MainActivityPresenterLoginInterface mainActivityLoginInterface;
 
+    /**
+     * constructor for the view
+     * @param mainActivity the main activity login interface which will be informed of login
+     * @return an instance of this view
+     */
     public static LoginFragmentView newInstance(MainActivityPresenterLoginInterface mainActivity) {
         LoginFragmentView fragment = new LoginFragmentView();
         fragment.mainActivityLoginInterface = mainActivity;
@@ -46,19 +54,34 @@ public class LoginFragmentView extends Fragment {
         return view;
     }
 
+    /**
+     * getter for username
+     * @return the text in the username text field
+     */
     public String getUsername() {
         return usernameTextfield.getText().toString();
     }
 
+    /**
+     * getter for password
+     * @return the text in the password text field
+     */
     public String getPassword() {
         return passwordTextfield.getText().toString();
     }
 
+    /**
+     * shows a toast for successful login and informs the navbar inside mainActivityLoginInterface
+     */
     public void showLoginSuccess() {
         Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
         mainActivityLoginInterface.toggleAdminNavbarOnLoginSuccess();
     }
 
+    /**
+     * shows a toast for login failure
+     * @param message the failure message
+     */
     public void showLoginFailure(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }

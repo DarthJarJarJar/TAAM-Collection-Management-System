@@ -18,6 +18,9 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * model for the AddItem fragment
+ */
 public class AddItemFragmentModel {
     private FirebaseStorage storage;
     private FirebaseDatabase db;
@@ -26,6 +29,10 @@ public class AddItemFragmentModel {
     private List<String> categoryList, periodList;
     AddItemFragmentPresenterInterface presenterInterface;
 
+    /**
+     * this constructor initializes instances of DatabaseManager, Firebase Storage and Realtime
+     * Database
+     */
     public AddItemFragmentModel() {
         storage = FirebaseStorage.getInstance();
         manager = DatabaseManager.getInstance();
@@ -34,14 +41,66 @@ public class AddItemFragmentModel {
         periodList = manager.getPeriods();
     }
 
+    /**
+     * getter for periodList
+     * @return list of all periods
+     */
     public List<String> getPeriodList() {
         return periodList;
     }
 
+    /**
+     * getter for categoryList
+     * @return list of all categories
+     */
     public List<String> getCategoryList() {
         return categoryList;
     }
 
+    /**
+     * checks if category is currently in the DB, and adds it if not
+     * @param category the category to be checked and added
+     */
+    private void checkAndAddCategoryToDB(String category) {
+        if (!manager.getCategories().contains(category)) {
+            DatabaseReference categoriesRef = db.getReference("Categories");
+            String id = categoriesRef.push().getKey();
+
+            categoriesRef.child(id).setValue(category).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    presenterInterface.showToast("New category added");
+                } else {
+                    presenterInterface.showToast("Failed to add new category");
+                }
+            });
+        }
+    }
+
+    /**
+     * checks if period is currently in the DB, and adds it if not
+     * @param period the period to be checked and added
+     */
+    private void checkAndAddPeriodToDB(String period) {
+        if (!manager.getPeriods().contains(period)) {
+            DatabaseReference periodsRef = db.getReference("Periods");
+            String id = periodsRef.push().getKey();
+
+            periodsRef.child(id).setValue(period).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    presenterInterface.showToast("New period added");
+                } else {
+                    presenterInterface.showToast("Failed to add period");
+                }
+            });
+
+        }
+    }
+
+    /**
+     * adds an item to the database, and also adds its category/period if they do not currently
+     * exist in the DB
+     * @param item the item to be added
+     */
     private void add(Item item) {
         itemsRef.child(String.valueOf(item.getId())).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -51,36 +110,22 @@ public class AddItemFragmentModel {
             }
         });
 
-        if (!manager.getCategories().contains(item.getCategory())) {
-            DatabaseReference categoriesRef = db.getReference("Categories");
-            String id = categoriesRef.push().getKey();
+        checkAndAddCategoryToDB(item.getCategory());
+        checkAndAddPeriodToDB(item.getPeriod());
 
-            categoriesRef.child(id).setValue(item.getCategory()).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    presenterInterface.showToast("New category added");
-                } else {
-                    presenterInterface.showToast("Failed to add new category");
-                }
-            });
-
-        }
-
-        if (!manager.getPeriods().contains(item.getPeriod())) {
-            DatabaseReference periodsRef = db.getReference("Periods");
-            String id = periodsRef.push().getKey();
-
-            periodsRef.child(id).setValue(item.getPeriod()).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    presenterInterface.showToast("New period added");
-                } else {
-                    presenterInterface.showToast("Failed to add period");
-                }
-            });
-
-        }
         presenterInterface.clearProgressBar();
     }
 
+    /**
+     * adds an item with given attributes, its category and its period to DB if they do not exist
+     * @param lotNumber the lot number of the item
+     * @param itemName the name of the item
+     * @param itemPeriod the period of the item
+     * @param itemCategory the category of the item
+     * @param itemDescription the description of the item
+     * @param chosenUri the chosen URI from UI, if chosen
+     * @param mediaType the type of media (IMAGE/VIDEO)
+     */
     void addItemToDb(int lotNumber, String itemName, String itemPeriod, String itemCategory, String itemDescription, Uri chosenUri, String mediaType) {
 
         itemsRef = db.getReference("Lot Number");

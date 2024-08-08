@@ -8,6 +8,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * A dialog box that confirms whether the user wants to exit the app or not
+ */
 public class AppExitDialogFragment extends DialogFragment {
 
     @NonNull
